@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 export const WelcomeDiv = styled.div`
   text-align: center;
   width: 93vw;
@@ -11,9 +12,10 @@ export const WelcomeDiv = styled.div`
     margin: 3.2rem 0;
     font-size: 1.5rem;
   }
+
   .page {
     font-weight: 600;
     font-size: 1.6rem;
-    color: #38b48b;
+    color: #779649;
   }
 `

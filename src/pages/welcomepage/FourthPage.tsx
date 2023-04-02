@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { WelcomeDiv } from '../../components/styled/WelcomeDiv'
+import { WelcomeDiv } from './WelcomeDiv'
 import { Icon } from '../../components/Icon'
 export const FourthPage: React.FC = () => {
   const nav = useNavigate()

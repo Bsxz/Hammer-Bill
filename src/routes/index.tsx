@@ -3,27 +3,27 @@ import { NotFound } from '../pages/NotFound'
 import { Root } from '../components/Root'
 import { WelComeRoutes } from './welComeRoutes'
 import { Home } from '../pages/Home'
-import { Items } from '../pages/Items'
+import { ItemsPage } from '../pages/ItemsPage'
 
 export const Router = createHashRouter([
   {
     path: '/',
-    element: <Outlet />,
-    errorElement: <NotFound />,
+    element: <Outlet/>,
+    errorElement: <NotFound/>,
     children: [
       {
         index: true,
-        element: <Root />,
+        element: <Root/>,
       },
       WelComeRoutes,
     ],
   },
   {
     path: '/home',
-    element: <Home />,
+    element: <Home/>,
   },
   {
-    path: '/items',
-    element: <Items />,
+    path: '/itemspage',
+    element: <ItemsPage/>,
   },
 ])

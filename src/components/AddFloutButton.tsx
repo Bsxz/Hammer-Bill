@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Icon } from './Icon'
+import {Icon} from './Icon'
+
 const Button = styled.span`
   display: flex;
   align-items: center;
@@ -12,15 +13,15 @@ const Button = styled.span`
   bottom: 16px;
   padding: 14px;
   border-radius: 50%;
-  background-color: #38b48b;
+  background-color: #779649;
   color: #fff;
 `
 export const AddFloutButton: React.FC = () => {
-  return (
-    <>
-      <Button>
-        <Icon name="add" fill="currentColor" />
-      </Button>
-    </>
-  )
+    return (
+        <>
+            <Button>
+                <Icon name="add" fill="currentColor" h="50" w="50" />
+            </Button>
+        </>
+    )
 }

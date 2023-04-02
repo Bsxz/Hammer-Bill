@@ -1,8 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import piggybank from '../../assets/icons/Piggybank.svg'
 import { Icon } from '../../components/Icon'
-import { WelcomeDiv } from '../../components/styled/WelcomeDiv'
+import { WelcomeDiv } from './WelcomeDiv'
 export const FirstPage: React.FC = () => {
   return (
     <>

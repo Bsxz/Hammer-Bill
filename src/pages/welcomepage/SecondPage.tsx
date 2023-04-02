@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { WelcomeDiv } from '../../components/styled/WelcomeDiv'
-import clock from '../../assets/icons/clock.svg'
+import { WelcomeDiv } from './WelcomeDiv'
 import { Icon } from '../../components/Icon'
 export const SecondPage: React.FC = () => {
   return (

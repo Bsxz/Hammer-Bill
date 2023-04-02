@@ -1,9 +1,9 @@
 import { RouteObject } from 'react-router-dom'
-import { WelComeLayout } from '../../layouts/WelComeLayout'
-import { FirstPage } from './FirstPage'
-import { FourthPage } from './FourthPage'
-import { SecondPage } from './SecondPage'
-import { ThridPage } from './ThridPage'
+import { WelComeLayout } from '../layouts/WelComeLayout'
+import { FirstPage } from '../pages/welcomepage/FirstPage'
+import { FourthPage } from '../pages/welcomepage/FourthPage'
+import { SecondPage } from '../pages/welcomepage/SecondPage'
+import { ThridPage } from '../pages/welcomepage/ThridPage'
 export const WelComeRoutes: RouteObject = {
   path: 'welcome',
   element: <WelComeLayout />,

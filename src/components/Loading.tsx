@@ -1,12 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Icon } from './Icon'
+import {Icon} from './Icon'
+
 const Div = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
+
   svg {
     animation: loading 1.4s infinite linear;
   }
@@ -14,8 +16,11 @@ const Div = styled.div`
   div {
     margin-top: 60px;
     position: relative;
+    text-align: center;
+
     p {
       font-size: 16px;
+
       &::after {
         content: '';
         display: inline-block;
@@ -51,14 +56,14 @@ const Div = styled.div`
   }
 `
 export const Loading: React.FC = () => {
-  return (
-    <>
-      <Div>
-        <Icon name="loading" w="100" h="100" />
-        <div>
-          <p>加载中···</p>
-        </div>
-      </Div>
-    </>
-  )
+    return (
+        <>
+            <Div>
+                <Icon name="loading" w="100" h="100" />
+                <div>
+                    <p>加载中···</p>
+                </div>
+            </Div>
+        </>
+    )
 }

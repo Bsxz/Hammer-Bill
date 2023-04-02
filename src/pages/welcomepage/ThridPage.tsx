@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { WelcomeDiv } from '../../components/styled/WelcomeDiv'
+import { WelcomeDiv } from './WelcomeDiv'
 import { Icon } from '../../components/Icon'
 export const ThridPage: React.FC = () => {
   return (
