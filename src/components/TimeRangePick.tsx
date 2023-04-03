@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Selected, TimeRange} from '../stores/useSelectStore'
+import type { Selected, TimeRange } from '../stores/useSelectStore'
 
 const Ol = styled.ol`
   display: flex;
@@ -14,18 +14,18 @@ const Ol = styled.ol`
   }
 `
 const timeRanges: { key: TimeRange; text: string }[] = [
-    {key: 'thisMonth', text: '本月'},
-    {key: 'lastMonth', text: '上月'},
-    {key: 'thisYear', text: '今年'},
-    {key: 'custom', text: '自定义时间'}
+  { key: 'thisMonth', text: '本月' },
+  { key: 'lastMonth', text: '上月' },
+  { key: 'thisYear', text: '今年' },
+  { key: 'custom', text: '自定义时间' }
 ]
-export const TimeRangePick: React.FC<Selected> = ({selected, onSelected}) => {
-    return (
+export const TimeRangePick: React.FC<Selected> = ({ selected, onSelected }) => {
+  return (
         <Ol>
             {timeRanges.map(k => <li key={k.key}
-                                     style={k.key === selected ? {borderColor: '#a8bf8f'} : {borderColor: 'transparent'}}
-                                     onClick={(e) => onSelected(k.key)}>
+                                     style={k.key === selected ? { borderColor: '#a8bf8f' } : { borderColor: 'transparent' }}
+                                     onClick={e => onSelected(k.key)}>
                 {k.text}</li>)}
         </Ol>
-    )
+  )
 }

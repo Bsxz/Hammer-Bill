@@ -31,22 +31,19 @@ const Div = styled.div`
 `
 export const Home: React.FC = () => {
     const {data: meData, error: meError} = useSWR(
-        '/api/v1/me',
-        async (path) => (await ajax.get<Resource<User>>(path)).data.resource
+        '/me',
+        async path => (await ajax.get<Resource<User>>(path)).data.resource
     )
     const {data: itemData, error: itemError} = useSWR(
-        '/api/v1/item',
-        async (path) => (await ajax.get<Resources<Item, Pager>>(path)).data
+        '/item',
+        async path => (await ajax.get<Resources<Item, Pager>>(path)).data
     )
     const isLodingMe = !meData && !meError
     const isLodingItem = isLodingMe && !itemData && !itemError
-    if (isLodingMe && isLodingItem) {
+    if (isLodingMe && isLodingItem)
         return <Loading />
-    }
-    if (itemData?.resources[0]) {
+    if (itemData?.resources[0])
         return <Navigate to="/items" />
-    }
-    // @ts-ignore
     return (
         <>
             <Div>

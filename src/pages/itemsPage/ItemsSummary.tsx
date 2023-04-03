@@ -25,7 +25,7 @@ const Ol = styled.ol`
   }
 `
 export const ItemsSummary: React.FC = () => {
-    return (
+  return (
         <Ol>
             <li>
                 <div>收入</div>
@@ -40,5 +40,5 @@ export const ItemsSummary: React.FC = () => {
                 <div>28</div>
             </li>
         </Ol>
-    )
+  )
 }

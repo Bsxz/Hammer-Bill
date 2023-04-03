@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Icon} from './Icon'
+import { Icon } from './Icon'
 
 const Div = styled.div`
   display: flex;
@@ -56,7 +56,7 @@ const Div = styled.div`
   }
 `
 export const Loading: React.FC = () => {
-    return (
+  return (
         <>
             <Div>
                 <Icon name="loading" w="100" h="100" />
@@ -65,5 +65,5 @@ export const Loading: React.FC = () => {
                 </div>
             </Div>
         </>
-    )
+  )
 }

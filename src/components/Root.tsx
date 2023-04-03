@@ -9,7 +9,8 @@ export const Root: React.FC = () => {
         <Navigate to="/home"/>
       </>
     )
-  } else {
+  }
+  else {
     return (
       <>
         <Navigate to="/welcome/firstpage"/>

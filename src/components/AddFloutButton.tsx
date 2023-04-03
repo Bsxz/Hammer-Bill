@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Icon} from './Icon'
+import { Icon } from './Icon'
 
 const Button = styled.span`
   display: flex;
@@ -17,11 +17,11 @@ const Button = styled.span`
   color: #fff;
 `
 export const AddFloutButton: React.FC = () => {
-    return (
+  return (
         <>
             <Button>
                 <Icon name="add" fill="currentColor" h="50" w="50" />
             </Button>
         </>
-    )
+  )
 }

@@ -55,18 +55,18 @@ const Div = styled.div`
   }
 `
 const data = [{
-    url: 'xxx',
-    name: '旅行',
-    time: '2021:03:12:18:57',
-    amount: 1234
+  url: 'xxx',
+  name: '旅行',
+  time: '2021:03:12:18:57',
+  amount: 1234
 }, {
-    url: 'xxx',
-    name: '旅行',
-    time: '2021:03:12:18:57',
-    amount: 1234
+  url: 'xxx',
+  name: '旅行',
+  time: '2021:03:12:18:57',
+  amount: 1234
 }]
 export const ItemsList: React.FC = () => {
-    return (
+  return (
         <>
             <Ol>
                 {data.map(v => <li key={v.time}>
@@ -84,5 +84,5 @@ export const ItemsList: React.FC = () => {
                 <button>加载更多</button>
             </Div>
         </>
-    )
+  )
 }

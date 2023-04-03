@@ -1,4 +1,4 @@
-import { RouteObject } from 'react-router-dom'
+import type { RouteObject } from 'react-router-dom'
 import { WelComeLayout } from '../layouts/WelComeLayout'
 import { FirstPage } from '../pages/welcomepage/FirstPage'
 import { FourthPage } from '../pages/welcomepage/FourthPage'

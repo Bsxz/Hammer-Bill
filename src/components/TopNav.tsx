@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Icon} from './Icon'
+import { useMenuStore } from '../stores/useMenuStore'
+import { Icon } from './Icon'
 
 const Div = styled.div`
   display: flex;
@@ -15,10 +16,11 @@ const Div = styled.div`
   }
 `
 export const TopNav: React.FC = () => {
-    return (
+  const { visible, setVisible } = useMenuStore()
+  return (
         <Div>
-            <Icon name="menu" w="50" h="50" x="-10" y="3" />
+            <Icon name="menu" w="50" h="50" x="-10" y="3" onClick={() => setVisible(!visible)} />
             <span>大锤记账</span>
         </Div>
-    )
+  )
 }
