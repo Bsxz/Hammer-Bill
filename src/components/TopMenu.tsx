@@ -1,8 +1,10 @@
-import { animated, useSpring } from '@react-spring/web'
-import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import {animated, useSpring} from '@react-spring/web'
+import React, {useState} from 'react'
+import {NavLink} from 'react-router-dom'
 import styled from 'styled-components'
-import { Icon } from './Icon'
+import useSWRInfinite from 'swr/infinite'
+import {ajax} from '../api/ajax'
+import {Icon} from './Icon'
 
 const Div = styled(animated.div)`
   position: fixed;
@@ -52,35 +54,43 @@ const Mask = styled(animated.div)`
   z-index: 2;
   background-color: rgba(0, 0, 0, 0.5);
 `
-export const TopMenu: React.FC<Props> = ({ onClick, visible }) => {
-  const [maskVisible, setMaskVisible] = useState(visible)
-  const maskStyles = useSpring({
-    opacity: visible ? 1 : 0,
-    config: { duration: 1000 },
-    onStart: ({ value }) => {
-      if (value.opacity < 0.1)
-        setMaskVisible(true)
-    },
-    onRest: ({ value }) => {
-      if (value.opacity < 0.1)
-        setMaskVisible(false)
-    }
-  })
-  const menuStyles = useSpring({
-    opacity: visible ? 1 : 0,
-    transform: visible ? 'translateX(0%)' : 'translateX(-100%)',
-    config: { duration: 1000 }
-  })
-  return (
+const getMe = () => {
+    return `/api/v1/me`
+}
+export const TopMenu: React.FC<Props> = ({onClick, visible}) => {
+    const [maskVisible, setMaskVisible] = useState(visible)
+    const maskStyles = useSpring({
+        opacity: visible ? 1 : 0,
+        config: {duration: 1000},
+        onStart: ({value}) => {
+            if (value.opacity < 0.1)
+                setMaskVisible(true)
+        },
+        onRest: ({value}) => {
+            if (value.opacity < 0.1)
+                setMaskVisible(false)
+        }
+    })
+    const {
+        data,
+        error
+    } = useSWRInfinite(getMe, async path => (await ajax.get<Resource<User>>(path)).data)
+    const menuStyles = useSpring({
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateX(0%)' : 'translateX(-100%)',
+        config: {duration: 1000}
+    })
+    return (
         <>
             <Mask style={{
-              ...maskStyles, visibility: (maskVisible ? 'visible' : 'hidden')
+                ...maskStyles, visibility: (maskVisible ? 'visible' : 'hidden')
             }}
                   onClick={onClick} />
             <Div style={menuStyles}>
                 <Header>
-                    <h2>未登入用户</h2>
-                    <NavLink to="/login">点击这里登入</NavLink>
+                    {data?.map(v => v.resource
+                        ? <h2>{v.resource.name}</h2>
+                        : <><h2>未登入用户</h2><NavLink to="/login">点击这里登入</NavLink></>)}
                 </Header>
                 <Footer>
                     <li><NavLink to="/chart"><Icon w="40" h="40" name="chart" /><span>统计图表</span></NavLink></li>
@@ -90,5 +100,5 @@ export const TopMenu: React.FC<Props> = ({ onClick, visible }) => {
                 </Footer>
             </Div>
         </>
-  )
+    )
 }

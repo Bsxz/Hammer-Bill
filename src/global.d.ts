@@ -20,7 +20,18 @@ declare global {
         updated_at: string
     }
 
-    interface Item {
+    interface Tags {
+        id: number,
+        user_id: number,
+        name: string,
+        sign: string,
+        deleted_at?: string,
+        created_at: string,
+        updated_at: string,
+        kind: expenses | incomes
+    }
+
+    interface Item<T> {
         id: number
         user_id: number
         amount: number
@@ -29,8 +40,9 @@ declare global {
         happen_at: string
         created_at: string
         updated_at: string
-        kind: 'expenses' | 'incomes'
+        kind: expenses | incomes
         deleted_at?: string
+        tags: T[]
     }
 
     interface Pager {

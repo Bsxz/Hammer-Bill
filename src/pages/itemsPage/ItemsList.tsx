@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import useSWRInfinite from 'swr/infinite'
+import {ajax} from '../../api/ajax'
 
 const Ol = styled.ol`
   li {
@@ -54,35 +56,32 @@ const Div = styled.div`
     background-color: #779649;
   }
 `
-const data = [{
-  url: 'xxx',
-  name: '旅行',
-  time: '2021:03:12:18:57',
-  amount: 1234
-}, {
-  url: 'xxx',
-  name: '旅行',
-  time: '2021:03:12:18:57',
-  amount: 1234
-}]
+const getItem = (pageIndex: number) => {
+    return `/api/v1/item?page=${pageIndex + 1}`
+}
 export const ItemsList: React.FC = () => {
-  return (
+    const {
+        data,
+        error
+    } = useSWRInfinite(getItem, async path => (await ajax.get<Resources<Item<Tags>, Pager>>(path)).data)
+    return (
         <>
             <Ol>
-                {data.map(v => <li key={v.time}>
-                    <div>
-                        {v.url}
-                    </div>
-                    <div>
-                        <p>{v.name}</p>
-                        <p>{v.time}</p>
-                    </div>
-                    <span>￥{v.amount}</span>
-                </li>)}
+                {data?.map(v => v.resources.map(v => <li key={v.id}>
+                        <div>
+                            {v.tags[0].sign}
+                        </div>
+                        <div>
+                            <p>{v.tags[0].name}</p>
+                            <p>{v.happen_at}</p>
+                        </div>
+                        <span>￥{v.amount}</span>
+                    </li>)
+                )}
             </Ol>
             <Div>
                 <button>加载更多</button>
             </Div>
         </>
-  )
+    )
 }
