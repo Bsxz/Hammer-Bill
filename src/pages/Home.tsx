@@ -36,7 +36,7 @@ export const Home: React.FC = () => {
     )
     const {data: itemData, error: itemError} = useSWR(
         '/item',
-        async path => (await ajax.get<Resources<Item, Pager>>(path)).data
+        async path => (await ajax.get<Resources<Item<Tags>, Pager>>(path)).data
     )
     const isLodingMe = !meData && !meError
     const isLodingItem = isLodingMe && !itemData && !itemError

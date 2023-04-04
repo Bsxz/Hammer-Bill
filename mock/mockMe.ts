@@ -22,7 +22,7 @@ const createResourece = (): Resource<User> => {
 export const mockMe: MockMethod = {
     url: '/api/v1/me',
     method: 'get',
-    timeout: 1000,
+    timeout: 10,
     response: (): Resource<User> => {
         return createResourece()
     }

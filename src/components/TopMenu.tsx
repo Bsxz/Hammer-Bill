@@ -89,7 +89,7 @@ export const TopMenu: React.FC<Props> = ({onClick, visible}) => {
             <Div style={menuStyles}>
                 <Header>
                     {data?.map(v => v.resource
-                        ? <h2>{v.resource.name}</h2>
+                        ? <h2 key={v.resource.id}>{v.resource.name}</h2>
                         : <><h2>未登入用户</h2><NavLink to="/login">点击这里登入</NavLink></>)}
                 </Header>
                 <Footer>

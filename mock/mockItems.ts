@@ -50,8 +50,8 @@ const createResources = ({
 export const mockItem: MockMethod = {
     url: '/api/v1/item',
     method: 'get',
-    timeout: 5000,
+    timeout: 500,
     response: ({query}: ResponseParams): Resources<Item<Tags>, Pager> => {
-        return createResources({page: parseInt(query.page), count: 100, perPage: 10})
+        return createResources({page: parseInt(query.page), count: 30, perPage: 10})
     }
 }

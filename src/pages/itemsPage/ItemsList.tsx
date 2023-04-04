@@ -42,9 +42,11 @@ const Ol = styled.ol`
   }
 `
 const Div = styled.div`
-  background-color: #779649;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 10px;
-  border-radius: 8px;
+  height: 48px;
 
   button {
     width: 100%;
@@ -56,32 +58,64 @@ const Div = styled.div`
     background-color: #779649;
   }
 `
-const getItem = (pageIndex: number) => {
+const getItem = (pageIndex: number, prev: Resources<Item<Tags>, Pager>) => {
+    if (prev) {
+        const sendCount = (prev.pager.page + 1) * prev.pager.per_page
+        if (sendCount > prev.pager.count) {
+            return null
+        }
+    }
     return `/api/v1/item?page=${pageIndex + 1}`
 }
 export const ItemsList: React.FC = () => {
     const {
         data,
-        error
-    } = useSWRInfinite(getItem, async path => (await ajax.get<Resources<Item<Tags>, Pager>>(path)).data)
-    return (
-        <>
-            <Ol>
-                {data?.map(v => v.resources.map(v => <li key={v.id}>
-                        <div>
-                            {v.tags[0].sign}
-                        </div>
-                        <div>
-                            <p>{v.tags[0].name}</p>
-                            <p>{v.happen_at}</p>
-                        </div>
-                        <span>￥{v.amount}</span>
-                    </li>)
-                )}
-            </Ol>
-            <Div>
-                <button>加载更多</button>
-            </Div>
+        error,
+        size,
+        setSize,
+        isLoading,
+        isValidating
+    } = useSWRInfinite(getItem,
+        async path => (await ajax.get<Resources<Item<Tags>, Pager>>(path)).data,
+        {revalidateFirstPage: false})
+    const onLoadMore = () => {
+        setSize(size + 1)
+    }
+    if (!data) {
+        return <>
+            {isLoading ? <Div>正在加载</Div> : null}
+            {error ? <Div>数据加载出错请重试</Div> : null}
         </>
-    )
+    } else {
+        let hasMore
+        if (data[size - 1]) {
+            hasMore = size * data[size - 1].pager.per_page >= data[size - 1].pager.count
+        }
+        return (<>
+                <Ol>
+                    {data.map(({resources}) => {
+                        return resources.map(item =>
+                            <li key={item.id}>
+                                <div>
+                                    {item.tags[0].sign}
+                                </div>
+                                <div>
+                                    <p>{item.tags[0].name}</p>
+                                    <p>{item.happen_at}</p>
+                                </div>
+                                <span>￥{item.amount / 100}</span>
+                            </li>)
+                    })}
+                </Ol>
+                {error ? <Div>数据加载出错请重试</Div> : null}
+                {isValidating
+                    ? <Div>正在加载数据</Div>
+                    : <Div>{hasMore
+                        ? <span>没有更多数据了</span>
+                        : <button onClick={onLoadMore}>加载更多</button>}
+                    </Div>
+                }
+            </>
+        )
+    }
 }
