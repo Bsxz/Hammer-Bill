@@ -16,7 +16,7 @@ export const FourthPage: React.FC = () => {
     return (
         <>
             <WelcomeDiv>
-                <Icon name="cloud" w="129" />
+                <Icon name="cloud" w="120" h="110" />
                 <h2>
                     云备份
                     <br />

@@ -3,6 +3,7 @@ import {Root} from '../components/Root'
 import {ChartPage} from '../pages/ChartPage'
 import {ExportPage} from '../pages/ExportPage'
 import {Home} from '../pages/Home'
+import {ItemsNewPage} from '../pages/ItemsNewPage'
 import {ItemsPage} from '../pages/ItemsPage'
 import {LoginPage} from '../pages/LoginPage'
 import {NotFound} from '../pages/NotFound'
@@ -34,6 +35,10 @@ export const Router = createHashRouter([
     {
         path: '/itemspage',
         element: <ItemsPage />
+    },
+    {
+        path: '/itemspage/new',
+        element: <ItemsNewPage />
     },
     {
         path: '/chart',

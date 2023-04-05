@@ -1,4 +1,5 @@
 import React from 'react'
+import {useNavigate} from 'react-router-dom'
 import styled from 'styled-components'
 import {Icon} from './Icon'
 
@@ -17,9 +18,13 @@ const Button = styled.span`
   color: #fff;
 `
 export const AddFloutButton: React.FC = () => {
+    const nav = useNavigate()
+    const add = () => {
+        nav('/itemspage/new')
+    }
     return (
         <>
-            <Button>
+            <Button onClick={add}>
                 <Icon name="add" fill="currentColor" h="50" w="50" />
             </Button>
         </>

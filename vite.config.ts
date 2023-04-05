@@ -18,7 +18,8 @@ export default defineConfig(({command}) => ({
     },
     plugins: [react(), viteMockServe(), svgsprites({
         noOptimizeList: ['add', 'chart', 'clock', 'cloud', 'custom',
-            'export', 'back', 'loading', 'logo', 'menu', 'Piggybank', 'remind']
+            'export', 'back', 'loading', 'logo', 'menu', 'Piggybank',
+            'remind', 'flight']
     })],
     build: {
         outDir: 'docs'

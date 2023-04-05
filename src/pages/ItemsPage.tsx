@@ -21,7 +21,12 @@ export const ItemsPage: React.FC = () => {
                         if (!start) setVisible(!visible)
                     }} />
                 } />
-                <TimeRangePick selected={selected} onSelected={onSelected} />
+                <TimeRangePick selected={selected} onSelected={onSelected} timeRanges={[
+                    {key: 'thisMonth', text: '本月'},
+                    {key: 'lastMonth', text: '上月'},
+                    {key: 'thisYear', text: '今年'},
+                    {key: 'custom', text: '自定义时间'}
+                ]} />
             </StyledGradient>
             <ItemsSummary />
             <ItemsList />
