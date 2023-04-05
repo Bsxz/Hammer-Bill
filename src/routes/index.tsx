@@ -1,13 +1,13 @@
 import {createHashRouter, Outlet} from 'react-router-dom'
-import {Login} from '../components/Login'
 import {Root} from '../components/Root'
-import {Chart} from '../pages/Chart'
-import {Export} from '../pages/Export'
+import {ChartPage} from '../pages/ChartPage'
+import {ExportPage} from '../pages/ExportPage'
 import {Home} from '../pages/Home'
 import {ItemsPage} from '../pages/ItemsPage'
+import {LoginPage} from '../pages/LoginPage'
 import {NotFound} from '../pages/NotFound'
-import {Tags} from '../pages/Tags'
-import {Remind} from '../pages/welcomepage/Remind'
+import {RemindPage} from '../pages/RemindPage'
+import {TagsPage} from '../pages/TagsPage'
 import {WelComeRoutes} from './welComeRoutes'
 
 export const Router = createHashRouter([
@@ -29,7 +29,7 @@ export const Router = createHashRouter([
     },
     {
         path: '/login',
-        element: <Login />
+        element: <LoginPage />
     },
     {
         path: '/itemspage',
@@ -37,18 +37,18 @@ export const Router = createHashRouter([
     },
     {
         path: '/chart',
-        element: <Chart />
+        element: <ChartPage />
     },
     {
         path: '/export',
-        element: <Export />
+        element: <ExportPage />
     },
     {
         path: '/tags',
-        element: <Tags />
+        element: <TagsPage />
     },
     {
         path: '/remind',
-        element: <Remind />
+        element: <RemindPage />
     }
 ])

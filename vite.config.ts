@@ -1,17 +1,26 @@
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
-import { viteMockServe } from 'vite-plugin-mock'
-import { svgsprites } from './vite_plugins/svgsprites'
+import {defineConfig} from 'vite'
+import {viteMockServe} from 'vite-plugin-mock'
+import {svgsprites} from './vite_plugins/svgsprites'
 // https://vitejs.dev/config/
-export default defineConfig(({ command }) => ({
-  define: {
-    isDev: command === 'serve'
-  },
-  plugins: [react(), viteMockServe(), svgsprites({
-    noOptimizeList: ['add', 'chart', 'clock', 'cloud', 'custom',
-      'export', 'leftarrow', 'loading', 'logo', 'menu', 'Piggybank', 'remind']
-  })],
-  build: {
-    outDir: 'docs'
-  }
+export default defineConfig(({command}) => ({
+    define: {
+        isDev: command === 'serve'
+    },
+    server: {
+        proxy: {
+            '/api': {
+                target: 'https://mangosteen2.hunger-valley.com/api/v1',
+                changeOrigin: true,
+                rewrite: path => path.replace(/^\/api/, '')
+            }
+        }
+    },
+    plugins: [react(), viteMockServe(), svgsprites({
+        noOptimizeList: ['add', 'chart', 'clock', 'cloud', 'custom',
+            'export', 'back', 'loading', 'logo', 'menu', 'Piggybank', 'remind']
+    })],
+    build: {
+        outDir: 'docs'
+    }
 }))

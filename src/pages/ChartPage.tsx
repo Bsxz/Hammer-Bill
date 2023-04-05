@@ -1,9 +1,9 @@
 import React from 'react'
 
-export const Chart: React.FC = () => {
-  return (
+export const ChartPage: React.FC = () => {
+    return (
         <>
             <div>Chart</div>
         </>
-  )
+    )
 }

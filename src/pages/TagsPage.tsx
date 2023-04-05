@@ -1,9 +1,9 @@
 import React from 'react'
 
-export const Tags: React.FC = () => {
-  return (
+export const TagsPage: React.FC = () => {
+    return (
         <>
             <div>Tags</div>
         </>
-  )
+    )
 }

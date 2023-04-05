@@ -14,10 +14,10 @@ const Div = styled(animated.div)`
   height: 100vh;
   color: #fff;
   background-color: #fff;
-  z-index: 3;
+  z-index: 256;
+  touch-action: none;
 `
 const Header = styled.div`
-  z-index: 1;
   padding: 32px 0 40px 16px;
   background-color: #2a6e3f;
 
@@ -31,7 +31,6 @@ const Header = styled.div`
   }
 `
 const Footer = styled.ul`
-  z-index: 1;
   padding: 16px 0 0 16px;
 
   a {
@@ -51,22 +50,25 @@ const Mask = styled(animated.div)`
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 2;
+  z-index: 128;
   background-color: rgba(0, 0, 0, 0.5);
+  touch-action: none;
 `
 const getMe = () => {
     return `/api/v1/me`
 }
-export const TopMenu: React.FC<Props> = ({onClick, visible}) => {
+export const TopMenu: React.FC<Props> = ({onMaskVisible, visible, setStart}) => {
     const [maskVisible, setMaskVisible] = useState(visible)
     const maskStyles = useSpring({
         opacity: visible ? 1 : 0,
         config: {duration: 1000},
         onStart: ({value}) => {
+            setStart(true)
             if (value.opacity < 0.1)
                 setMaskVisible(true)
         },
         onRest: ({value}) => {
+            setStart(false)
             if (value.opacity < 0.1)
                 setMaskVisible(false)
         }
@@ -84,8 +86,7 @@ export const TopMenu: React.FC<Props> = ({onClick, visible}) => {
         <>
             <Mask style={{
                 ...maskStyles, visibility: (maskVisible ? 'visible' : 'hidden')
-            }}
-                  onClick={onClick} />
+            }} onClick={onMaskVisible} />
             <Div style={menuStyles}>
                 <Header>
                     {data?.map(v => v.resource

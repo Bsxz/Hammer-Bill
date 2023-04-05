@@ -1,9 +1,9 @@
 import React from 'react'
 
-export const Remind: React.FC = () => {
-  return (
+export const RemindPage: React.FC = () => {
+    return (
         <>
             <div>Remind</div>
         </>
-  )
+    )
 }

@@ -1,13 +1,19 @@
-import { create } from 'zustand'
+import {create} from 'zustand'
 
 interface Menu {
-  visible: boolean
-  setVisible: (visible: boolean) => void
+    visible: boolean
+    start: boolean
+    setVisible: (visible: boolean) => void
+    setStart: (start: boolean) => void
 }
 
 export const useMenuStore = create<Menu>(set => ({
-  visible: false,
-  setVisible: (visible) => {
-    set({ visible })
-  }
+    visible: false,
+    start: false,
+    setVisible: (visible) => {
+        set({visible})
+    },
+    setStart: (start) => {
+        set({start})
+    }
 }))

@@ -31,11 +31,11 @@ const Div = styled.div`
 `
 export const Home: React.FC = () => {
     const {data: meData, error: meError} = useSWR(
-        '/me',
+        '/api/v1/me',
         async path => (await ajax.get<Resource<User>>(path)).data.resource
     )
     const {data: itemData, error: itemError} = useSWR(
-        '/item',
+        '/api/v1/item',
         async path => (await ajax.get<Resources<Item<Tags>, Pager>>(path)).data
     )
     const isLodingMe = !meData && !meError
@@ -43,7 +43,7 @@ export const Home: React.FC = () => {
     if (isLodingMe && isLodingItem)
         return <Loading />
     if (itemData?.resources[0])
-        return <Navigate to="/items" />
+        return <Navigate to="/itemspage" />
     return (
         <>
             <Div>

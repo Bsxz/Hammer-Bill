@@ -1,26 +1,34 @@
-import React from 'react'
+import React, {ReactNode} from 'react'
 import styled from 'styled-components'
-import { useMenuStore } from '../stores/useMenuStore'
-import { Icon } from './Icon'
+
+interface Props {
+    title: string
+    icon: ReactNode
+}
 
 const Div = styled.div`
   display: flex;
   align-items: center;
+  padding: 40px 0 10px 22px;
   color: #fff;
-  padding: 40px 0 0 22px;
+
+  div {
+    width: 40px;
+    height: 32px;
+    line-height: 32px;
+  }
 
   span {
     font-size: 24px;
     font-weight: 100;
-    margin-left: 10px;
+    margin-left: 20px;
   }
 `
-export const TopNav: React.FC = () => {
-  const { visible, setVisible } = useMenuStore()
-  return (
+export const TopNav: React.FC<Props> = ({title, icon}) => {
+    return (
         <Div>
-            <Icon name="menu" w="50" h="50" x="-10" y="3" onClick={() => setVisible(!visible)} />
-            <span>大锤记账</span>
+            <div>{icon}</div>
+            <span>{title}</span>
         </Div>
-  )
+    )
 }

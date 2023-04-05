@@ -1,3 +1,9 @@
+:root {
+    --bgcolor1: #4f6f46;
+    --bgcolor2: #779649;
+    --shadowColor: #422256;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -33,4 +39,12 @@ html {
 
 li {
     list-style: none;
+}
+
+:focus-visible {
+    outline: none;
+}
+
+button {
+    border: none;
 }

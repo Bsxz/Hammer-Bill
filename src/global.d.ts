@@ -2,6 +2,7 @@ import React from 'react'
 
 declare global {
     var isDev: boolean
+    type JSONValue = string | number | boolean | null | { [k: string]: JSONValue } | JSONValue[]
 
     interface Resource<T> {
         resource: T
@@ -52,7 +53,8 @@ declare global {
     }
 
     interface Props {
-        onClick?: (e: React.MouseEvent) => void
+        onMaskVisible?: (e: React.MouseEvent) => void
         visible?: boolean
+        setStart: (start: boolean) => void
     }
 }
