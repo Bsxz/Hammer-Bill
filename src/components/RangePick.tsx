@@ -15,12 +15,13 @@ const Ol = styled.ol`
     -webkit-tap-highlight-color: transparent;
   }
 `
-export const TimeRangePick: React.FC<Selected> = ({timeRanges, selected, onSelected}) => {
+export const RangePick = <T extends string>(props: Partial<Selected<T>>) => {
+    const {ranges, select, onChange} = props
     return (
         <Ol>
-            {timeRanges.map(k => <li key={k.key}
-                                     style={k.key === selected ? {borderColor: '#a8bf8f'} : {borderColor: 'transparent'}}
-                                     onClick={e => onSelected(k.key)}>
+            {ranges?.map(k => <li key={k.key}
+                                  style={k.key === select ? {borderColor: '#a8bf8f'} : {borderColor: 'transparent'}}
+                                  onClick={e => onChange?.(k.key)}>
                 {k.text}</li>)}
         </Ol>
     )

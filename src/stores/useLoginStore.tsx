@@ -1,18 +1,7 @@
 import {Partial} from '@react-spring/web'
 import {create} from 'zustand'
 import {FormError} from '../lib/validata'
-
-type Data = {
-    email: string
-    code: string
-}
-
-interface Login {
-    data: Data
-    error: FormError<Data>
-    setData: (data: Partial<Data>) => void
-    setError: (error: Partial<FormError<Data>>) => void
-}
+import {Data, Login} from './store'
 
 export const useLoginStore = create<Login>((set) => ({
         data: {

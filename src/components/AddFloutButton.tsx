@@ -1,6 +1,7 @@
 import React from 'react'
 import {useNavigate} from 'react-router-dom'
 import styled from 'styled-components'
+import {useSelectStore} from '../stores/useSelectStore'
 import {Icon} from './Icon'
 
 const Button = styled.span`
@@ -19,7 +20,9 @@ const Button = styled.span`
 `
 export const AddFloutButton: React.FC = () => {
     const nav = useNavigate()
+    const {select, onBack} = useSelectStore()
     const add = () => {
+        onBack(select)
         nav('/itemspage/new')
     }
     return (

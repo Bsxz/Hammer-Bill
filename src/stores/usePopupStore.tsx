@@ -1,13 +1,14 @@
 import {create} from 'zustand'
 import {Menu} from './store'
 
-export const useMenuStore = create<Menu>(set => ({
+interface Popup {
+    visible: Menu['visible']
+    setVisible: Menu['setVisible']
+}
+
+export const usePopupStore = create<Popup>((set) => ({
     visible: false,
-    start: false,
     setVisible: (visible) => {
         set({visible})
-    },
-    setStart: (start) => {
-        set({start})
     }
 }))
