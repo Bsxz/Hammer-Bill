@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {usePopupStore} from '../stores/usePopupStore'
+import {usePopup} from '../hooks/usePopup'
 import {Icon} from './Icon'
 
 const KeyBoard = styled.div`
@@ -107,12 +107,13 @@ const Left = styled.div`
   }
 `
 export const StyledKeyBoard: React.FC = () => {
-    const {setVisible} = usePopupStore()
+    const {popup, toggle} = usePopup()
     return (
         <>
+            {popup}
             <KeyBoard>
                 <div className="div14">
-                    <Left onClick={() => setVisible(true)}>
+                    <Left onClick={toggle}>
                         <Icon name="calendar" w="24" h="24" />
                         <span>2023 - 4 - 6</span>
                     </Left>

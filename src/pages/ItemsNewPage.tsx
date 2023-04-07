@@ -2,12 +2,10 @@ import React, {useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import styled from 'styled-components'
 import {Icon} from '../components/Icon'
-import {Popup} from '../components/Popup'
 import {RangePick} from '../components/RangePick'
 import {StyledGradient} from '../components/StyledGradient'
 import {StyledKeyBoard} from '../components/StyledKeyBoard'
 import {TopNav} from '../components/TopNav'
-import {usePopupStore} from '../stores/usePopupStore'
 import {Range, Ranges, useSelectStore} from '../stores/useSelectStore'
 import {Income} from './rangesPage/Income'
 import {Spending} from './rangesPage/Spending'
@@ -24,7 +22,6 @@ const ranges: Ranges<Range> = [
 ]
 export const ItemsNewPage: React.FC = () => {
     const {select, backSelect, onChange} = useSelectStore()
-    const {visible} = usePopupStore()
     const nav = useNavigate()
     const back = () => {
         onChange(backSelect)
@@ -43,7 +40,6 @@ export const ItemsNewPage: React.FC = () => {
             </StyledGradient>
             {ranges.filter(v => v.key === select)[0] ? ranges.filter(v => v.key === select)[0].element : null}
             <StyledKeyBoard />
-            {visible ? <Popup /> : null}
         </Div>
     )
 }

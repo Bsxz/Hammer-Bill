@@ -1,9 +1,11 @@
-import React from 'react'
+import {animated, useSpring} from '@react-spring/web'
+import React, {useState} from 'react'
 import styled from 'styled-components'
-import {usePopupStore} from '../stores/usePopupStore'
+import {useMenuStore} from '../stores/useMenuStore'
+import {Mask} from './Mask'
 import {StyledGradient} from './StyledGradient'
 
-const Div = styled.div`
+const Div = styled(animated.div)`
   position: absolute;
   height: 40vh;
   width: 90vw;
@@ -13,6 +15,7 @@ const Div = styled.div`
   box-shadow: 0 1px 1px 1px #ccc;
   background-color: #fff;
   font-size: 18px;
+  z-index: 256;
 
   div {
     display: flex;
@@ -42,27 +45,56 @@ const Div = styled.div`
       justify-content: right;
     }
   }
-
 `
-export const Popup: React.FC = () => {
-    const {setVisible} = usePopupStore()
+
+interface Props {
+    visible: boolean
+    toggle: () => void
+}
+
+export const Popup: React.FC<Props> = ({visible, toggle}) => {
+    const [popupVisible, setPopupVisible] = useState(visible)
+    const {start, setStart} = useMenuStore()
+    const popupStyles = useSpring({
+        opacity: visible ? 1 : 0,
+        config: {duration: 300},
+        onStart: ({value}) => {
+            setStart(true)
+            if (value.opacity < 0.1)
+                setPopupVisible(true)
+        },
+        onRest: ({value}) => {
+            setStart(false)
+            if (value.opacity < 0.1)
+                setPopupVisible(false)
+        }
+    })
     return (
-        <Div>
-            <StyledGradient>
-                请选择时间
-            </StyledGradient>
-            <div>
-                <span>开始时间</span>
-                <input type="text" placeholder="2020-01-01" />
-            </div>
-            <div>
-                <span>结束时间</span>
-                <input type="text" placeholder="2020-01-01" />
-            </div>
-            <div>
-                <span onClick={() => setVisible(false)}>取消</span>
-                <span>确定</span>
-            </div>
-        </Div>
+        <>
+            <Mask visible={visible} setStart={setStart} duration={300} onMaskVisible={() => {
+                if (!start)
+                    toggle()
+            }} />
+            <Div style={{...popupStyles, visibility: (popupVisible ? 'visible' : 'hidden')}}>
+                <StyledGradient>
+                    请选择时间
+                </StyledGradient>
+                <div>
+                    <span>开始时间</span>
+                    <input type="text" placeholder="2020-01-01" />
+                </div>
+                <div>
+                    <span>结束时间</span>
+                    <input type="text" placeholder="2020-01-01" />
+                </div>
+                <div>
+                    <span onClick={() => {
+                        if (!start)
+                            toggle()
+                    }}>取消</span>
+                    <span>确定</span>
+                </div>
+            </Div>
+        </>
     )
 }

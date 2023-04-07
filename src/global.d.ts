@@ -53,8 +53,10 @@ declare global {
     }
 
     interface Props {
-        onMaskVisible?: (e: React.MouseEvent) => void
-        visible?: boolean
+        onMaskVisible: (e: React.MouseEvent) => void
+        visible: boolean
         setStart: (start: boolean) => void
+        top?: string
+        duration?: number
     }
 }
