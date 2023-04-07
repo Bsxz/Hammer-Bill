@@ -1,6 +1,7 @@
 import {animated, useSpring} from '@react-spring/web'
 import React, {useState} from 'react'
 import styled from 'styled-components'
+import {time} from '../lib/time'
 import {useMenuStore} from '../stores/useMenuStore'
 import {Mask} from './Mask'
 import {StyledGradient} from './StyledGradient'
@@ -23,6 +24,7 @@ const Div = styled(animated.div)`
 
 
     input {
+      font-weight: 500;
       height: 48px;
       margin-top: 10px;
       border-radius: 8px;
@@ -81,11 +83,11 @@ export const Popup: React.FC<Props> = ({visible, toggle}) => {
                 </StyledGradient>
                 <div>
                     <span>开始时间</span>
-                    <input type="text" placeholder="2020-01-01" />
+                    <input type="date" value={time().add(-3, 'month').format()} />
                 </div>
                 <div>
                     <span>结束时间</span>
-                    <input type="text" placeholder="2020-01-01" />
+                    <input type="date" value={time().format()} />
                 </div>
                 <div>
                     <span onClick={() => {

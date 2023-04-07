@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import {usePopup} from '../hooks/usePopup'
+import {time} from '../lib/time'
 import {Icon} from './Icon'
 
 const KeyBoard = styled.div`
@@ -115,7 +116,7 @@ export const StyledKeyBoard: React.FC = () => {
                 <div className="div14">
                     <Left onClick={toggle}>
                         <Icon name="calendar" w="24" h="24" />
-                        <span>2023 - 4 - 6</span>
+                        <span>{time().format()}</span>
                     </Left>
                     <span>{(119191 / 100).toFixed(2)}</span>
                 </div>
