@@ -11,7 +11,7 @@ type Rule<T> = {
     { type: 'equalField'; field: keyof T } |
     { type: 'pattern'; regex: RegExp } |
     { type: 'notEqual'; value: JSONValue } |
-    { type: 'length'; length: number }
+    { type: 'length'; max: number, min: number }
     )
 type Rules<T> = Rule<T>[]
 type FormError<T> = {
@@ -44,7 +44,11 @@ export const validate = <T extends Data>(formData: T, rules: Rules<T>): FormErro
                 break
             case 'length':
                 if (!isEmpty(value)) {
-                    if (rule.length && value!.toString().length < rule.length) {
+                    if (value! < rule.min) {
+                        error[key] = error[key] ?? []
+                        error[key]?.push(message)
+                    }
+                    if (value! > rule.max) {
                         error[key] = error[key] ?? []
                         error[key]?.push(message)
                     }

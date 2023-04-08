@@ -109,7 +109,8 @@ export const LoginPage: React.FC = () => {
             {
                 key: 'code',
                 type: 'length',
-                length: 6,
+                max: 6,
+                min: 6,
                 message: '验证码错误'
             }
         ])

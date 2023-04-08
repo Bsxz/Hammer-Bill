@@ -5,6 +5,8 @@ import {ExportPage} from '../pages/ExportPage'
 import {Home} from '../pages/Home'
 import {ItemsNewPage} from '../pages/ItemsNewPage'
 import {ItemsPage} from '../pages/ItemsPage'
+import {LableNew} from '../pages/LableNew'
+import {LableUpdate} from '../pages/LableUpdate'
 import {LoginPage} from '../pages/LoginPage'
 import {NotFound} from '../pages/NotFound'
 import {RemindPage} from '../pages/RemindPage'
@@ -34,11 +36,46 @@ export const Router = createHashRouter([
     },
     {
         path: '/itemspage',
-        element: <ItemsPage />
+        children: [
+            {
+                index: true,
+                element: <ItemsPage />
+            },
+            {
+                path: 'new',
+                element: <ItemsNewPage />
+            },
+            {
+                path: 'lablenew',
+                element: <LableNew />
+            },
+            {
+                path: 'lableupdate',
+                element: <LableUpdate />
+            }
+        ]
+    },
+    // {
+    //     path: 'new',
+    //     element: <ItemsNewPage />,
+    //     children: [
+    //         {
+    //             path: 'lablenew',
+    //             element: <LableNew />
+    //         },
+    //         {
+    //             path: 'lableupdate',
+    //             element: <LableUpdate />
+    //         }
+    //     ]
+    // },
+    {
+        path: 'lablenew',
+        element: <LableNew />
     },
     {
-        path: '/itemspage/new',
-        element: <ItemsNewPage />
+        path: 'lableupdate',
+        element: <LableUpdate />
     },
     {
         path: '/chart',
