@@ -59,4 +59,14 @@ declare global {
         top?: string
         duration?: number
     }
+
+    interface InputProps {
+        lable?: string
+        type?: 'text' | 'code' | 'emoji'
+        placeholder?: string
+        value?: string
+        onChange?: (value: string) => void
+        // setTags?: (value: string) => void
+        errorMessage?: string | string[]
+    }
 }

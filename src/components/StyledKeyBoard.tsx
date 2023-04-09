@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components'
 import {usePopup} from '../hooks/usePopup'
 import {time} from '../lib/time'
@@ -109,6 +109,23 @@ const Left = styled.div`
 `
 export const StyledKeyBoard: React.FC = () => {
     const {popup, toggle} = usePopup()
+    const [amount, setAmount] = useState('')
+    const add = (str: string) => {
+        if (str === '') {
+            setAmount('')
+            return
+        }
+        const _amount = amount + str
+        const toFixed = _amount.split('.')
+        if ((toFixed[0]?.length + toFixed[1]?.length) > 10 || toFixed[1]?.length > 2) {
+            return
+        } else {
+            setAmount(_amount)
+        }
+    }
+    const submit = () => {
+        console.log(`我要提交了`)
+    }
     return (
         <>
             {popup}
@@ -118,21 +135,21 @@ export const StyledKeyBoard: React.FC = () => {
                         <Icon name="calendar" w="24" h="24" />
                         <span>{time().format()}</span>
                     </Left>
-                    <span>{(119191 / 100).toFixed(2)}</span>
+                    <span>{Number(amount)}</span>
                 </div>
-                <div className="div1">1</div>
-                <div className="div2">2</div>
-                <div className="div3">3</div>
-                <div className="div4">清空</div>
-                <div className="div5">4</div>
-                <div className="div6">5</div>
-                <div className="div7">6</div>
-                <div className="div8">7</div>
-                <div className="div9">8</div>
-                <div className="div10">9</div>
-                <div className="div11">提交</div>
-                <div className="div12">0</div>
-                <div className="div13">.</div>
+                <div className="div1" onClick={() => add('1')}>1</div>
+                <div className="div2" onClick={() => add('2')}>2</div>
+                <div className="div3" onClick={() => add('3')}>3</div>
+                <div className="div4" onClick={() => add('')}>清空</div>
+                <div className="div5" onClick={() => add('4')}>4</div>
+                <div className="div6" onClick={() => add('5')}>5</div>
+                <div className="div7" onClick={() => add('6')}>6</div>
+                <div className="div8" onClick={() => add('7')}>7</div>
+                <div className="div9" onClick={() => add('8')}>8</div>
+                <div className="div10" onClick={() => add('9')}>9</div>
+                <div className="div11" onClick={submit}>提交</div>
+                <div className="div12" onClick={() => add('0')}>0</div>
+                <div className="div13" onClick={() => add('.')}>.</div>
             </KeyBoard>
         </>
     )

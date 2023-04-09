@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import styled from 'styled-components'
 import {Icon} from '../components/Icon'
 import {StyledGradient} from '../components/StyledGradient'
@@ -8,11 +8,16 @@ import {LableLayout} from '../layouts/LableLayout'
 import {useSelectStore} from '../stores/useSelectStore'
 
 const Div = styled.div`
+  display: flex;
+  flex-direction: column;
   height: calc(100vh - var(--vh-offset, 0px));
+  overflow: hidden;
 `
 const Button = styled.div`
+  flex-grow: 0;
+  flex-shrink: 0;
   height: 48px;
-  margin: 0 16px;
+  margin: 0 16px 66px;
   border-radius: 8px;
   text-align: center;
   line-height: 48px;
@@ -29,12 +34,11 @@ export const LableNew: React.FC = () => {
     return (
         <Div>
             <StyledGradient>
-                <Link to="/itemspage/lableupdate">切换到更新标签页</Link>
                 <TopNav title="新建标签" icon={
                     <Icon name="back" w="36" h="36" onClick={back} />
                 } />
             </StyledGradient>
-            <LableLayout />
+            <LableLayout text="记账时长按标签，即可进行编辑" />
             <Button>确定</Button>
         </Div>
     )

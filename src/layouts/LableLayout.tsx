@@ -1,5 +1,8 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
+import {Input} from '../components/Input'
+import {usePopup} from '../hooks/usePopup'
+import {time} from '../lib/time'
 import {validate} from '../lib/validata'
 
 const Box = styled.div`
@@ -15,10 +18,23 @@ const Box = styled.div`
     user-select: none;
   }
 
-  div {
+  > div {
+    flex-grow: 0;
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
     row-gap: 8px;
+
+    &:nth-last-child(2) {
+      flex-grow: 1;
+      flex-shrink: 1;
+
+      span {
+        height: 22px;
+        flex-grow: 0;
+        flex-shrink: 0;
+      }
+    }
 
     input {
       font-size: 18px;
@@ -27,32 +43,25 @@ const Box = styled.div`
       border-radius: 8px;
     }
 
-    span:nth-last-child(1) {
+    .error {
       font-size: 14px;
       height: 14px;
       color: red;
       margin-bottom: 16px;
     }
   }
-`
-const EmojiBox = styled.div`
-  padding: 12px;
-  border: 1px solid #000;
-  border-radius: 8px;
-  height: 420px;
 
-  ol {
-    display: flex;
-    column-gap: 16px;
-    white-space: nowrap;
-    overflow: auto;
-    color: #999999;
-  }
 `
-const table = ['表情', '手势', '职业', '衣服', '动物', '自然', '食物', '运动']
-export const LableLayout: React.FC = () => {
-    const [select, setSelect] = useState('表情')
+
+interface Props {
+    text: string
+}
+
+export const LableLayout: React.FC<Props> = ({text}) => {
     const [name, setName] = useState('')
+    const [tags, setTags] = useState('')
+    const [onStart, setOnstart] = useState(0)
+    const {popup, toggle} = usePopup()
     const error = validate({name, length: name.length},
         [
             {key: 'name', type: 'chinese', message: '请输入中文'},
@@ -61,28 +70,18 @@ export const LableLayout: React.FC = () => {
     )
     return (
         <>
+            {popup}
             <Box>
-                <div>
-                    <span>标签名</span>
-                    <input type="text" placeholder="2到4个汉字"
-                           onChange={e => setName(e.target.value)} value={name} />
-                    <span style={{visibility: error ? 'visible' : 'hidden'}}>{error.name || error.length}</span>
-                </div>
-                <div>
-                    <span>符号</span>
-                    <EmojiBox>
-                        <ol>
-                            {table.map(v => <li key={v}
-                                                onClick={() => {
-                                                    setSelect(v)
-                                                }}
-                                                style={{color: v === select ? '#000' : '#999'}}>{v}</li>)}
-                        </ol>
-                    </EmojiBox>
-                </div>
-                <span onTouchMove={() => {
-                    console.log(`正在被点击`)
-                }}>记账时长按标签，即可进行编辑</span>
+                <Input lable="标签名" placeholder="2到4个汉字" value={name} onChange={value => setName(value)}
+                       errorMessage={error.name || error.length} />
+                <Input lable={`符号  ${tags}`} type="emoji" onChange={v => setTags(v)} />
+                <span onTouchStart={() => {
+                    setOnstart(time().seconds)
+                }}
+                      onTouchEnd={() => {
+                          if (time().seconds - onStart >= 3 && time().seconds - onStart <= 8) toggle()
+                      }}
+                >{text}</span>
             </Box>
         </>
     )

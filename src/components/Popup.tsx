@@ -8,10 +8,10 @@ import {StyledGradient} from './StyledGradient'
 
 const Div = styled(animated.div)`
   position: absolute;
-  height: 40vh;
+  height: 50vh;
   width: 90vw;
   left: 50%;
-  top: 40%;
+  top: 25%;
   transform: translateX(-50%);
   box-shadow: 0 1px 1px 1px #ccc;
   background-color: #fff;
@@ -56,6 +56,8 @@ interface Props {
 
 export const Popup: React.FC<Props> = ({visible, toggle}) => {
     const [popupVisible, setPopupVisible] = useState(visible)
+    const [startTime, setStartTime] = useState(time().add(-3, 'month').format())
+    const [endTime, setEndTime] = useState(time().format())
     const {start, setStart} = useMenuStore()
     const popupStyles = useSpring({
         opacity: visible ? 1 : 0,
@@ -83,18 +85,24 @@ export const Popup: React.FC<Props> = ({visible, toggle}) => {
                 </StyledGradient>
                 <div>
                     <span>开始时间</span>
-                    <input type="date" value={time().add(-3, 'month').format()} />
+                    <input type="date" value={startTime} onChange={({target}) => {
+                        if (target.value > endTime) return
+                        setStartTime(target.value)
+                    }} />
                 </div>
                 <div>
                     <span>结束时间</span>
-                    <input type="date" value={time().format()} />
+                    <input type="date" value={endTime} onChange={({target}) => {
+                        setEndTime(target.value)
+                    }} />
                 </div>
                 <div>
                     <span onClick={() => {
                         if (!start)
                             toggle()
                     }}>取消</span>
-                    <span>确定</span>
+                    <span onClick={() => {
+                    }}>确定</span>
                 </div>
             </Div>
         </>

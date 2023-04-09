@@ -8,10 +8,27 @@ import {LableLayout} from '../layouts/LableLayout'
 import {useSelectStore} from '../stores/useSelectStore'
 
 const Div = styled.div`
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--vh-offset, 0px));
+  overflow: hidden;
+
+  > div:nth-last-child(1) {
+    background-color: #E10505;
+    margin: 16px 16px 66px;
+  }
+`
+const Button = styled.div`
+  height: 48px;
+  border-radius: 8px;
+  text-align: center;
+  line-height: 48px;
+  color: #fff;
+  margin: 0 16px;
+  background-color: var(--bgcolor2);
 `
 export const LableUpdate: React.FC = () => {
-    const {select, backSelect, onChange} = useSelectStore()
+    const {backSelect, onChange} = useSelectStore()
     const nav = useNavigate()
     const back = () => {
         onChange(backSelect)
@@ -24,7 +41,9 @@ export const LableUpdate: React.FC = () => {
                     <Icon name="back" w="36" h="36" onClick={back} />
                 } />
             </StyledGradient>
-            <LableLayout />
+            <LableLayout text="记账时长按标签，即可再次编辑" />
+            <Button>确定</Button>
+            <Button>删除</Button>
         </Div>
     )
 }
