@@ -88,9 +88,9 @@ const Form = styled.form`
 `
 export const LoginPage: React.FC = () => {
     const {data, error, setData, setError} = useLoginStore()
-    const send: FormEventHandler<HTMLFormElement> = async (e) => {
+    const submit: FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault()
-        const error = validate(data, [
+        const newError = validate(data, [
             {
                 key: 'email',
                 type: 'required',
@@ -115,8 +115,8 @@ export const LoginPage: React.FC = () => {
                 message: '验证码错误'
             }
         ])
-        setError(error)
-        if (!hasError(error)) {
+        setError(newError)
+        if (!hasError(newError)) {
             const a = (await ajax.post('/api/v1/session', data))
             console.log(a)
         }
@@ -129,7 +129,7 @@ export const LoginPage: React.FC = () => {
                 } />
             </StyledGradient>
             <Header color="var(--bgcolor1)" />
-            <Form onSubmit={send}>
+            <Form onSubmit={submit}>
                 <Input lable="邮箱地址" placeholder="请输入邮箱，然后点击发送验证码" value={data.email}
                        onChange={value => setData({email: value})} errorMessage={error.email} />
                 <Input lable="验证码" type="code" placeholder="请输入验证码" value={data.code}

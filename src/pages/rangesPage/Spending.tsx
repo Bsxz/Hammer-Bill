@@ -47,7 +47,7 @@ export const Spending: React.FC = () => {
         <Div>
             <ol>
                 <li>
-                    <Link to="/itemspage/lablenew"><Icon name="add" w="32" h="32" fill={'var(--bgcolor1)'} /></Link>
+                    <Link to="/tags/new?kind=expenses"><Icon name="add" w="32" h="32" fill={'var(--bgcolor1)'} /></Link>
                 </li>
                 {Array.from({length: 40}).map((v, i) =>
                     <li key={i}>

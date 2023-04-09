@@ -5,7 +5,7 @@ import {emojis} from '../../lib/emoji'
 const EmojiBox = styled.div`
   flex-grow: 1;
   flex-shrink: 1;
-  height: 200px;
+  height: 260px;
   display: flex;
   flex-direction: column;
   padding: 12px;
@@ -14,6 +14,10 @@ const EmojiBox = styled.div`
   border-radius: 8px;
   overflow: auto;
   user-select: none;
+
+  span:nth-last-child(1) {
+    height: 20px;
+  }
 
   ol {
     display: flex;
@@ -26,23 +30,21 @@ const EmojiBox = styled.div`
   > div {
     display: grid;
     justify-content: center;
-    grid-template: repeat(auto-fill, 34px)/repeat(auto-fill, 34px);
+    grid-template: repeat(auto-fill, 26px)/repeat(auto-fill, 26px);
     column-gap: 6px;
     row-gap: 6px;
     height: 100%;
     overflow: auto;
 
     > div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       width: 26px;
       height: 26px;
-      line-height: 26px;
-      text-align: center;
-      border: 1px solid transparent;
       border-radius: 8px;
 
       > span {
-        display: inline-block;
-        border-radius: 4px;
         width: 22px;
         height: 20px;
       }
@@ -50,7 +52,7 @@ const EmojiBox = styled.div`
   }
 `
 export const EmojiInput: React.FC<InputProps> = (props) => {
-    const {lable, onChange} = props
+    const {lable, onChange, errorMessage} = props
     const [select, setSelect] = useState('表情')
     const [emoji, setEmoji] = useState(emojis.filter(({name}) => name === select)[0].chars[0])
     useEffect(() => {
@@ -71,18 +73,17 @@ export const EmojiInput: React.FC<InputProps> = (props) => {
                 </ol>
                 {emojis.map(({name, chars}) => (name === select ?
                     <div key={name}>{chars.map((v) =>
-                        <div key={v}>
-                            <span style={{backgroundColor: emoji === v ? 'rgba(0,0,0,.5)' : 'transparent'}}
-                                  onClick={() => {
-                                      setEmoji(v)
-                                      onChange?.(v)
-                                  }
-                                  }>{v}</span>
+                        <div key={v} style={{backgroundColor: emoji === v ? 'rgba(0,0,0,.1)' : 'transparent'}}>
+                            <span onClick={() => {
+                                setEmoji(v)
+                                onChange?.(v)
+                            }}>{v}</span>
                         </div>
                     )}
                     </div> : null)
                 )}
             </EmojiBox>
+            <span className="error">{errorMessage}</span>
         </div>
     )
 }

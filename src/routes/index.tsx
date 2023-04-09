@@ -5,11 +5,11 @@ import {ExportPage} from '../pages/ExportPage'
 import {Home} from '../pages/Home'
 import {ItemsNewPage} from '../pages/ItemsNewPage'
 import {ItemsPage} from '../pages/ItemsPage'
-import {LableNew} from '../pages/LableNew'
-import {LableUpdate} from '../pages/LableUpdate'
 import {LoginPage} from '../pages/LoginPage'
 import {NotFound} from '../pages/NotFound'
 import {RemindPage} from '../pages/RemindPage'
+import {TagsEditPage} from '../pages/TagsEditPage'
+import {TagsNewPage} from '../pages/TagsNewPage'
 import {TagsPage} from '../pages/TagsPage'
 import {WelComeRoutes} from './welComeRoutes'
 
@@ -44,38 +44,24 @@ export const Router = createHashRouter([
             {
                 path: 'new',
                 element: <ItemsNewPage />
-            },
-            {
-                path: 'lablenew',
-                element: <LableNew />
-            },
-            {
-                path: 'lableupdate',
-                element: <LableUpdate />
             }
         ]
     },
-    // {
-    //     path: 'new',
-    //     element: <ItemsNewPage />,
-    //     children: [
-    //         {
-    //             path: 'lablenew',
-    //             element: <LableNew />
-    //         },
-    //         {
-    //             path: 'lableupdate',
-    //             element: <LableUpdate />
-    //         }
-    //     ]
-    // },
+    {
+        path: '/tags/new',
+        element: <TagsNewPage />
+    },
+    {
+        path: 'tags/:id',
+        element: <TagsEditPage />
+    },
     {
         path: 'lablenew',
-        element: <LableNew />
+        element: <TagsNewPage />
     },
     {
         path: 'lableupdate',
-        element: <LableUpdate />
+        element: <TagsEditPage />
     },
     {
         path: '/chart',

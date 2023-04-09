@@ -8,7 +8,8 @@
     "lint:fix": "eslint . --fix",
     "dev": "vite --host",
     "build": "tsc && vite build --base=/Hammer-Bill",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "gcm": "yarn build && git add . && git cm -v"
   },
   "dependencies": {
     "@react-spring/web": "9.7.1",

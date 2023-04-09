@@ -24,3 +24,16 @@ interface Menu {
     setVisible: (visible: boolean) => void
     setStart: (start: boolean) => void
 }
+
+interface Tag {
+    name: string
+    kind: Tags['kind']
+    sign: string
+}
+
+interface TagForm {
+    data: Tag
+    error: FormError<Tag>
+    setData: (data: Partial<Tag>) => void
+    setError: (error: Partial<FormError<Tag>>) => void
+}
