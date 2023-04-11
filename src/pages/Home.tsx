@@ -1,11 +1,11 @@
 import React from 'react'
-import {Navigate, NavLink} from 'react-router-dom'
+import { NavLink, Navigate } from 'react-router-dom'
 import styled from 'styled-components'
 import useSWR from 'swr'
-import {ajax} from '../api/ajax'
-import {AddFloutButton} from '../components/AddFloutButton'
-import {Icon} from '../components/Icon'
-import {Loading} from '../components/Loading'
+import { ajax } from '../api/ajax'
+import { AddFloutButton } from '../components/AddFloutButton'
+import { Icon } from '../components/Icon'
+import { Loading } from '../components/Loading'
 
 const Div = styled.div`
   display: flex;
@@ -30,21 +30,21 @@ const Div = styled.div`
   }
 `
 export const Home: React.FC = () => {
-    const {data: meData, error: meError} = useSWR(
-        '/api/v1/me',
-        async path => (await ajax.get<Resource<User>>(path)).data.resource
-    )
-    const {data: itemData, error: itemError} = useSWR(
-        '/api/v1/item',
-        async path => (await ajax.get<Resources<Item<Tags>, Pager>>(path)).data
-    )
-    const isLodingMe = !meData && !meError
-    const isLodingItem = isLodingMe && !itemData && !itemError
-    if (isLodingMe && isLodingItem)
-        return <Loading />
-    if (itemData?.resources[0])
-        return <Navigate to="/itemspage" />
-    return (
+  const { data: meData, error: meError } = useSWR(
+    '/api/v1/me',
+    async path => (await ajax.get<Resource<User>>(path)).data.resource
+  )
+  const { data: itemData, error: itemError } = useSWR(
+    '/api/v1/item',
+    async path => (await ajax.get<Resources<Item<Tags>, Pager>>(path)).data
+  )
+  const isLodingMe = !meData && !meError
+  const isLodingItem = isLodingMe && !itemData && !itemError
+  if (isLodingMe && isLodingItem)
+    return <Loading />
+  if (itemData?.resources[0])
+    return <Navigate to="/itemspage" />
+  return (
         <>
             <Div>
                 <Icon name="Piggybank" fill="currentColor" w="128" h="130" />
@@ -54,5 +54,5 @@ export const Home: React.FC = () => {
                 <AddFloutButton />
             </Div>
         </>
-    )
+  )
 }

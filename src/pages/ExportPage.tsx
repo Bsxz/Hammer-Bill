@@ -1,9 +1,9 @@
 import React from 'react'
 
 export const ExportPage: React.FC = () => {
-    return (
+  return (
         <>
             <div>Export</div>
         </>
-    )
+  )
 }

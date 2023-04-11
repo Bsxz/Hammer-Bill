@@ -117,14 +117,11 @@ export const StyledKeyBoard: React.FC = () => {
         }
         const _amount = amount + str
         const toFixed = _amount.split('.')
-        if ((toFixed[0]?.length + toFixed[1]?.length) > 10 || toFixed[1]?.length > 2) {
-            return
-        } else {
-            setAmount(_amount)
-        }
+        if ((toFixed[0]?.length + toFixed[1]?.length) > 10 || toFixed[1]?.length > 2) return
+        setAmount(_amount)
     }
     const submit = () => {
-        console.log(`我要提交了`)
+        console.log('我要提交了')
     }
     return (
         <>

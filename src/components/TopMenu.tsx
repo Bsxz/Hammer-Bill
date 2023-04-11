@@ -50,8 +50,7 @@ const getMe = () => {
 }
 export const TopMenu: React.FC<Props> = ({visible, setStart, onMaskVisible}) => {
     const {
-        data,
-        error
+        data
     } = useSWRInfinite(getMe, async path => (await ajax.get<Resource<User>>(path)).data)
     const menuStyles = useSpring({
         opacity: visible ? 1 : 0,
@@ -68,7 +67,8 @@ export const TopMenu: React.FC<Props> = ({visible, setStart, onMaskVisible}) => 
                         : <><h2>未登入用户</h2><NavLink to="/login">点击这里登入</NavLink></>)}
                 </Header>
                 <Footer>
-                    <li><NavLink to="/chart"><Icon w="40" h="40" name="chart" /><span>统计图表</span></NavLink></li>
+                    <li><NavLink to="/statistical"><Icon w="40" h="40" name="chart" /><span>统计图表</span></NavLink>
+                    </li>
                     <li><NavLink to="/export"><Icon w="40" h="40" name="export" /><span>导出数据</span></NavLink></li>
                     <li><NavLink to="/tags"><Icon w="40" h="40" name="custom" /><span>自定义分类</span></NavLink></li>
                     <li><NavLink to="/remind"><Icon w="40" h="40" name="remind" /><span>记账提醒</span></NavLink></li>

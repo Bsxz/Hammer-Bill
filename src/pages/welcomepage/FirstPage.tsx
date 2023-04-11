@@ -1,10 +1,10 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
-import {Icon} from '../../components/Icon'
-import {WelcomeDiv} from './WelcomeDiv'
+import { Link } from 'react-router-dom'
+import { Icon } from '../../components/Icon'
+import { WelcomeDiv } from './WelcomeDiv'
 
 export const FirstPage: React.FC = () => {
-    return (
+  return (
         <>
             <WelcomeDiv>
                 <Icon name="Piggybank" w="120" h="110" />
@@ -17,5 +17,5 @@ export const FirstPage: React.FC = () => {
                 </Link>
             </WelcomeDiv>
         </>
-    )
+  )
 }

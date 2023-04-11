@@ -1,3 +1,4 @@
+import type {EChartsOption} from 'echarts'
 import React from 'react'
 
 declare global {
@@ -68,5 +69,10 @@ declare global {
         onChange?: (value: string) => void
         // setTags?: (value: string) => void
         errorMessage?: string | string[]
+    }
+
+    interface ChartProps<T> {
+        options?: Partial<EChartsOption>
+        data: T
     }
 }

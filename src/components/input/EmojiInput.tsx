@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import {emojis} from '../../lib/emoji'
+import { emojis } from '../../lib/emoji'
 
 const EmojiBox = styled.div`
   flex-grow: 1;
@@ -52,38 +52,39 @@ const EmojiBox = styled.div`
   }
 `
 export const EmojiInput: React.FC<InputProps> = (props) => {
-    const {lable, onChange, errorMessage} = props
-    const [select, setSelect] = useState('表情')
-    const [emoji, setEmoji] = useState(emojis.filter(({name}) => name === select)[0].chars[0])
-    useEffect(() => {
-        onChange?.(emoji)
-    }, [])
-    return (
+  const { lable, onChange, errorMessage } = props
+  const [select, setSelect] = useState('表情')
+  const [emoji, setEmoji] = useState(emojis.filter(({ name }) => name === select)[0].chars[0])
+  useEffect(() => {
+    onChange?.(emoji)
+  }, [])
+  return (
         <div>
             <span>{lable}</span>
             <EmojiBox>
                 <ol>
-                    {emojis.map(({name}) => <li key={name}
+                    {emojis.map(({ name }) => <li key={name}
                                                 onClick={(e: any) => {
-                                                    setEmoji(emojis.filter(({name}) => name === e.target.innerHTML)[0].chars[0])
-                                                    onChange?.(emojis.filter(({name}) => name === e.target.innerHTML)[0].chars[0])
-                                                    setSelect(name)
+                                                  setEmoji(emojis.filter(({ name }) => name === e.target.innerHTML)[0].chars[0])
+                                                  onChange?.(emojis.filter(({ name }) => name === e.target.innerHTML)[0].chars[0])
+                                                  setSelect(name)
                                                 }}
-                                                style={{color: name === select ? '#000' : '#999'}}>{name}</li>)}
+                                                style={{ color: name === select ? '#000' : '#999' }}>{name}</li>)}
                 </ol>
-                {emojis.map(({name, chars}) => (name === select ?
-                    <div key={name}>{chars.map((v) =>
-                        <div key={v} style={{backgroundColor: emoji === v ? 'rgba(0,0,0,.1)' : 'transparent'}}>
+                {emojis.map(({ name, chars }) => (name === select
+                  ? <div key={name}>{chars.map(v =>
+                        <div key={v} style={{ backgroundColor: emoji === v ? 'rgba(0,0,0,.1)' : 'transparent' }}>
                             <span onClick={() => {
-                                setEmoji(v)
-                                onChange?.(v)
+                              setEmoji(v)
+                              onChange?.(v)
                             }}>{v}</span>
                         </div>
-                    )}
-                    </div> : null)
+                  )}
+                    </div>
+                  : null)
                 )}
             </EmojiBox>
             <span className="error">{errorMessage}</span>
         </div>
-    )
+  )
 }

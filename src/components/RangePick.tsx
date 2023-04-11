@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import type {Selected} from '../stores/useSelectStore'
+import type { Selected } from '../stores/useSelectStore'
 
 const Ol = styled.ol`
   display: flex;
@@ -16,13 +16,13 @@ const Ol = styled.ol`
   }
 `
 export const RangePick = <T extends string>(props: Partial<Selected<T>>) => {
-    const {ranges, select, onChange} = props
-    return (
+  const { ranges, select, onChange } = props
+  return (
         <Ol>
             {ranges?.map(k => <li key={k.key}
-                                  style={k.key === select ? {borderColor: '#a8bf8f'} : {borderColor: 'transparent'}}
+                                  style={k.key === select ? { borderColor: '#a8bf8f' } : { borderColor: 'transparent' }}
                                   onClick={e => onChange?.(k.key)}>
                 {k.text}</li>)}
         </Ol>
-    )
+  )
 }

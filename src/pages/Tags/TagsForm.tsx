@@ -1,4 +1,5 @@
-import React, {FormEventHandler, useEffect, useState} from 'react'
+import type {FormEventHandler} from 'react'
+import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
 import {Input} from '../../components/Input'
 import {usePopup} from '../../hooks/usePopup'
@@ -24,7 +25,6 @@ const Form = styled.form`
   div:nth-of-type(2) {
     flex-grow: 1;
     flex-shrink: 1;
-    margin-top: 10px;
   }
 
   > div {
@@ -33,6 +33,10 @@ const Form = styled.form`
     display: flex;
     flex-direction: column;
     row-gap: 8px;
+
+    > span {
+      margin-top: 10px;
+    }
 
     &:nth-last-child(2) {
       flex-grow: 1;
@@ -77,6 +81,10 @@ export const TagsForm: React.FC<Props> = ({text, btntitle, kind}) => {
     const {popup, toggle} = usePopup()
     useEffect(() => {
         setData({kind})
+        return () => {
+            setData({name: '', kind: 'expenses', sign: ''})
+            setError({name: [], kind: [], sign: []})
+        }
     }, [])
     const submit: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault()
@@ -92,7 +100,7 @@ export const TagsForm: React.FC<Props> = ({text, btntitle, kind}) => {
         setError(newError)
         if (!hasError(newError)) {
             // 发送请求
-            console.log(`没有错误可以发送请求`)
+            console.log('没有错误可以发送请求')
         }
     }
     return (
@@ -108,7 +116,8 @@ export const TagsForm: React.FC<Props> = ({text, btntitle, kind}) => {
                     setOnstart(time().seconds)
                 }}
                       onTouchEnd={() => {
-                          if (time().seconds - onStart >= 3 && time().seconds - onStart <= 8) toggle()
+                          if (time().seconds - onStart >= 3 && time().seconds - onStart <= 8)
+                              toggle()
                       }}
                 >{text}</span>
                 <Button>{btntitle}</Button>

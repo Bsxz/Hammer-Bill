@@ -1,9 +1,10 @@
-import React, {ReactNode} from 'react'
+import type { ReactNode } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 interface Props {
-    title: string
-    icon: ReactNode
+  title: string
+  icon: ReactNode
 }
 
 const Div = styled.div`
@@ -24,11 +25,11 @@ const Div = styled.div`
     margin-left: 20px;
   }
 `
-export const TopNav: React.FC<Props> = ({title, icon}) => {
-    return (
+export const TopNav: React.FC<Props> = ({ title, icon }) => {
+  return (
         <Div>
             <div>{icon}</div>
             <span>{title}</span>
         </Div>
-    )
+  )
 }

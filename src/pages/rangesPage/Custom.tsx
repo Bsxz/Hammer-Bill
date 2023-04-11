@@ -1,9 +1,9 @@
 import React from 'react'
 
 export const Custom: React.FC = () => {
-    return (
+  return (
         <>
             <div>custom</div>
         </>
-    )
+  )
 }

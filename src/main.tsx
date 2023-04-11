@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import {RouterProvider} from 'react-router-dom'
+import { RouterProvider } from 'react-router-dom'
 import vhCheck from 'vh-check'
 import 'virtual:svgsprites'
-import './global.css'
-import {Router} from './routes'
+import './global.scss'
+import { Router } from './routes'
 
 const test = vhCheck()
 const root = document.getElementById('root') as HTMLElement

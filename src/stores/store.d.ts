@@ -37,3 +37,28 @@ interface TagForm {
     setData: (data: Partial<Tag>) => void
     setError: (error: Partial<FormError<Tag>>) => void
 }
+
+interface Bar {
+    key: string
+    sign: Tags['sign']
+    value: number
+    amount?: string
+    bgColor?: string
+}
+
+interface Line {
+    x: string[],
+    y: number[]
+}
+
+interface Pie {
+    name: string,
+    value: number
+}
+
+interface Chart {
+    line: Line,
+    pie: Pie[],
+    bar: Bar[]
+    setBar: (v: Bar[]) => void
+}

@@ -1,9 +1,9 @@
 import React from 'react'
 
 export const ThisYear: React.FC = () => {
-    return (
+  return (
         <>
             <div>thisYear</div>
         </>
-    )
+  )
 }

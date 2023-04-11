@@ -1,7 +1,7 @@
 import React from 'react'
 
-export const CodeInput: React.FC<InputProps> = (props) =>
-    (
+export const CodeInput: React.FC<InputProps> = props =>
+  (
         <div>
             <span>{props.lable}</span>
             <div>
@@ -11,4 +11,4 @@ export const CodeInput: React.FC<InputProps> = (props) =>
             </div>
             <span>{props.errorMessage || ''}</span>
         </div>
-    )
+  )

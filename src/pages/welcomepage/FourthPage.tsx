@@ -1,19 +1,19 @@
-import React, {useEffect} from 'react'
-import {Link, useNavigate} from 'react-router-dom'
-import {Icon} from '../../components/Icon'
-import {useLocalStore} from '../../stores/useLocalStore'
-import {WelcomeDiv} from './WelcomeDiv'
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Icon } from '../../components/Icon'
+import { useLocalStore } from '../../stores/useLocalStore'
+import { WelcomeDiv } from './WelcomeDiv'
 
 export const FourthPage: React.FC = () => {
-    const {setHasReadWelcome} = useLocalStore()
-    const nav = useNavigate()
-    useEffect(() => {
-        return () => {
-            nav('/home')
-            setHasReadWelcome(true)
-        }
-    })
-    return (
+  const { setHasReadWelcome } = useLocalStore()
+  const nav = useNavigate()
+  useEffect(() => {
+    return () => {
+      nav('/home')
+      setHasReadWelcome(true)
+    }
+  })
+  return (
         <>
             <WelcomeDiv>
                 <Icon name="cloud" w="120" h="110" />
@@ -27,5 +27,5 @@ export const FourthPage: React.FC = () => {
                 </Link>
             </WelcomeDiv>
         </>
-    )
+  )
 }

@@ -35,7 +35,7 @@ const Main = styled.main`
   }
 `
 export const WelComeLayout: React.FC = () => {
-    const {setHasReadWelcome, hasReadWelcome} = useLocalStore()
+    const {setHasReadWelcome} = useLocalStore()
     const map = useRef<Record<string, ReactNode>>({})
     const animating = useRef(false)
     const index = useRef<number>(0)
@@ -107,8 +107,9 @@ export const WelComeLayout: React.FC = () => {
                         })}
                     </div>
                 </Main>
-                {routerChild.indexOf(location.pathname) === routerChild.length - 1 ? null :
-                    <FloatBtn onClick={skip}>跳过</FloatBtn>}
+                {routerChild.indexOf(location.pathname) === routerChild.length - 1
+                    ? null
+                    : <FloatBtn onClick={skip}>跳过</FloatBtn>}
             </WelCome>
         </>
     )

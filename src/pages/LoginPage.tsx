@@ -1,4 +1,5 @@
-import React, {FormEventHandler} from 'react'
+import type {FormEventHandler} from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import {ajax} from '../api/ajax'
 import {Header} from '../components/Header'
@@ -8,16 +9,14 @@ import {StyledGradient} from '../components/StyledGradient'
 import {TopNav} from '../components/TopNav'
 import {hasError, validate} from '../lib/validata'
 import {useLoginStore} from '../stores/useLoginStore'
-
-interface FromData {
-    data: Data
-}
-
-interface Data {
-    email: string
-    code: string
-}
-
+// interface FromData {
+//   data: Data
+// }
+//
+// interface Data {
+//   email: string
+//   code: string
+// }
 const Form = styled.form`
   display: flex;
   flex-direction: column;

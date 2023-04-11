@@ -1,7 +1,7 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import {Icon} from '../../components/Icon'
+import { Icon } from '../../components/Icon'
 
 const Div = styled.div`
   flex-grow: 1;
@@ -43,13 +43,13 @@ const Div = styled.div`
   }
 `
 export const Spending: React.FC = () => {
-    return (
+  return (
         <Div>
             <ol>
                 <li>
                     <Link to="/tags/new?kind=expenses"><Icon name="add" w="32" h="32" fill={'var(--bgcolor1)'} /></Link>
                 </li>
-                {Array.from({length: 40}).map((v, i) =>
+                {Array.from({ length: 40 }).map((v, i) =>
                     <li key={i}>
                         <Icon name="flight" w="32" h="32" />
                         <span>打车</span>
@@ -57,5 +57,5 @@ export const Spending: React.FC = () => {
                 )}
             </ol>
         </Div>
-    )
+  )
 }
