@@ -56,9 +56,15 @@ interface Pie {
     value: number
 }
 
-interface Chart {
+interface ChartData {
     line: Line,
     pie: Pie[],
-    bar: Bar[]
-    setBar: (v: Bar[]) => void
+    bar: Bar[],
+}
+
+interface Chart {
+    spending: ChartData
+    income: ChartData
+    barColors: string[]
+    setBarColors: (v: ChartData['barColors']) => void
 }
