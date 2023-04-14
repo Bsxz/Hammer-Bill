@@ -66,7 +66,10 @@ declare global {
         type?: 'text' | 'code' | 'emoji'
         placeholder?: string
         value?: string
+        startCount?: boolean
+        setStartCount?: (value: boolean) => void
         onChange?: (value: string) => void
+        requst?: () => void
         // setTags?: (value: string) => void
         errorMessage?: string | string[]
     }

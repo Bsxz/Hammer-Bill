@@ -1,5 +1,5 @@
 import type {FormEventHandler} from 'react'
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components'
 import {ajax} from '../api/ajax'
 import {Header} from '../components/Header'
@@ -9,14 +9,7 @@ import {StyledGradient} from '../components/StyledGradient'
 import {TopNav} from '../components/TopNav'
 import {hasError, validate} from '../lib/validata'
 import {useLoginStore} from '../stores/useLoginStore'
-// interface FromData {
-//   data: Data
-// }
-//
-// interface Data {
-//   email: string
-//   code: string
-// }
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -54,11 +47,6 @@ const Form = styled.form`
       color: #fff;
       background-color: var(--bgcolor2);
 
-      &:after {
-        display: inline-block;
-        content: '登入';
-      }
-
       &:active {
         &:after {
           transform: translateY(1px);
@@ -77,18 +65,37 @@ const Form = styled.form`
 
       button {
         flex-grow: 1;
-
-        &:after {
-          content: '发送验证码';
-        }
       }
     }
   }
 `
 export const LoginPage: React.FC = () => {
     const {data, error, setData, setError} = useLoginStore()
+    const [startCount, setStartCount] = useState(false)
     const submit: FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault()
+        const newError = validate(data, [
+            {
+                key: 'code',
+                type: 'required',
+                message: '请输入验证码'
+            },
+            {
+                key: 'code',
+                type: 'length',
+                max: 6,
+                message: '验证码错误'
+            }
+        ])
+        setError(newError)
+        if (!hasError(newError)) {
+            const {data: {jwt}} = await ajax.post<{ jwt: string }>('https://mangosteen2.hunger-valley.com/api/v1/session', data).catch(error => {
+                throw new Error(error)
+            })
+            window.localStorage.setItem('jwt', jwt)
+        }
+    }
+    const sendCode = async () => {
         const newError = validate(data, [
             {
                 key: 'email',
@@ -100,25 +107,11 @@ export const LoginPage: React.FC = () => {
                 type: 'pattern',
                 regex: /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
                 message: '邮箱地址格式不正确'
-            },
-            {
-                key: 'code',
-                type: 'required',
-                message: '请输入验证码'
-            },
-            {
-                key: 'code',
-                type: 'length',
-                max: 6,
-                min: 6,
-                message: '验证码错误'
-            }
-        ])
+            }])
         setError(newError)
-        if (!hasError(newError)) {
-            const a = (await ajax.post('/api/v1/session', data))
-            console.log(a)
-        }
+        if (hasError(newError)) return
+        const {status} = await ajax.post('https://mangosteen2.hunger-valley.com/api/v1/validation_codes', data)
+        if (status === 200) setStartCount(true)
     }
     return (
         <>
@@ -132,10 +125,11 @@ export const LoginPage: React.FC = () => {
                 <Input lable="邮箱地址" placeholder="请输入邮箱，然后点击发送验证码" value={data.email}
                        onChange={value => setData({email: value})} errorMessage={error.email} />
                 <Input lable="验证码" type="code" placeholder="请输入验证码" value={data.code}
+                       requst={sendCode} startCount={startCount} setStartCount={setStartCount}
                        onChange={value => value.length <= 6 && setData({code: value})}
                        errorMessage={error.code} />
                 <div>
-                    <button type="submit"></button>
+                    <button type="submit">登入</button>
                 </div>
             </Form>
         </>
