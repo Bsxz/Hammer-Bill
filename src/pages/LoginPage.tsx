@@ -1,7 +1,8 @@
 import type {FormEventHandler} from 'react'
 import React, {useState} from 'react'
+import {useNavigate} from 'react-router-dom'
 import styled from 'styled-components'
-import {ajax} from '../api/ajax'
+import {useAjax} from '../api/ajax'
 import {Header} from '../components/Header'
 import {Icon} from '../components/Icon'
 import {Input} from '../components/Input'
@@ -70,8 +71,10 @@ const Form = styled.form`
   }
 `
 export const LoginPage: React.FC = () => {
+    const {post} = useAjax()
     const {data, error, setData, setError} = useLoginStore()
     const [startCount, setStartCount] = useState(false)
+    const nav = useNavigate()
     const submit: FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault()
         const newError = validate(data, [
@@ -89,10 +92,11 @@ export const LoginPage: React.FC = () => {
         ])
         setError(newError)
         if (!hasError(newError)) {
-            const {data: {jwt}} = await ajax.post<{ jwt: string }>('https://mangosteen2.hunger-valley.com/api/v1/session', data).catch(error => {
+            const {data: {jwt}} = await post<{ jwt: string }>('https://mangosteen2.hunger-valley.com/api/v1/session', data).catch(error => {
                 throw new Error(error)
             })
             window.localStorage.setItem('jwt', jwt)
+            nav('/home')
         }
     }
     const sendCode = async () => {
@@ -110,7 +114,7 @@ export const LoginPage: React.FC = () => {
             }])
         setError(newError)
         if (hasError(newError)) return
-        const {status} = await ajax.post('https://mangosteen2.hunger-valley.com/api/v1/validation_codes', data)
+        const {status} = await post('https://mangosteen2.hunger-valley.com/api/v1/validation_codes', data)
         if (status === 200) setStartCount(true)
     }
     return (

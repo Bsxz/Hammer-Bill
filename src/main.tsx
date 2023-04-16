@@ -1,16 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { RouterProvider } from 'react-router-dom'
-import vhCheck from 'vh-check'
-import 'virtual:svgsprites'
-import './global.scss'
-import { Router } from './routes'
+import {App} from './App'
 
-const test = vhCheck()
 const root = document.getElementById('root') as HTMLElement
-const app = ReactDOM.createRoot(root)
-app.render(
+ReactDOM.createRoot(root).render(
     <React.StrictMode>
-        <RouterProvider router={Router} />
+        <App />
     </React.StrictMode>
 )

@@ -1,10 +1,10 @@
-import { animated, useSpring } from '@react-spring/web'
-import React, { useState } from 'react'
+import {animated, useSpring} from '@react-spring/web'
+import React, {useState} from 'react'
 import styled from 'styled-components'
-import { time } from '../lib/time'
-import { useMenuStore } from '../stores/useMenuStore'
-import { Mask } from './Mask'
-import { StyledGradient } from './StyledGradient'
+import {time} from '../lib/time'
+import {useMenuStore} from '../stores/useMenuStore'
+import {Mask} from './Mask'
+import {StyledGradient} from './StyledGradient'
 
 const Div = styled(animated.div)`
   position: absolute;
@@ -48,64 +48,62 @@ const Div = styled(animated.div)`
     }
   }
 `
-
-interface Props {
-  visible: boolean
-  toggle: () => void
+type Props = {
+    visible: boolean
+    toggle: () => void
 }
-
-export const Popup: React.FC<Props> = ({ visible, toggle }) => {
-  const [popupVisible, setPopupVisible] = useState(visible)
-  const [startTime, setStartTime] = useState(time().add(-3, 'month').format())
-  const [endTime, setEndTime] = useState(time().format())
-  const { start, setStart } = useMenuStore()
-  const popupStyles = useSpring({
-    opacity: visible ? 1 : 0,
-    config: { duration: 300 },
-    onStart: ({ value }) => {
-      setStart(true)
-      if (value.opacity < 0.1)
-        setPopupVisible(true)
-    },
-    onRest: ({ value }) => {
-      setStart(false)
-      if (value.opacity < 0.1)
-        setPopupVisible(false)
-    }
-  })
-  return (
+export const Popup: React.FC<Props> = ({visible, toggle}) => {
+    const [popupVisible, setPopupVisible] = useState(visible)
+    const [startTime, setStartTime] = useState(time().add(-3, 'month').format())
+    const [endTime, setEndTime] = useState(time().format())
+    const {start, setStart} = useMenuStore()
+    const popupStyles = useSpring({
+        opacity: visible ? 1 : 0,
+        config: {duration: 300},
+        onStart: ({value}) => {
+            setStart(true)
+            if (value.opacity < 0.1)
+                setPopupVisible(true)
+        },
+        onRest: ({value}) => {
+            setStart(false)
+            if (value.opacity < 0.1)
+                setPopupVisible(false)
+        }
+    })
+    return (
         <>
             <Mask visible={visible} setStart={setStart} duration={300} onMaskVisible={() => {
-              if (!start)
-                toggle()
+                if (!start)
+                    toggle()
             }} />
-            <Div style={{ ...popupStyles, visibility: (popupVisible ? 'visible' : 'hidden') }}>
+            <Div style={{...popupStyles, visibility: (popupVisible ? 'visible' : 'hidden')}}>
                 <StyledGradient>
                     请选择时间
                 </StyledGradient>
                 <div>
                     <span>开始时间</span>
-                    <input type="date" value={startTime} onChange={({ target }) => {
-                      if (target.value > endTime)
-                        return
-                      setStartTime(target.value)
+                    <input type="date" value={startTime} onChange={({target}) => {
+                        if (target.value > endTime)
+                            return
+                        setStartTime(target.value)
                     }} />
                 </div>
                 <div>
                     <span>结束时间</span>
-                    <input type="date" value={endTime} onChange={({ target }) => {
-                      setEndTime(target.value)
+                    <input type="date" value={endTime} onChange={({target}) => {
+                        setEndTime(target.value)
                     }} />
                 </div>
                 <div>
                     <span onClick={() => {
-                      if (!start)
-                        toggle()
+                        if (!start)
+                            toggle()
                     }}>取消</span>
                     <span onClick={() => {
                     }}>确定</span>
                 </div>
             </Div>
         </>
-  )
+    )
 }

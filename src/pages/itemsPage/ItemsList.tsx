@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import useSWRInfinite from 'swr/infinite'
-import { ajax } from '../../api/ajax'
+import {useAjax} from '../../api/ajax'
 
 const Ol = styled.ol`
   li {
@@ -59,42 +59,41 @@ const Div = styled.div`
   }
 `
 const getItem = (pageIndex: number, prev: Resources<Item<Tags>, Pager>) => {
-  if (prev) {
-    const sendCount = (prev.pager.page + 1) * prev.pager.per_page
-    if (sendCount > prev.pager.count)
-      return null
-  }
-  return `/api/v1/item?page=${pageIndex + 1}`
+    if (prev) {
+        const sendCount = (prev.pager.page + 1) * prev.pager.per_page
+        if (sendCount > prev.pager.count)
+            return null
+    }
+    return `/api/v1/item?page=${pageIndex + 1}`
 }
 export const ItemsList: React.FC = () => {
-  const {
-    data,
-    error,
-    size,
-    setSize,
-    isLoading,
-    isValidating
-  } = useSWRInfinite(getItem,
-    async path => (await ajax.get<Resources<Item<Tags>, Pager>>(path)).data,
-    { revalidateFirstPage: false })
-  const onLoadMore = () => {
-    setSize(size + 1)
-  }
-  if (!data) {
-    return <>
+    const {get} = useAjax()
+    const {
+        data,
+        error,
+        size,
+        setSize,
+        isLoading,
+        isValidating
+    } = useSWRInfinite(getItem,
+        async path => (await get<Resources<Item<Tags>, Pager>>(path)).data,
+        {revalidateFirstPage: false})
+    const onLoadMore = () => {
+        setSize(size + 1)
+    }
+    if (!data) {
+        return <>
             {isLoading ? <Div>正在加载</Div> : null}
             {error ? <Div>数据加载出错请重试</Div> : null}
         </>
-  }
-  else {
-    let hasMore
-    if (data[size - 1])
-      hasMore = size * data[size - 1].pager.per_page >= data[size - 1].pager.count
-
-    return (<>
+    } else {
+        let hasMore
+        if (data[size - 1])
+            hasMore = size * data[size - 1].pager.per_page >= data[size - 1].pager.count
+        return (<>
                 <Ol>
-                    {data.map(({ resources }) => {
-                      return resources.map(item =>
+                    {data.map(({resources}) => {
+                        return resources.map(item =>
                             <li key={item.id}>
                                 <div>
                                     {item.tags[0].sign}
@@ -109,13 +108,13 @@ export const ItemsList: React.FC = () => {
                 </Ol>
                 {error ? <Div>数据加载出错请重试</Div> : null}
                 {isValidating
-                  ? <Div>正在加载数据</Div>
-                  : <Div>{hasMore
-                    ? <span>没有更多数据了</span>
-                    : <button onClick={onLoadMore}>加载更多</button>}
+                    ? <Div>正在加载数据</Div>
+                    : <Div>{hasMore
+                        ? <span>没有更多数据了</span>
+                        : <button onClick={onLoadMore}>加载更多</button>}
                     </Div>
                 }
             </>
-    )
-  }
+        )
+    }
 }
