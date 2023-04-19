@@ -1,9 +1,9 @@
 import type {EChartsOption} from 'echarts'
-import React from 'react'
+import React, {ReactNode} from 'react'
 
 declare global {
     var isDev: boolean
-    type JSONValue = string | number | boolean | null | { [k: string]: JSONValue } | JSONValue[]
+    type JSONValue = string | number | boolean | null | { [k: string]: JSONValue } | JSONValue[] | Item
 
     interface Resource<T> {
         resource: T
@@ -57,6 +57,7 @@ declare global {
         onMaskVisible: (e: React.MouseEvent) => void
         visible: boolean
         setStart: (start: boolean) => void
+        children?: ReactNode
         top?: string
         duration?: number
     }

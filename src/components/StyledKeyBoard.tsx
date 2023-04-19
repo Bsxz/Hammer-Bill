@@ -1,7 +1,8 @@
-import React, {useState} from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import {usePopup} from '../hooks/usePopup'
 import {time} from '../lib/time'
+import {useCreateItemStore} from '../stores/useCreateItemStore'
 import {Icon} from './Icon'
 
 const KeyBoard = styled.div`
@@ -22,7 +23,7 @@ const KeyBoard = styled.div`
   padding-top: 1px;
   gap: 1px;
 
-  > div {
+  > div, > button {
     font-size: 20px;
     display: flex;
     width: 100%;
@@ -109,19 +110,22 @@ const Left = styled.div`
 `
 export const StyledKeyBoard: React.FC = () => {
     const {popup, toggle} = usePopup()
-    const [amount, setAmount] = useState('')
+    const {data, setData} = useCreateItemStore()
     const add = (str: string) => {
         if (str === '') {
-            setAmount('')
+            setData({amount: 0})
             return
         }
-        const _amount = amount + str
+        if (str === '0' && data.amount === 0) {
+            return
+        }
+        if (str === '.' && data.amount === 0 && data.amount.toString().includes(str)) {
+            return
+        }
+        const _amount = data.amount != 0 ? data.amount + str : str
         const toFixed = _amount.split('.')
         if ((toFixed[0]?.length + toFixed[1]?.length) > 10 || toFixed[1]?.length > 2) return
-        setAmount(_amount)
-    }
-    const submit = () => {
-        console.log('我要提交了')
+        setData({amount: _amount})
     }
     return (
         <>
@@ -130,23 +134,23 @@ export const StyledKeyBoard: React.FC = () => {
                 <div className="div14">
                     <Left onClick={toggle}>
                         <Icon name="calendar" w="24" h="24" />
-                        <span>{time().format()}</span>
+                        <span>{time(data.happen_at).format()}</span>
                     </Left>
-                    <span>{Number(amount)}</span>
+                    <span>{data.amount}</span>
                 </div>
-                <div className="div1" onClick={() => add('1')}>1</div>
-                <div className="div2" onClick={() => add('2')}>2</div>
-                <div className="div3" onClick={() => add('3')}>3</div>
-                <div className="div4" onClick={() => add('')}>清空</div>
-                <div className="div5" onClick={() => add('4')}>4</div>
-                <div className="div6" onClick={() => add('5')}>5</div>
-                <div className="div7" onClick={() => add('6')}>6</div>
-                <div className="div8" onClick={() => add('7')}>7</div>
-                <div className="div9" onClick={() => add('8')}>8</div>
-                <div className="div10" onClick={() => add('9')}>9</div>
-                <div className="div11" onClick={submit}>提交</div>
-                <div className="div12" onClick={() => add('0')}>0</div>
-                <div className="div13" onClick={() => add('.')}>.</div>
+                <button type="button" className="div1" onClick={() => add('1')}>1</button>
+                <button type="button" className="div2" onClick={() => add('2')}>2</button>
+                <button type="button" className="div3" onClick={() => add('3')}>3</button>
+                <button type="button" className="div4" onClick={() => add('')}>清空</button>
+                <button type="button" className="div5" onClick={() => add('4')}>4</button>
+                <button type="button" className="div6" onClick={() => add('5')}>5</button>
+                <button type="button" className="div7" onClick={() => add('6')}>6</button>
+                <button type="button" className="div8" onClick={() => add('7')}>7</button>
+                <button type="button" className="div9" onClick={() => add('8')}>8</button>
+                <button type="button" className="div10" onClick={() => add('9')}>9</button>
+                <button type="submit" className="div11">提交</button>
+                <button type="button" className="div12" onClick={() => add('0')}>0</button>
+                <button type="button" className="div13" onClick={() => add('.')}>.</button>
             </KeyBoard>
         </>
     )
