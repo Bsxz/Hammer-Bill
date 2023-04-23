@@ -23,7 +23,7 @@ export const mockMe: MockMethod = {
     url: '/api/v1/me',
     method: 'get',
     timeout: 10,
-    statusCode: 401,
+    statusCode: 200,
     response: (): Resource<User> => {
         return createResourece()
     }

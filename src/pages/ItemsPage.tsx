@@ -3,6 +3,7 @@ import {AddFloutButton} from '../components/AddFloutButton'
 import {Icon} from '../components/Icon'
 import {RangePick} from '../components/RangePick'
 import {StyledGradient} from '../components/StyledGradient'
+import {TopMenu} from '../components/TopMenu'
 import {TopNav} from '../components/TopNav'
 import {useMenuStore} from '../stores/useMenuStore'
 import type {Range, Ranges} from '../stores/useSelectStore'
@@ -20,7 +21,7 @@ const ranges: Ranges<Range> = [
 ]
 export const ItemsPage: React.FC = () => {
     const {select, onChange} = useSelectStore()
-    const {visible, start, setVisible} = useMenuStore()
+    const {visible, start, setVisible, setStart} = useMenuStore()
     return (
         <>
             <StyledGradient>
@@ -32,6 +33,10 @@ export const ItemsPage: React.FC = () => {
                 } />
                 <RangePick tabs={ranges} select={select} onClick={onChange} />
             </StyledGradient>
+            <TopMenu onMaskVisible={() => {
+                if (!start)
+                    setVisible(!visible)
+            }} visible={visible} setStart={setStart} />
             <div>
                 {ranges ? ranges.filter(v => v.key === select)[0].element : null}
             </div>

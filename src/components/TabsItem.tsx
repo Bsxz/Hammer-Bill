@@ -3,6 +3,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import styled from 'styled-components'
 import {Item} from '../stores/useCreateItemStore'
+import {useTags} from '../stores/useTags'
 import {Icon} from './Icon'
 
 type TabsItem = {
@@ -49,6 +50,8 @@ const Div = styled.div`
   }
 `
 export const TabsItem: React.FC<TabsItem> = ({data, setData}) => {
+    const {expensesTags, incomeTags} = useTags()
+    const tags = data.kind === 'expenses' ? expensesTags : incomeTags
     return (
         <Div>
             <ol>
@@ -56,10 +59,10 @@ export const TabsItem: React.FC<TabsItem> = ({data, setData}) => {
                     <Link to={`/tags/new?kind=${data.kind}`}><Icon name="add" w="32" h="32"
                                                                    fill={'var(--bgcolor1)'} /></Link>
                 </li>
-                {Array.from({length: 40}).map((v, i) =>
-                    <li key={i}>
-                        <Icon name="flight" w="32" h="32" onClick={() => setData({tag_ids: [i]})} />
-                        <span>打车</span>
+                {tags.map((v, i) =>
+                    <li key={i} onClick={() => setData({tag_ids: [i]})}>
+                        {v.sign}
+                        <span>{v.name}</span>
                     </li>
                 )}
             </ol>

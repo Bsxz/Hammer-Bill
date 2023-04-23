@@ -7,6 +7,7 @@ import {PieChart} from './PieChart'
 
 interface Props {
     data: ChartData
+    isStart: boolean
 }
 
 const StyleSpend = styled.div`

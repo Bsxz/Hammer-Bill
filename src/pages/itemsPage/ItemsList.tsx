@@ -58,7 +58,7 @@ const Div = styled.div`
     background-color: #779649;
   }
 `
-const getItem = (pageIndex: number, prev: Resources<Item<Tags>, Pager>) => {
+const getItem = (pageIndex: number, prev: Resources<Item>) => {
     if (prev) {
         const sendCount = (prev.pager.page + 1) * prev.pager.per_page
         if (sendCount > prev.pager.count)
@@ -76,8 +76,9 @@ export const ItemsList: React.FC = () => {
         isLoading,
         isValidating
     } = useSWRInfinite(getItem,
-        async path => (await get<Resources<Item<Tags>, Pager>>(path)).data,
+        async path => (await get<Resources<Item>>(path)).data,
         {revalidateFirstPage: false})
+    // console.log(data)
     const onLoadMore = () => {
         setSize(size + 1)
     }
@@ -111,7 +112,8 @@ export const ItemsList: React.FC = () => {
                     ? <Div>正在加载数据</Div>
                     : <Div>{hasMore
                         ? <span>没有更多数据了</span>
-                        : <button onClick={onLoadMore}>加载更多</button>}
+                        : data[0].resources.length > 0 ? <button onClick={onLoadMore}>加载更多</button> :
+                            <span>没有记账</span>}
                     </Div>
                 }
             </>

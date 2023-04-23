@@ -26,7 +26,7 @@ export const StatisticalPage: React.FC = () => {
                 <TopNav title="统计图表" icon={
                     <Icon name="back" w="42" h="42" y="-4" onClick={() => nav(-1)} />
                 } />
-                <RangePick select={select} onSelect={onChange} tabs={ranges} />
+                <RangePick select={select} onClick={onChange} tabs={ranges} />
             </StyledGradient>
             <div>
                 {ranges ? ranges.filter(v => v.key === select)[0].element : null}

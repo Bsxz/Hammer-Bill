@@ -1,7 +1,8 @@
 import {Partial} from '@react-spring/web'
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components'
-import {Item} from '../stores/useCreateItemStore'
+import {time} from '../lib/time'
+import {Item, useCreateItemStore} from '../stores/useCreateItemStore'
 import {Range, Ranges} from '../stores/useSelectStore'
 
 type Props = {
@@ -10,7 +11,6 @@ type Props = {
     data?: Partial<Item>
     onClick?: (v: Range) => void
     onChange?: (v: Partial<Item>) => void
-    onSelect?: (select: Range) => void
 }
 const Ol = styled.ol`
   display: flex;
@@ -26,6 +26,16 @@ const Ol = styled.ol`
   }
 `
 export const RangePick: React.FC<Props> = ({tabs, select, data, onChange, onClick}) => {
+    const {setData} = useCreateItemStore()
+    useEffect(() => {
+        setData({
+                kind: select,
+                tag_ids: [],
+                happen_at: time().date,
+                amount: 0
+            }
+        )
+    }, [select])
     return (
         <Ol>
             {tabs?.map(k => <li key={k.key}

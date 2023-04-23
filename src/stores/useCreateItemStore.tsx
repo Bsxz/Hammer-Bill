@@ -9,7 +9,7 @@ export type Item = {
     happen_at: string | Date
     tag_ids: number[]
 }
-type CreateItem = {
+export type CreateItem = {
     data: Item
     error: FormError<Item>
     setData: (v: Partial<Item>) => void

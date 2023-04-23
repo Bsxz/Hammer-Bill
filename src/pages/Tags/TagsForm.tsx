@@ -6,6 +6,7 @@ import {usePopup} from '../../hooks/usePopup'
 import {time} from '../../lib/time'
 import {hasError, validate} from '../../lib/validata'
 import {useTagFormStore} from '../../stores/useTagFormStore'
+import {useTags} from '../../stores/useTags'
 
 const Form = styled.form`
   flex-grow: 1;
@@ -77,6 +78,9 @@ interface Props {
 
 export const TagsForm: React.FC<Props> = ({text, btntitle, kind}) => {
     const {data, error, setError, setData} = useTagFormStore()
+    const {expensesTags, incomeTags, setExpensesTags, setIncomeTags} = useTags()
+    const tags = kind === 'expenses' ? expensesTags : incomeTags
+    const setTags = kind === 'expenses' ? setExpensesTags : setIncomeTags
     const [onStart, setOnstart] = useState(0)
     const {popup, toggle} = usePopup()
     useEffect(() => {
@@ -99,6 +103,9 @@ export const TagsForm: React.FC<Props> = ({text, btntitle, kind}) => {
         )
         setError(newError)
         if (!hasError(newError)) {
+            const newTags = tags
+            newTags.push(data)
+            setTags(newTags)
             // 发送请求
             console.log('没有错误可以发送请求')
         }

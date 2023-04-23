@@ -1,6 +1,5 @@
-import {AxiosError} from 'axios'
 import React from 'react'
-import {Navigate, NavLink, useNavigate} from 'react-router-dom'
+import {Navigate, NavLink} from 'react-router-dom'
 import styled from 'styled-components'
 import useSWR from 'swr'
 import {useAjax} from '../api/ajax'
@@ -31,19 +30,11 @@ const Div = styled.div`
   }
 `
 export const Home: React.FC = () => {
-    const nav = useNavigate()
     const {get} = useAjax()
-    const onError = (error: AxiosError) => {
-        if (error.response && error.response.status === 401) {
-            nav('/login')
-        }
-    }
-    const {data: meData, error: meError} = useSWR(
-        'https://mangosteen2.hunger-valley.com/api/v1/me',
-        async path => await get<Resource<User>>(path).catch(onError))
-    const {data: itemData, error: itemError} = useSWR(
-        '/api/v1/item',
-        async path => await get<Resources<Item<Tags>, Pager>>(path).catch(onError))
+    const {data: meData, error: meError} = useSWR('https://mangosteen2.hunger-valley.com/api/v1/me',
+        async (path: string) => await get<Resource<User>>(path))
+    const {data: itemData, error: itemError} = useSWR('/api/v1/item',
+        async (path: string) => await get<Resources<Item>>(path))
     const isLodingMe = !meData && !meError
     const isLodingItem = isLodingMe && !itemData && !itemError
     if (isLodingMe && isLodingItem) {
@@ -63,3 +54,4 @@ export const Home: React.FC = () => {
         </>
     )
 }
+

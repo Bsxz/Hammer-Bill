@@ -1,5 +1,5 @@
 import {animated, SpringValue} from '@react-spring/web'
-import React, {useEffect, useRef, useState} from 'react'
+import React, {FormEventHandler, useEffect, useRef, useState} from 'react'
 import styled from 'styled-components'
 import {Time} from '../lib/time'
 import {useCreateItemStore} from '../stores/useCreateItemStore'
@@ -62,6 +62,7 @@ export const TimeColumn: React.FC<Props> = ({popupStyles, onMaskVisible}) => {
     const [_year, setYear] = useState(timevalue.current.year)
     const [_month, setMonth] = useState(timevalue.current.month)
     const [_day, setDay] = useState(timevalue.current.day)
+    const isStart = useRef(true)
     const lastDayOfMonth = (year: number, month: number) => {
         return new Time(new Date(year, month - 1 + 1, 0))
     }
@@ -74,12 +75,16 @@ export const TimeColumn: React.FC<Props> = ({popupStyles, onMaskVisible}) => {
     }, [_year, _day])
     useEffect(() => {
         timevalue.current.month = _month
-        setDay(1)
+        if (!isStart.current) {
+            setDay(1)
+        }
     }, [_month])
     useEffect(() => {
         setData({happen_at: timevalue.current.date})
     }, [])
-    const submit = () => {
+    const submit: FormEventHandler<HTMLFormElement> = (e) => {
+        e.preventDefault()
+        e.stopPropagation()
         setData({happen_at: timevalue.current.date})
     }
     return (

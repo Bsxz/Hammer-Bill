@@ -1,17 +1,18 @@
 import type {EChartsOption} from 'echarts'
 import React, {ReactNode} from 'react'
+import {CreateItem} from 'stores/useCreateItemStore'
 
 declare global {
     var isDev: boolean
-    type JSONValue = string | number | boolean | null | { [k: string]: JSONValue } | JSONValue[] | Item
+    type JSONValue = string | number | boolean | null | { [k: string]: JSONValue } | JSONValue[] | CreateItem['data']
 
     interface Resource<T> {
         resource: T
     }
 
-    interface Resources<T, P> {
+    interface Resources<T> {
         resources: T[]
-        pager: P
+        pager: Pager
     }
 
     interface User {
@@ -33,7 +34,7 @@ declare global {
         kind: expenses | incomes
     }
 
-    interface Item<T> {
+    interface Item {
         id: number
         user_id: number
         amount: number
@@ -44,7 +45,7 @@ declare global {
         updated_at: string
         kind: expenses | incomes
         deleted_at?: string
-        tags: T[]
+        tags: Tags[]
     }
 
     interface Pager {

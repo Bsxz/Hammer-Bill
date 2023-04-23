@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useRef, useState} from 'react'
 import styled from 'styled-components'
 import {useChartsStore} from '../stores/useChartsStore'
 import {ChartsAll} from './chart/ChartsAll'
@@ -15,6 +15,7 @@ const SelectBox = styled.div`
 `
 export const SpendingCharts: React.FC = () => {
     const {spending, income} = useChartsStore()
+    const isStart = useRef(false)
     const [select, setSelect] = useState('spending')
     return (
         <>
@@ -32,8 +33,8 @@ export const SpendingCharts: React.FC = () => {
                     <option>收入</option>
                 </select>
             </SelectBox>
-            {select === 'spending' ? <ChartsAll data={spending} /> : null}
-            {select === 'income' ? <ChartsAll data={income} /> : null}
+            {select === 'spending' ? <ChartsAll data={spending} isStart={isStart.current} /> : null}
+            {select === 'income' ? <ChartsAll data={income} isStart={isStart.current} /> : null}
         </>
     )
 }

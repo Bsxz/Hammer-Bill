@@ -33,12 +33,13 @@ export const ItemsNewPage: React.FC = () => {
         const newError = validate(data, [
             {key: 'kind', type: 'required', message: '请填写收入信息'},
             {key: 'happen_at', type: 'required', message: '请填写收入信息'},
-            {key: 'tag_ids', type: 'required', message: '请填写收入信息'},
-            {key: 'amount', type: 'required', message: '请填写收入信息'}
+            {key: 'tag_ids', type: 'length', min: 1, message: '请选择emoji'},
+            {key: 'amount', type: 'notEqual', value: 0, message: '请输入金额'}
         ])
         setError(newError)
+        if (hasError(newError)) return
         console.log(data)
-        if (hasError(error)) return
+        console.log(`发送请求`)
     }
     return (
         <Form onSubmit={submit}>
@@ -46,6 +47,7 @@ export const ItemsNewPage: React.FC = () => {
                 <TopNav title="记一笔" icon={
                     <Icon name="back" w="36" h="36" onClick={back} />
                 } />
+                {/*{error ? Object.values(error)[0] : null}*/}
                 <RangePick select={data.kind} tabs={tabs} data={data} onChange={setData} />
             </StyledGradient>
             <TabsItem data={data} setData={setData} />

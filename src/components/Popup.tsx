@@ -27,10 +27,10 @@ export const Popup: React.FC<Props> = ({visible, toggle}) => {
                       if (!start)
                           toggle()
                   }} />
-            <TimeColumn popupStyles={popupStyles} onMaskVisible={() => {
+            {visible ? <TimeColumn popupStyles={popupStyles} onMaskVisible={() => {
                 if (!start)
                     toggle()
-            }} />
+            }} /> : null}
         </>
     )
 }

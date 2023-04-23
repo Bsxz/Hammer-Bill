@@ -5,7 +5,7 @@ let id = 0
 const createId = () => {
     return id += 1
 }
-const create = (attrs?: Partial<Item<Tags>>): Item<Tags> => {
+const create = (attrs?: Partial<Item>): Item => {
     return {
         id: createId(),
         user_id: 1,
@@ -30,14 +30,14 @@ const create = (attrs?: Partial<Item<Tags>>): Item<Tags> => {
         ...attrs
     }
 }
-const createList = (n: number, attrs?: Partial<Item<Tags>>): Item<Tags>[] => {
+const createList = (n: number, attrs?: Partial<Item>): Item[] => {
     return Array.from({length: n}).map(() => create(attrs))
 }
 const createResources = ({
                              perPage = 10,
                              page = 1,
                              count = 10
-                         }, attrs?: Partial<Item<Tags>>): Resources<Item<Tags>, Pager> => {
+                         }, attrs?: Partial<Item>): Resources<Item> => {
     return {
         resources: createList(perPage, attrs),
         pager: {
@@ -51,7 +51,8 @@ export const mockItem: MockMethod = {
     url: '/api/v1/item',
     method: 'get',
     timeout: 500,
-    response: ({query}: ResponseParams): Resources<Item<Tags>, Pager> => {
+    statusCode: 200,
+    response: ({query}: ResponseParams): Resources<Item> => {
         return createResources({page: parseInt(query.page), count: 30, perPage: 10})
     }
 }
