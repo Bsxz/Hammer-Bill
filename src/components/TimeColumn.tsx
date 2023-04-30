@@ -67,28 +67,28 @@ export const TimeColumn: React.FC<Props> = ({ popupStyles, onMaskVisible }) => {
   const lastDayOfMonth = (year: number, month: number) => {
     return new Time(new Date(year, month - 1 + 1, 0))
   }
-  const year = Array.from({ length: timevalue.current.year }).map((v, i) => i + 1).filter(v => v >= 1970).reverse()
-  const month = Array.from({ length: 12 }).map((v, i) => i + 1)
+  const year = useRef(Array.from({ length: time().year }).map((v, i) => i + 1).filter(v => v >= 1970).reverse())
+  const month = useRef(Array.from({ length: 12 }).map((v, i) => i + 1))
   const day = Array.from({ length: lastDayOfMonth(_year, _month).day }).map((v, i) => i + 1)
+
   useEffect(() => {
     timevalue.current.year = _year
     timevalue.current.day = _day
-  }, [_year, _day])
-  useEffect(() => {
-    if (timevalue.current.month !== _month)
-      setDay(1)
     timevalue.current.month = _month
-  }, [_month])
+    if (_day > day.length)
+      setDay(day.length)
+  }, [_year, _month, _day])
   const submit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
     e.stopPropagation()
     setData({ happen_at: timevalue.current.date })
     onMaskVisible()
   }
+
   return (
     <ColumnBox style={{ ...popupStyles }} onSubmit={submit}>
-      <Column data={year} value={_year} onChange={setYear} />
-      <Column data={month} value={_month} onChange={setMonth} />
+      <Column data={year.current} value={_year} onChange={setYear} />
+      <Column data={month.current} value={_month} onChange={setMonth} />
       <Column data={day} value={_day} onChange={setDay} />
       <div>
         <button type="button" onClick={onMaskVisible}>取消</button>
