@@ -1,13 +1,15 @@
-import {animated, SpringValue} from '@react-spring/web'
-import React, {FormEventHandler, useEffect, useRef, useState} from 'react'
+import type { SpringValue } from '@react-spring/web'
+import { animated } from '@react-spring/web'
+import type { FormEventHandler } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import {Time} from '../lib/time'
-import {useCreateItemStore} from '../stores/useCreateItemStore'
-import {Column} from './Column'
+import { Time, time } from '../lib/time'
+import { useCreateItemStore } from '../stores/useCreateItemStore'
+import { Column } from './Column'
 
-type Props = {
-    popupStyles: { translateY: SpringValue<string> }
-    onMaskVisible: () => void
+interface Props {
+  popupStyles: { translateY: SpringValue<string> }
+  onMaskVisible: () => void
 }
 const ColumnBox = styled(animated.form)`
   display: flex;
@@ -56,46 +58,42 @@ const ColumnBox = styled(animated.form)`
     }
   }
 `
-export const TimeColumn: React.FC<Props> = ({popupStyles, onMaskVisible}) => {
-    const {setData} = useCreateItemStore()
-    const timevalue = useRef(new Time())
-    const [_year, setYear] = useState(timevalue.current.year)
-    const [_month, setMonth] = useState(timevalue.current.month)
-    const [_day, setDay] = useState(timevalue.current.day)
-    const isStart = useRef(true)
-    const lastDayOfMonth = (year: number, month: number) => {
-        return new Time(new Date(year, month - 1 + 1, 0))
-    }
-    const year = Array.from({length: timevalue.current.year}).map((v, i) => i + 1).filter(v => v >= 1970).reverse()
-    const month = Array.from({length: 12}).map((v, i) => i + 1)
-    const day = Array.from({length: lastDayOfMonth(_year, _month).day}).map((v, i) => i + 1)
-    useEffect(() => {
-        timevalue.current.year = _year
-        timevalue.current.day = _day
-    }, [_year, _day])
-    useEffect(() => {
-        timevalue.current.month = _month
-        if (!isStart.current) {
-            setDay(1)
-        }
-    }, [_month])
-    useEffect(() => {
-        setData({happen_at: timevalue.current.date})
-    }, [])
-    const submit: FormEventHandler<HTMLFormElement> = (e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        setData({happen_at: timevalue.current.date})
-    }
-    return (
-        <ColumnBox style={{...popupStyles}} onSubmit={submit}>
-            <Column data={year} value={_year} onChange={setYear} />
-            <Column data={month} value={_month} onChange={setMonth} />
-            <Column data={day} value={_day} onChange={setDay} />
-            <div>
-                <button type="button" onClick={onMaskVisible}>取消</button>
-                <button type="submit" onClick={onMaskVisible}>确定</button>
-            </div>
-        </ColumnBox>
-    )
+export const TimeColumn: React.FC<Props> = ({ popupStyles, onMaskVisible }) => {
+  const { data, setData } = useCreateItemStore()
+  const timevalue = useRef(time(data.happen_at))
+  const [_year, setYear] = useState(timevalue.current.year)
+  const [_month, setMonth] = useState(timevalue.current.month)
+  const [_day, setDay] = useState(timevalue.current.day)
+  const lastDayOfMonth = (year: number, month: number) => {
+    return new Time(new Date(year, month - 1 + 1, 0))
+  }
+  const year = Array.from({ length: timevalue.current.year }).map((v, i) => i + 1).filter(v => v >= 1970).reverse()
+  const month = Array.from({ length: 12 }).map((v, i) => i + 1)
+  const day = Array.from({ length: lastDayOfMonth(_year, _month).day }).map((v, i) => i + 1)
+  useEffect(() => {
+    timevalue.current.year = _year
+    timevalue.current.day = _day
+  }, [_year, _day])
+  useEffect(() => {
+    if (timevalue.current.month !== _month)
+      setDay(1)
+    timevalue.current.month = _month
+  }, [_month])
+  const submit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setData({ happen_at: timevalue.current.date })
+    onMaskVisible()
+  }
+  return (
+    <ColumnBox style={{ ...popupStyles }} onSubmit={submit}>
+      <Column data={year} value={_year} onChange={setYear} />
+      <Column data={month} value={_month} onChange={setMonth} />
+      <Column data={day} value={_day} onChange={setDay} />
+      <div>
+        <button type="button" onClick={onMaskVisible}>取消</button>
+        <button type="submit">确定</button>
+      </div>
+    </ColumnBox>
+  )
 }

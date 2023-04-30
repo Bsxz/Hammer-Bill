@@ -1,17 +1,18 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 
-type Props = {
+interface Props {
     data: number[]
     value: number
     onChange: (v: number) => void
 }
-export const Column: React.FC<Props> = ({data, value, onChange}) => {
+export const Column: React.FC<Props> = ({ data, value, onChange }) => {
     const [isTouch, setIsTouch] = useState(false)
     const [translateY, _setTRanslateY] = useState(0)
     const [startY, setStartY] = useState(0)
     const setTranslateY = (y: number) => {
         const length = data.length
-        if (y > 0 || y < -(length! - 1) * 36) return
+        if (y > 0 || y < -(length! - 1) * 36)
+            return
         _setTRanslateY(y)
     }
     useEffect(() => {
@@ -34,14 +35,14 @@ export const Column: React.FC<Props> = ({data, value, onChange}) => {
                 onTouchEnd={(e) => {
                     const remainder = translateY % 36
                     let y = translateY - remainder
-                    if (Math.abs(remainder) > 18) {
+                    if (Math.abs(remainder) > 18)
                         y += (remainder > 0 ? 1 : -1) * 36
-                    }
+
                     setTranslateY(y)
                     onChange(data[Math.abs(y / 36)]!)
                     setIsTouch(false)
                 }}>
-                <ol style={{transform: `translateY(${translateY}px)`}}>
+                <ol style={{ transform: `translateY(${translateY}px)` }}>
                     {data.map(v => <li key={v}>{v}</li>)}
                 </ol>
             </div>

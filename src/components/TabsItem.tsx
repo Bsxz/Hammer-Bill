@@ -1,14 +1,14 @@
-import {Partial} from '@react-spring/web'
-import React from 'react'
-import {Link} from 'react-router-dom'
+import type { Partial } from '@react-spring/web'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import {Item} from '../stores/useCreateItemStore'
-import {useTags} from '../stores/useTags'
-import {Icon} from './Icon'
+import type { Item } from '../stores/useCreateItemStore'
+import { useTags } from '../stores/useTags'
+import { Icon } from './Icon'
 
-type TabsItem = {
-    data: Partial<Item>
-    setData: (v: Partial<Item>) => void
+interface TabItem {
+  data: Partial<Item>
+  setData: (v: Partial<Item>) => void
 }
 const Div = styled.div`
   flex-grow: 1;
@@ -25,21 +25,32 @@ const Div = styled.div`
     justify-content: center;
 
     li {
-      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       width: 48px;
-      height: 48px;
-      margin-top: 8px;
-      border-radius: 50%;
-      background-color: #EFEFEF;
-      border: 1px solid var(--bgcolor1);
-
-      span {
-        position: absolute;
-        bottom: -30px;
+      height: 80px;
+      &:nth-child(1){
+        justify-content: start;
+      }
+      a {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background-color: #EFEFEF;
+        padding-top: 8px;
+      }
+      span:nth-child(1) {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        line-height: 48px;
+        background-color: #EFEFEF;
+      }
+      span:nth-child(2) {
+        margin-top: 8px;
+        white-space: nowrap;
         color: #666;
       }
     }
@@ -49,23 +60,31 @@ const Div = styled.div`
     opacity: 0;
   }
 `
-export const TabsItem: React.FC<TabsItem> = ({data, setData}) => {
-    const {expensesTags, incomeTags} = useTags()
-    const tags = data.kind === 'expenses' ? expensesTags : incomeTags
-    return (
-        <Div>
-            <ol>
-                <li>
-                    <Link to={`/tags/new?kind=${data.kind}`}><Icon name="add" w="32" h="32"
-                                                                   fill={'var(--bgcolor1)'} /></Link>
-                </li>
-                {tags.map((v, i) =>
-                    <li key={i} onClick={() => setData({tag_ids: [i]})}>
-                        {v.sign}
-                        <span>{v.name}</span>
-                    </li>
-                )}
-            </ol>
-        </Div>
-    )
+export const TabsItem: React.FC<TabItem> = ({ data, setData }) => {
+  const { expensesTags, incomeTags } = useTags()
+  const [select, setSelect] = useState(-1)
+  const tags = data.kind === 'expenses' ? expensesTags : incomeTags
+  useEffect(() => {
+    setSelect(-1)
+  }, [tags])
+
+  return (
+    <Div>
+      <ol>
+        <li>
+          <Link to={`/tags/new?kind=${data.kind}`}><Icon name="add" w="32" h="32"
+            fill={'var(--bgcolor1)'} /></Link>
+        </li>
+        {tags.map((v, i) =>
+          <li key={i} onClick={() => {
+            setData({ tag_ids: [i] })
+            setSelect(i)
+          }}>
+            <span style={{ border: i === select ? '1px solid var(--bgcolor1)' : '' }}>{v.sign}</span>
+            <span>{v.name}</span>
+          </li>
+        )}
+      </ol>
+    </Div >
+  )
 }

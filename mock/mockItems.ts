@@ -1,5 +1,5 @@
-import {faker} from '@faker-js/faker'
-import type {MockMethod} from 'vite-plugin-mock'
+import { faker } from '@faker-js/faker'
+import type { MockMethod } from 'vite-plugin-mock'
 
 let id = 0
 const createId = () => {
@@ -9,7 +9,7 @@ const create = (attrs?: Partial<Item>): Item => {
     return {
         id: createId(),
         user_id: 1,
-        amount: faker.datatype.number({min: 99, max: 1000_00}),
+        amount: faker.datatype.number({ min: 99, max: 1000_00 }),
         note: '1',
         tag_ids: [1, 2],
         happen_at: faker.date.past().toISOString(),
@@ -31,7 +31,7 @@ const create = (attrs?: Partial<Item>): Item => {
     }
 }
 const createList = (n: number, attrs?: Partial<Item>): Item[] => {
-    return Array.from({length: n}).map(() => create(attrs))
+    return Array.from({ length: n }).map(() => create(attrs))
 }
 const createResources = ({
                              perPage = 10,
@@ -52,7 +52,7 @@ export const mockItem: MockMethod = {
     method: 'get',
     timeout: 500,
     statusCode: 200,
-    response: ({query}: ResponseParams): Resources<Item> => {
-        return createResources({page: parseInt(query.page), count: 30, perPage: 10})
+    response: ({ query }: ResponseParams): Resources<Item> => {
+        return createResources({ page: parseInt(query.page), count: 30, perPage: 10 })
     }
 }

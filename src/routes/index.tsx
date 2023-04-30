@@ -1,28 +1,27 @@
-import axios, {AxiosError} from 'axios'
-import {createHashRouter, Outlet} from 'react-router-dom'
-import {preload} from 'swr'
-import {Redirect} from '../components/Redirect'
-import {Root} from '../components/Root'
-import {ErrorDataEmpty, ErrorUnauthorized} from '../errors'
-import {ExportPage} from '../pages/ExportPage'
-import {Home} from '../pages/Home'
-import {ItemsNewPage} from '../pages/ItemsNewPage'
-import {ItemsPage} from '../pages/ItemsPage'
-import {ErrorItemPage} from '../pages/itemsPage/ErrorItemPage'
-import {LoginPage} from '../pages/LoginPage'
-import {NotFound} from '../pages/NotFound'
-import {RemindPage} from '../pages/RemindPage'
-import {StatisticalPage} from '../pages/StatisticalPage'
-import {TagsEditPage} from '../pages/TagsEditPage'
-import {TagsNewPage} from '../pages/TagsNewPage'
-import {TagsPage} from '../pages/TagsPage'
-import {WelComeRoutes} from './welComeRoutes'
+import type { AxiosError } from 'axios'
+import axios from 'axios'
+import { Outlet, createHashRouter } from 'react-router-dom'
+import { preload } from 'swr'
+import { Redirect } from '../components/Redirect'
+import { Root } from '../components/Root'
+import { ErrorDataEmpty, ErrorUnauthorized } from '../errors'
+import { ExportPage } from '../pages/ExportPage'
+import { Home } from '../pages/Home'
+import { ItemsNewPage } from '../pages/ItemsNewPage'
+import { ItemsPage } from '../pages/ItemsPage'
+import { ErrorItemPage } from '../pages/itemsPage/ErrorItemPage'
+import { LoginPage } from '../pages/LoginPage'
+import { RemindPage } from '../pages/RemindPage'
+import { StatisticalPage } from '../pages/StatisticalPage'
+import { TagsEditPage } from '../pages/TagsEditPage'
+import { TagsNewPage } from '../pages/TagsNewPage'
+import { TagsPage } from '../pages/TagsPage'
+import { WelComeRoutes } from './welComeRoutes'
 
 export const Router = createHashRouter([
     {
         path: '/',
         element: <Outlet />,
-        errorElement: <NotFound />,
         children: [
             {
                 index: true,
@@ -41,9 +40,9 @@ export const Router = createHashRouter([
         errorElement: <Redirect />,
         loader: async () => {
             const onError = (error: AxiosError) => {
-                if (error.response && error.response.status === 401) {
+                if (error.response && error.response.status === 401)
                     throw new ErrorUnauthorized()
-                }
+
                 throw error
             }
             return preload('https://mangosteen2.hunger-valley.com/api/v1/me', async (path) => {
@@ -63,11 +62,11 @@ export const Router = createHashRouter([
                 loader: async () => {
                     return preload('/api/v1/item?page=1', async (path) => {
                         const response = await axios.get<Resources<Item>>(path)
-                        if (response.data.resources.length > 0) {
+                        if (response.data.resources.length > 0)
                             return response.data
-                        } else {
+
+                        else
                             throw new ErrorDataEmpty()
-                        }
                     })
                 },
                 children: [

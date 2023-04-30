@@ -1,11 +1,11 @@
 import React from 'react'
-import {useNavigate, useSearchParams} from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
-import {Icon} from '../components/Icon'
-import {StyledGradient} from '../components/StyledGradient'
-import {TopNav} from '../components/TopNav'
-import {useSelectStore} from '../stores/useSelectStore'
-import {TagsForm} from './Tags/TagsForm'
+import { Icon } from '../components/Icon'
+import { StyledGradient } from '../components/StyledGradient'
+import { TopNav } from '../components/TopNav'
+import { useSelectStore } from '../stores/useSelectStore'
+import { TagsForm } from './Tags/TagsForm'
 
 const Div = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const Div = styled.div`
 `
 export const TagsNewPage: React.FC = () => {
     const [serchParams] = useSearchParams()
-    const {backSelect, onChange} = useSelectStore()
+    const { backSelect, onChange } = useSelectStore()
     const kind = serchParams.get('kind')
     const nav = useNavigate()
     const back = () => {

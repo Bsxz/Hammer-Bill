@@ -1,11 +1,11 @@
 import React from 'react'
-import {Navigate, NavLink} from 'react-router-dom'
+import { NavLink, Navigate } from 'react-router-dom'
 import styled from 'styled-components'
 import useSWR from 'swr'
-import {useAjax} from '../api/ajax'
-import {AddFloutButton} from '../components/AddFloutButton'
-import {Icon} from '../components/Icon'
-import {Loading} from '../components/Loading'
+import { useAjax } from '../api/ajax'
+import { AddFloutButton } from '../components/AddFloutButton'
+import { Icon } from '../components/Icon'
+import { Loading } from '../components/Loading'
 
 const Div = styled.div`
   display: flex;
@@ -30,17 +30,14 @@ const Div = styled.div`
   }
 `
 export const Home: React.FC = () => {
-    const {get} = useAjax()
-    const {data: meData, error: meError} = useSWR('https://mangosteen2.hunger-valley.com/api/v1/me',
-        async (path: string) => await get<Resource<User>>(path))
-    const {data: itemData, error: itemError} = useSWR('/api/v1/item',
+    const { get } = useAjax()
+    const { data, isLoading } = useSWR('/api/v1/item',
         async (path: string) => await get<Resources<Item>>(path))
-    const isLodingMe = !meData && !meError
-    const isLodingItem = isLodingMe && !itemData && !itemError
-    if (isLodingMe && isLodingItem) {
+    const isLodingItem = isLoading && !data
+    if (isLoading && isLodingItem)
         return <Loading />
-    }
-    if (itemData?.data.resources[0])
+
+    if (data?.data.resources[0])
         return <Navigate to="/itemspage" />
     return (
         <>
@@ -54,4 +51,3 @@ export const Home: React.FC = () => {
         </>
     )
 }
-
