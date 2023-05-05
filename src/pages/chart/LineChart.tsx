@@ -1,18 +1,18 @@
 import * as echarts from 'echarts'
-import React, {useEffect, useRef} from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import type {Line} from '../../stores/store'
+import type { Line } from '../../stores/store'
 
 const StyledLine = styled.div`
   height: 180px;
 `
-export const LineChart: React.FC<ChartProps<Line>> = ({options, data}) => {
+export const LineChart: React.FC<ChartProps<Line>> = ({ options, data }) => {
     const divRef = useRef<HTMLDivElement>(null)
     const isStart = useRef(true)
     useEffect(() => {
-        if (!divRef.current) {
+        if (!divRef.current)
             return
-        }
+
         if (isStart.current) {
             isStart.current = false
             const lineChart = echarts.init(divRef.current)
@@ -23,7 +23,7 @@ export const LineChart: React.FC<ChartProps<Line>> = ({options, data}) => {
                         type: 'cross'
                     }
                 },
-                grid: {left: 0, top: 16, right: 0, bottom: 30},
+                grid: { left: 0, top: 16, right: 0, bottom: 30 },
                 xAxis: {
                     type: 'category',
                     data: data.x

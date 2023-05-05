@@ -1,9 +1,9 @@
 import React from 'react'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import {StyledGradient} from './StyledGradient'
+import { StyledGradient } from './StyledGradient'
 
-type Props = {
+interface Props {
     visible: boolean
     toggle: () => void
     handler: () => void
@@ -36,14 +36,14 @@ const Div = styled.div`
     }
   }
 `
-export const MessageBox: React.FC<Props> = ({visible, handler, toggle}) => {
+export const MessageBox: React.FC<Props> = ({ visible, handler, toggle }) => {
     const nav = useNavigate()
     const lotOut = () => {
         nav(0)
         handler()
     }
     return (
-        <Div style={{visibility: visible ? 'visible' : 'hidden'}}>
+        <Div style={{ visibility: visible ? 'visible' : 'hidden' }}>
             <StyledGradient>
                 请确认
             </StyledGradient>

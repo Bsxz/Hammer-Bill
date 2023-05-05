@@ -1,5 +1,6 @@
 import type { FormEventHandler } from 'react'
-import React from 'react'
+import React, { useEffect } from 'react'
+
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Icon } from '../components/Icon'
@@ -7,7 +8,6 @@ import { RangePick } from '../components/RangePick'
 import { StyledGradient } from '../components/StyledGradient'
 import { StyledKeyBoard } from '../components/StyledKeyBoard'
 import { TabsItem } from '../components/TabsItem'
-import { TagsItem } from '../components/TagsItem'
 import { TopNav } from '../components/TopNav'
 import { hasError, validate } from '../lib/validata'
 import { useCreateItemStore } from '../stores/useCreateItemStore'
@@ -20,12 +20,15 @@ const Form = styled.form`
   overflow: hidden;
 `
 export const ItemsNewPage: React.FC = () => {
-    const { data, error, setData, setError } = useCreateItemStore()
+    const { data, setData, setError } = useCreateItemStore()
     const nav = useNavigate()
     const tabs: Ranges<Range> = [
-        { key: 'expenses', text: '支出', element: <TagsItem kind="expenses" /> },
-        { key: 'income', text: '收入', element: <TagsItem kind="income" /> }
+        { key: 'expenses', text: '支出', element: <div></div> },
+        { key: 'incomes', text: '收入', element: <div></div> }
     ]
+    useEffect(() => {
+        setData({ kind: 'expenses' })
+    }, [])
     const back = () => {
         nav(-1)
     }
@@ -45,6 +48,8 @@ export const ItemsNewPage: React.FC = () => {
         console.log(data)
         console.log('发送请求')
     }
+    console.log(tabs)
+
     return (
         <Form onSubmit={submit}>
             <StyledGradient>

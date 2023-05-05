@@ -26,10 +26,10 @@ export const AddFloutButton: React.FC = () => {
     nav('/itemspage/new')
   }
   return (
-        <>
-            <Button onClick={add}>
-                <Icon name="add" fill="currentColor" h="50" w="50" />
-            </Button>
-        </>
+    <>
+      <Button onClick={add}>
+        <Icon name="add" fill="currentColor" h="50" w="50" />
+      </Button>
+    </>
   )
 }

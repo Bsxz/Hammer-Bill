@@ -1,12 +1,12 @@
-import {animated, useTransition} from '@react-spring/web'
-import type {ReactNode} from 'react'
-import React, {useEffect, useRef} from 'react'
-import {useLocation, useNavigate, useOutlet} from 'react-router-dom'
+import { animated, useTransition } from '@react-spring/web'
+import type { ReactNode } from 'react'
+import React, { useEffect, useRef } from 'react'
+import { useLocation, useNavigate, useOutlet } from 'react-router-dom'
 import styled from 'styled-components'
-import {Header} from '../components/Header'
-import {useSwiper} from '../hooks/useSwiper'
-import {WelComeRoutes} from '../routes/welComeRoutes'
-import {useLocalStore} from '../stores/useLocalStore'
+import { Header } from '../components/Header'
+import { useSwiper } from '../hooks/useSwiper'
+import { WelComeRoutes } from '../routes/welComeRoutes'
+import { useLocalStore } from '../stores/useLocalStore'
 
 const WelCome = styled.div`
   display: flex;
@@ -35,7 +35,7 @@ const Main = styled.main`
   }
 `
 export const WelComeLayout: React.FC = () => {
-    const {setHasReadWelcome} = useLocalStore()
+    const { setHasReadWelcome } = useLocalStore()
     const map = useRef<Record<string, ReactNode>>({})
     const animating = useRef(false)
     const index = useRef<number>(0)
@@ -43,7 +43,7 @@ export const WelComeLayout: React.FC = () => {
     const location = useLocation()
     const outlet = useOutlet()
     map.current[location.pathname] = outlet
-    const {direction} = useSwiper(animatedRef)
+    const { direction } = useSwiper(animatedRef)
     const nav = useNavigate()
     const routerChild: any = WelComeRoutes.children
         ?.map(c => c.path)
@@ -59,10 +59,12 @@ export const WelComeLayout: React.FC = () => {
                 if (routerChild.indexOf(location.pathname) + 1 === routerChild.length) {
                     nav('/home')
                     skip()
-                } else {
+                }
+                else {
                     nav(routerChild[index.current + 1])
                 }
-            } else if (direction === 'right') {
+            }
+            else if (direction === 'right') {
                 nav(routerChild[index.current - 1])
             }
         }
@@ -83,7 +85,7 @@ export const WelComeLayout: React.FC = () => {
                     ? 'translateX(-100%)'
                     : 'translateX(100%)'
         },
-        config: {duration: 300},
+        config: { duration: 300 },
         onStart: () => {
             animating.current = true
         },

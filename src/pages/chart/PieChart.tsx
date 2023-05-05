@@ -1,16 +1,16 @@
 import * as echarts from 'echarts'
-import React, {useEffect, useRef} from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import type {Pie} from '../../stores/store'
-import {useChartsStore} from '../../stores/useChartsStore'
+import type { Pie } from '../../stores/store'
+import { useChartsStore } from '../../stores/useChartsStore'
 
 const StylePie = styled.div`
   height: 260px;
 `
-export const PieChart: React.FC<ChartProps<Pie[]>> = ({options, data}) => {
+export const PieChart: React.FC<ChartProps<Pie[]>> = ({ options, data }) => {
     const divRef = useRef<HTMLDivElement>(null)
     const isStart = useRef(true)
-    const {setBarColors} = useChartsStore()
+    const { setBarColors } = useChartsStore()
     useEffect(() => {
         if (!divRef.current)
             return
@@ -21,18 +21,18 @@ export const PieChart: React.FC<ChartProps<Pie[]>> = ({options, data}) => {
                 tooltip: {
                     trigger: 'item',
                     formatter: (v: any) => {
-                        const {data, color} = v
+                        const { data, color } = v
                         return `<span style="color:${color} ">${data.name}</span> 
                     <br/><span style="margin-left: 50px">￥${data.value}</span>`
                     }
                 },
-                grid: {top: 16, left: 0, right: 0, bottom: 30},
+                grid: { top: 16, left: 0, right: 0, bottom: 30 },
                 series: [
                     {
                         name: '支出',
                         type: 'pie',
                         radius: '50%',
-                        data: data.map(v => ({...v, value: v.value / 100})),
+                        data: data.map(v => ({ ...v, value: v.value / 100 })),
                         emphasis: {
                             itemStyle: {
                                 shadowBlur: 10,

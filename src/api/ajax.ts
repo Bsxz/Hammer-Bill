@@ -1,6 +1,7 @@
-import axios, {AxiosError} from 'axios'
-import {useEffect} from 'react'
-import {useNavigate} from 'react-router-dom'
+import type { AxiosError } from 'axios'
+import axios from 'axios'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 axios.defaults.baseURL = isDev
     ? '/'
@@ -15,9 +16,8 @@ export const useAjax = () => {
     useEffect(() => {
         axios.interceptors.response.use(undefined, (error: AxiosError) => {
             if (error.response) {
-                if (error.response.status === 401) {
+                if (error.response.status === 401)
                     nav('/login')
-                }
             }
             throw error
         })

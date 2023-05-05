@@ -1,9 +1,9 @@
-import {animated, useSpring} from '@react-spring/web'
-import React, {useState} from 'react'
+import { animated, useSpring } from '@react-spring/web'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import {time} from '../lib/time'
-import {useMenuStore} from '../stores/useMenuStore'
-import {StyledGradient} from './StyledGradient'
+import { time } from '../lib/time'
+import { useMenuStore } from '../stores/useMenuStore'
+import { StyledGradient } from './StyledGradient'
 
 const Div = styled(animated.div)`
   position: absolute;
@@ -48,32 +48,32 @@ const Div = styled(animated.div)`
   }
 `
 export const TimeChoose: React.FC = (visible, toggle) => {
-    const {start, setStart} = useMenuStore()
+    const { start, setStart } = useMenuStore()
     const [popupVisible, setPopupVisible] = useState(visible)
     const [startTime, setStartTime] = useState(time().add(-3, 'month').format())
     const [endTime, setEndTime] = useState(time().format())
     const popupStyles = useSpring({
         opacity: visible ? 1 : 0,
-        config: {duration: 300},
-        onStart: ({value}) => {
+        config: { duration: 300 },
+        onStart: ({ value }) => {
             setStart(true)
             if (value.opacity < 0.1)
                 setPopupVisible(true)
         },
-        onRest: ({value}) => {
+        onRest: ({ value }) => {
             setStart(false)
             if (value.opacity < 0.1)
                 setPopupVisible(false)
         }
     })
     return (
-        <Div style={{...popupStyles, visibility: (popupVisible ? 'visible' : 'hidden')}}>
+        <Div style={{ ...popupStyles, visibility: (popupVisible ? 'visible' : 'hidden') }}>
             <StyledGradient>
                 请选择时间
             </StyledGradient>
             <div>
                 <span>开始时间</span>
-                <input type="date" value={startTime} onChange={({target}) => {
+                <input type="date" value={startTime} onChange={({ target }) => {
                     if (target.value > endTime)
                         return
                     setStartTime(target.value)
@@ -81,7 +81,7 @@ export const TimeChoose: React.FC = (visible, toggle) => {
             </div>
             <div>
                 <span>结束时间</span>
-                <input type="date" value={endTime} onChange={({target}) => {
+                <input type="date" value={endTime} onChange={({ target }) => {
                     setEndTime(target.value)
                 }} />
             </div>

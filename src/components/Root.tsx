@@ -6,14 +6,14 @@ export const Root: React.FC = () => {
   if (hasReadWelcome) {
     return (
       <>
-        <Navigate to="/home"/>
+        <Navigate to="/home" />
       </>
     )
   }
   else {
     return (
       <>
-        <Navigate to="/welcome/firstpage"/>
+        <Navigate to="/welcome/firstpage" />
       </>
     )
   }

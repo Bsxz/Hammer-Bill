@@ -1,12 +1,11 @@
 import type { AxiosError } from 'axios'
 import axios from 'axios'
-import { Outlet, createHashRouter } from 'react-router-dom'
+import { Outlet, createBrowserRouter } from 'react-router-dom'
 import { preload } from 'swr'
 import { Redirect } from '../components/Redirect'
 import { Root } from '../components/Root'
 import { ErrorDataEmpty, ErrorUnauthorized } from '../errors'
 import { ExportPage } from '../pages/ExportPage'
-import { Home } from '../pages/Home'
 import { ItemsNewPage } from '../pages/ItemsNewPage'
 import { ItemsPage } from '../pages/ItemsPage'
 import { ErrorItemPage } from '../pages/itemsPage/ErrorItemPage'
@@ -16,9 +15,10 @@ import { StatisticalPage } from '../pages/StatisticalPage'
 import { TagsEditPage } from '../pages/TagsEditPage'
 import { TagsNewPage } from '../pages/TagsNewPage'
 import { TagsPage } from '../pages/TagsPage'
+import { Home } from '../pages/Home'
 import { WelComeRoutes } from './welComeRoutes'
 
-export const Router = createHashRouter([
+export const Router = createBrowserRouter([
     {
         path: '/',
         element: <Outlet />,
@@ -42,7 +42,6 @@ export const Router = createHashRouter([
             const onError = (error: AxiosError) => {
                 if (error.response && error.response.status === 401)
                     throw new ErrorUnauthorized()
-
                 throw error
             }
             return preload('https://mangosteen2.hunger-valley.com/api/v1/me', async (path) => {

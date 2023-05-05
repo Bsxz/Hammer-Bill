@@ -1,10 +1,10 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import {Icon} from './Icon'
+import { Icon } from './Icon'
 
-type Props = {
-    kind?: Tags['kind']
+interface Props {
+  kind?: Tag['kind']
 }
 const Div = styled.div`
   flex-grow: 1;
@@ -45,21 +45,21 @@ const Div = styled.div`
     opacity: 0;
   }
 `
-export const TagsItem: React.FC<Props> = ({kind}) => {
-    return (
-        <Div>
-            <ol>
-                <li>
-                    <Link to={`/tags/new?kind=${kind}`}><Icon name="add" w="32" h="32"
-                                                              fill={'var(--bgcolor1)'} /></Link>
-                </li>
-                {Array.from({length: 40}).map((v, i) =>
-                    <li key={i}>
-                        <Icon name="flight" w="32" h="32" />
-                        <span>打车{kind}</span>
-                    </li>
-                )}
-            </ol>
-        </Div>
-    )
+export const TagsItem: React.FC<Props> = ({ kind }) => {
+  return (
+    <Div>
+      <ol>
+        <li>
+          <Link to={`/tags/new?kind=${kind}`}><Icon name="add" w="32" h="32"
+            fill={'var(--bgcolor1)'} /></Link>
+        </li>123
+        {Array.from({ length: 40 }).map((v, i) =>
+          <li key={i}>
+            <Icon name="flight" w="32" h="32" />
+            <span>打车{kind}</span>
+          </li>
+        )}
+      </ol>
+    </Div>
+  )
 }

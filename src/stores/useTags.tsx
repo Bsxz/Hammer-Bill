@@ -1,15 +1,15 @@
-import {create} from 'zustand'
-import {Tag} from './store'
+import { create } from 'zustand'
+import type { Tag } from './store'
 
-type TagsStore = {
+interface TagsStore {
     expensesTags: Tag[]
     incomeTags: Tag[]
     setExpensesTags: (v: Tag[]) => void
     setIncomeTags: (v: Tag[]) => void
 }
-export const useTags = create<TagsStore>((set) => ({
+export const useTags = create<TagsStore>(set => ({
     expensesTags: [],
     incomeTags: [],
-    setExpensesTags: (tag) => set(({expensesTags: tag})),
-    setIncomeTags: (tag) => set(({incomeTags: tag}))
+    setExpensesTags: tag => set(({ expensesTags: tag })),
+    setIncomeTags: tag => set(({ incomeTags: tag }))
 }))

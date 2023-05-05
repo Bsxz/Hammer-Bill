@@ -1,5 +1,5 @@
-import type {RefObject} from 'react'
-import {useEffect, useRef, useState} from 'react'
+import type { RefObject } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export const useSwiper = (eltRef: RefObject<HTMLElement>) => {
     const [direction, setDirection] = useState<'' | 'left' | 'right'>('')
@@ -34,5 +34,5 @@ export const useSwiper = (eltRef: RefObject<HTMLElement>) => {
             eltRef.current?.removeEventListener('touchend', onTouchEnd)
         }
     }, [])
-    return {direction}
+    return { direction }
 }

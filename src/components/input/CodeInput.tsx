@@ -1,16 +1,17 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 const CodeButton = styled.button`
   background-color: #ccc !important;
 `
-export const CodeInput: React.FC<InputProps> = props => {
+export const CodeInput: React.FC<InputProps> = (props) => {
     const [countdown, setCountdown] = useState(60)
-    const {lable, type, placeholder, value, requst, startCount, setStartCount} = props
+    const { lable, type, placeholder, value, requst, startCount, setStartCount } = props
     useEffect(() => {
-        if (!startCount) return
+        if (!startCount)
+return
         const timer = setInterval(() => {
-            setCountdown((c) => c - 1)
+            setCountdown(c => c - 1)
         }, 1000)
         if (countdown === 0) {
             clearInterval(timer)

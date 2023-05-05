@@ -7,7 +7,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "dev": "vite --host",
-    "build": "tsc && vite build --base=/Hammer-Bill",
+    "build": "tsc && vite build",
     "preview": "vite preview",
     "gcm": "yarn build && git add . && git cm -v"
   },

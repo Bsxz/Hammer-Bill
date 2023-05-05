@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import {ChartData} from '../../stores/store'
-import {useChartsStore} from '../../stores/useChartsStore'
+import type { ChartData } from '../../stores/store'
+import { useChartsStore } from '../../stores/useChartsStore'
 
 interface Props {
     data: ChartData
@@ -56,11 +56,11 @@ const BarDiv = styled.div`
     background-color: red;
   }
 `
-export const BarChart: React.FC<Props> = ({data}) => {
-    const {barColors} = useChartsStore()
+export const BarChart: React.FC<Props> = ({ data }) => {
+    const { barColors } = useChartsStore()
     const amount = data.bar.map(v => v.value).reduce((v, result) => v + result, 0)
-    const barAmounts = data.bar.map(({value}) => `${((value / amount) * 100).toFixed(0)}%`)
-    const newBar = data.bar.map((v, i) => ({...v, amount: barAmounts[i], bgColor: barColors[i]}))
+    const barAmounts = data.bar.map(({ value }) => `${((value / amount) * 100).toFixed(0)}%`)
+    const newBar = data.bar.map((v, i) => ({ ...v, amount: barAmounts[i], bgColor: barColors[i] }))
     return (
         <StyleBar>
             {newBar.map(v => <li key={v.value}>
@@ -71,7 +71,7 @@ export const BarChart: React.FC<Props> = ({data}) => {
                         <div>￥{v.value / 100}</div>
                     </StyleDiv>
                     <BarDiv>
-                        <div style={{width: v.amount, backgroundColor: v.bgColor}}></div>
+                        <div style={{ width: v.amount, backgroundColor: v.bgColor }}></div>
                     </BarDiv>
                 </div>
             </li>)}

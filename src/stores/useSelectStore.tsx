@@ -1,8 +1,8 @@
-import {ReactNode} from 'react'
-import {create} from 'zustand'
-import {ThisMonth} from '../pages/rangesPage/ThisMonth'
+import type { ReactNode } from 'react'
+import { create } from 'zustand'
+import { ThisMonth } from '../pages/rangesPage/ThisMonth'
 
-export type Range = 'thisMonth' | 'lastMonth' | 'thisYear' | 'custom' | 'expenses' | 'income'
+export type Range = 'thisMonth' | 'lastMonth' | 'thisYear' | 'custom' | 'expenses' | 'incomes'
 export type Ranges<T> = { key: T; text: string; element: ReactNode }[]
 
 export interface Selected<T> {
@@ -16,11 +16,11 @@ export interface Selected<T> {
 export const useSelectStore = create<Selected<Range>>(set => ({
     select: 'thisMonth',
     backSelect: 'thisMonth',
-    tabs: [{key: 'thisMonth', text: '本月', element: <ThisMonth />}],
+    tabs: [{ key: 'thisMonth', text: '本月', element: <ThisMonth /> }],
     onChange: (select) => {
-        set({select})
+        set({ select })
     },
     onBack: (back) => {
-        set({backSelect: back})
+        set({ backSelect: back })
     }
 }))

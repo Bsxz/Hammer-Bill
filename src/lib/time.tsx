@@ -73,7 +73,7 @@ export class Time {
     }
 
     set year(v) {
-        this.Parts = {year: v}
+        this.Parts = { year: v }
     }
 
     get month() {
@@ -81,7 +81,7 @@ export class Time {
     }
 
     set month(v) {
-        this.Parts = {month: v}
+        this.Parts = { month: v }
     }
 
     get day() {
@@ -89,7 +89,7 @@ export class Time {
     }
 
     set day(v) {
-        this.Parts = {day: v}
+        this.Parts = { day: v }
     }
 
     // set month(v) {
@@ -98,7 +98,7 @@ export class Time {
     }
 
     set hours(v) {
-        this.Parts = {hours: v}
+        this.Parts = { hours: v }
     }
 
     get minutes() {
@@ -106,7 +106,7 @@ export class Time {
     }
 
     set minutes(v) {
-        this.Parts = {minutes: v}
+        this.Parts = { minutes: v }
     }
 
     get seconds() {
@@ -114,7 +114,7 @@ export class Time {
     }
 
     set seconds(v) {
-        this.Parts = {seconds: v}
+        this.Parts = { seconds: v }
     }
 
     get ms() {
@@ -122,7 +122,7 @@ export class Time {
     }
 
     set ms(v) {
-        this.Parts = {ms: v}
+        this.Parts = { ms: v }
     }
 
     get isoString() {

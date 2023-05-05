@@ -3,5 +3,6 @@
   "rules": {
     "@typescript-eslint/comma-dangle": "off",
     "@typescript-eslint/indent": "off",
+    "@typescript-eslint/eslintarray-callback-return": "off"
   }
 }

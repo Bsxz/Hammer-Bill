@@ -74,7 +74,7 @@ const Button = styled.button`
 interface Props {
   text: string
   btntitle: string
-  kind?: Tags['kind']
+  kind?: Tag['kind']
 }
 
 export const TagsForm: React.FC<Props> = ({ text, btntitle, kind }) => {

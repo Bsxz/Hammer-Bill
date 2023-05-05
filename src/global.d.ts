@@ -1,6 +1,6 @@
-import type {EChartsOption} from 'echarts'
-import React, {ReactNode} from 'react'
-import {CreateItem} from 'stores/useCreateItemStore'
+import type { EChartsOption } from 'echarts'
+import React, { ReactNode } from 'react'
+import { CreateItem } from 'stores/useCreateItemStore'
 
 declare global {
     var isDev: boolean
@@ -23,7 +23,7 @@ declare global {
         updated_at: string
     }
 
-    interface Tags {
+    interface Tag {
         id: number,
         user_id: number,
         name: string,
@@ -31,7 +31,7 @@ declare global {
         deleted_at?: string,
         created_at: string,
         updated_at: string,
-        kind: expenses | incomes
+        kind: 'expenses' | 'incomes'
     }
 
     interface Item {
@@ -43,9 +43,9 @@ declare global {
         happen_at: string
         created_at: string
         updated_at: string
-        kind: expenses | incomes
+        kind: 'expenses' | 'incomes'
         deleted_at?: string
-        tags: Tags[]
+        tags: Tag[]
     }
 
     interface Pager {
@@ -72,7 +72,6 @@ declare global {
         setStartCount?: (value: boolean) => void
         onChange?: (value: string) => void
         requst?: () => void
-        // setTags?: (value: string) => void
         errorMessage?: string | string[]
     }
 

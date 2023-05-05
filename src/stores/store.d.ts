@@ -27,7 +27,7 @@ interface Menu {
 
 interface Tag {
     name: string
-    kind: Tags['kind']
+    kind: Tag['kind']
     sign: string
 }
 
@@ -40,7 +40,7 @@ interface TagForm {
 
 interface Bar {
     key: string
-    sign: Tags['sign']
+    sign: Tag['sign']
     value: number
     amount?: string
     bgColor?: string

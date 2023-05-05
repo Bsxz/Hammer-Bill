@@ -1,5 +1,5 @@
-import {faker} from '@faker-js/faker'
-import type {MockMethod} from 'vite-plugin-mock'
+import { faker } from '@faker-js/faker'
+import type { MockMethod } from 'vite-plugin-mock'
 
 let id = 0
 const createId = () => {

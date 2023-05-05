@@ -1,11 +1,12 @@
-import {Partial} from '@react-spring/web'
-import React, {useEffect} from 'react'
+import type { Partial } from '@react-spring/web'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import {time} from '../lib/time'
-import {Item, useCreateItemStore} from '../stores/useCreateItemStore'
-import {Range, Ranges} from '../stores/useSelectStore'
+import { time } from '../lib/time'
+import type { Item } from '../stores/useCreateItemStore'
+import { useCreateItemStore } from '../stores/useCreateItemStore'
+import type { Range, Ranges } from '../stores/useSelectStore'
 
-type Props = {
+interface Props {
     select: Range
     tabs: Ranges<Range>
     data?: Partial<Item>
@@ -25,8 +26,8 @@ const Ol = styled.ol`
     -webkit-tap-highlight-color: transparent;
   }
 `
-export const RangePick: React.FC<Props> = ({tabs, select, data, onChange, onClick}) => {
-    const {setData} = useCreateItemStore()
+export const RangePick: React.FC<Props> = ({ tabs, select, data, onChange, onClick }) => {
+    const { setData } = useCreateItemStore()
     useEffect(() => {
         setData({
                 kind: select,
@@ -40,8 +41,8 @@ export const RangePick: React.FC<Props> = ({tabs, select, data, onChange, onClic
         <Ol>
             {tabs?.map(k => <li key={k.key}
                                 value={select}
-                                style={k.key === select ? {borderColor: '#a8bf8f'} : {borderColor: 'transparent'}}
-                                onClick={() => onChange?.({kind: k.key}) || onClick?.(k.key)}>
+                                style={k.key === select ? { borderColor: '#a8bf8f' } : { borderColor: 'transparent' }}
+                                onClick={() => onChange?.({ kind: k.key }) || onClick?.(k.key)}>
                 {k.text}</li>)}
         </Ol>
     )
