@@ -59,7 +59,7 @@ export const Router = createBrowserRouter([
                 path: 'itemspage',
                 errorElement: <ErrorItemPage />,
                 loader: async () => {
-                    return preload('/api/v1/item?page=1', async (path) => {
+                    return preload('/api/v1/items?page=1', async (path) => {
                         const response = await axios.get<Resources<Item>>(path)
                         if (response.data.resources.length > 0)
                             return response.data

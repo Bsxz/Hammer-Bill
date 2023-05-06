@@ -31,7 +31,7 @@ const Div = styled.div`
 `
 export const Home: React.FC = () => {
     const { get } = useAjax()
-    const { data, isLoading } = useSWR('/api/v1/item',
+    const { data, isLoading } = useSWR('/api/v1/items',
         async (path: string) => await get<Resources<Item>>(path))
     const isLodingItem = isLoading && !data
     if (isLoading && isLodingItem)

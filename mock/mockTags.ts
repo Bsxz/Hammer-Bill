@@ -25,8 +25,9 @@ const createResources = ({
   count = 10,
   page = 1,
 }, attrs?: Partial<Tag>): Resources<Tag> => {
+  const _perPage = count - (page - 1) * perPage
   return {
-    resources: createList(perPage, attrs),
+    resources: _perPage > 0 ? createList(Math.min(_perPage, perPage), attrs) : [],
     pager: {
       page,
       per_page: perPage,
@@ -40,6 +41,6 @@ export const mockTags: MockMethod = {
   timeout: 500,
   statusCode: 200,
   response: ({ query }: ResponseParams) => {
-    return createResources({ page: parseInt(query.page), count: 30, perPage: 10 }, { kind: query.kind as Tag['kind'] })
+    return createResources({ page: parseInt(query.page), count: 51, perPage: 50 }, { kind: query.kind as Tag['kind'] })
   }
 }

@@ -34,10 +34,10 @@ const createList = (n: number, attrs?: Partial<Item>): Item[] => {
     return Array.from({ length: n }).map(() => create(attrs))
 }
 const createResources = ({
-                             perPage = 10,
-                             page = 1,
-                             count = 10
-                         }, attrs?: Partial<Item>): Resources<Item> => {
+    perPage = 10,
+    page = 1,
+    count = 10
+}, attrs?: Partial<Item>): Resources<Item> => {
     return {
         resources: createList(perPage, attrs),
         pager: {
@@ -48,7 +48,7 @@ const createResources = ({
     }
 }
 export const mockItem: MockMethod = {
-    url: '/api/v1/item',
+    url: '/api/v1/items',
     method: 'get',
     timeout: 500,
     statusCode: 200,

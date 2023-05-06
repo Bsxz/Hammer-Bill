@@ -20,7 +20,7 @@ const Div = styled.div`
 
   ol {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 48px);
+    /* grid-template-columns: repeat(auto-fill, auto); */
     row-gap: 36px;
     column-gap: 32px;
     justify-content: center;
@@ -75,69 +75,67 @@ const Div = styled.div`
 `
 export const TabsItem: React.FC<TabItem> = ({ data, setData }) => {
   const { get } = useAjax()
+  const [page, setPage] = useState(1)
   const [select, setSelect] = useState(-1)
+  const [_tags, setTags] = useState<Tag[]>([])
   const getTags = (pageIndex: number, prev: Resources<Tag>) => {
     if (prev) {
       const sendCount = (prev.pager.page + 1) * prev.pager.per_page
       if (sendCount > prev.pager.count)
         return null
     }
-    return `/api/v1/tags?page=${pageIndex + 1}&kind=${data.kind}`
+    return `/api/v1/tags?page=${page}&kind=${data.kind}`
   }
   const {
     data: tags,
     error,
-    size,
-    setSize,
     isValidating
   } = useSWRInfinite(getTags,
     async path => (await get<Resources<Tag>>(path)).data,
     { revalidateFirstPage: false })
   let hasMore
-  if (tags && tags[size - 1])
-    hasMore = size * tags[size - 1].pager.per_page >= tags[size - 1].pager.count
+  if (tags && tags[0])
+    hasMore = page * tags[0].pager.per_page >= tags[0].pager.count
+
   const onLoadMore = () => {
-    setSize(size + 1)
+    setPage(page + 1)
   }
+
   useEffect(() => {
     setSelect(-1)
+    if (tags)
+      setTags(state => state.concat(tags?.[0].resources))
   }, [tags])
   return (
     <Div>
-      <ol>
+      <ol style={{ gridTemplateColumns: (tags?.[0].resources.length) ? 'repeat(auto-fill, 48px)' : 'repeat(auto-fill, auto)' }}>
         <li>
           <Link to={`/tags/new?kind=${data.kind}`}><Icon name="add" w="32" h="32"
             fill={'var(--bgcolor1)'} /></Link>
+          <span>创建</span>
         </li>
-        {tags
-          ? tags.map(({ resources }) => {
+        {
+          _tags.map((v) => {
             return (
-              resources.map((v) => {
-                return (
-                  <li key={v.id} onClick={() => {
-                    setData({ tag_ids: [v.id] })
-                    setSelect(v.id)
-                  }}>
-                    <span style={{ border: v.id === select ? '1px solid var(--bgcolor1)' : '' }}>{v.sign}</span>
-                    <span>{v.name}</span>
-                  </li>
-                )
-              }
-              )
+              <li key={v.id} onClick={() => {
+                setData({ tag_ids: [v.id] })
+                setSelect(v.id)
+              }}>
+                <span style={{ border: v.id === select ? '1px solid var(--bgcolor1)' : '' }}>{v.sign}</span>
+                <span>{v.name}</span>
+              </li>
             )
-          })
-          : null}
+          }
+          )
+        }
       </ol>
       {error ? <div>数据加载出错请重试</div> : null}
-      {(isValidating)
-        ? <div>正在加载数据</div>
-        : <div>{hasMore
-          ? <span>没有更多数据了</span>
-          : (tags && tags[0].resources.length > 0)
-            ? <button onClick={onLoadMore}>加载更多</button>
-            : <span>没有记账</span>}
-        </div>
-      }
+      <div>{!hasMore
+        ? (isValidating)
+          ? <div>正在加载数据</div>
+          : <button onClick={onLoadMore}>加载更多</button>
+        : page === 1 ? <span>点击加号，创建新标签</span> : <span>没有更多数据了</span>
+      }</div>
     </Div >
   )
 }

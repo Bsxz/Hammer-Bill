@@ -48,8 +48,6 @@ export const ItemsNewPage: React.FC = () => {
         console.log(data)
         console.log('发送请求')
     }
-    console.log(tabs)
-
     return (
         <Form onSubmit={submit}>
             <StyledGradient>

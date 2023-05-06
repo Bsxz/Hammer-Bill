@@ -64,7 +64,7 @@ const getItem = (pageIndex: number, prev: Resources<Item>) => {
     if (sendCount > prev.pager.count)
       return null
   }
-  return `/api/v1/item?page=${pageIndex + 1}`
+  return `/api/v1/items?page=${pageIndex + 1}`
 }
 export const ItemsList: React.FC = () => {
   const { get } = useAjax()
