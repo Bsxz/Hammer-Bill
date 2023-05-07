@@ -75,19 +75,19 @@ const Div = styled.div`
 `
 export const TabsItem: React.FC<TabItem> = ({ data, setData }) => {
   const { get } = useAjax()
-  const [page, setPage] = useState(1)
   const [select, setSelect] = useState(-1)
-  const [_tags, setTags] = useState<Tag[]>([])
   const getTags = (pageIndex: number, prev: Resources<Tag>) => {
     if (prev) {
-      const sendCount = (prev.pager.page + 1) * prev.pager.per_page
+      const sendCount = prev.pager.page * prev.pager.per_page
       if (sendCount > prev.pager.count)
         return null
     }
-    return `/api/v1/tags?page=${page}&kind=${data.kind}`
+    return `/api/v1/tags?page=${pageIndex + 1}&kind=${data.kind}`
   }
   const {
     data: tags,
+    size,
+    setSize,
     error,
     isValidating
   } = useSWRInfinite(getTags,
@@ -95,16 +95,14 @@ export const TabsItem: React.FC<TabItem> = ({ data, setData }) => {
     { revalidateFirstPage: false })
   let hasMore
   if (tags && tags[0])
-    hasMore = page * tags[0].pager.per_page >= tags[0].pager.count
+    hasMore = size * tags[0].pager.per_page >= tags[0].pager.count
 
   const onLoadMore = () => {
-    setPage(page + 1)
+    setSize(size + 1)
   }
 
   useEffect(() => {
     setSelect(-1)
-    if (tags)
-      setTags(state => state.concat(tags?.[0].resources))
   }, [tags])
   return (
     <Div>
@@ -115,7 +113,7 @@ export const TabsItem: React.FC<TabItem> = ({ data, setData }) => {
           <span>创建</span>
         </li>
         {
-          _tags.map((v) => {
+          tags?.map(({ resources }) => resources.map((v) => {
             return (
               <li key={v.id} onClick={() => {
                 setData({ tag_ids: [v.id] })
@@ -126,15 +124,18 @@ export const TabsItem: React.FC<TabItem> = ({ data, setData }) => {
               </li>
             )
           }
-          )
+          ))
         }
       </ol>
       {error ? <div>数据加载出错请重试</div> : null}
-      <div>{!hasMore
-        ? (isValidating)
-          ? <div>正在加载数据</div>
-          : <button onClick={onLoadMore}>加载更多</button>
-        : page === 1 ? <span>点击加号，创建新标签</span> : <span>没有更多数据了</span>
+      <div>{isValidating
+        ? <div>正在加载数据</div>
+        : <div>{hasMore
+          ? size === 1 ? <span>点击加号，创建新标签</span> : <span>没有更多数据了</span>
+          : (tags && tags[0].resources.length > 0)
+            ? <button onClick={onLoadMore}>加载更多</button>
+            : <span>没有记账</span>}
+        </div>
       }</div>
     </Div >
   )

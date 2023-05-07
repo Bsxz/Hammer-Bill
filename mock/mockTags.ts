@@ -41,6 +41,6 @@ export const mockTags: MockMethod = {
   timeout: 500,
   statusCode: 200,
   response: ({ query }: ResponseParams) => {
-    return createResources({ page: parseInt(query.page), count: 51, perPage: 50 }, { kind: query.kind as Tag['kind'] })
+    return createResources({ page: parseInt(query.page), count: 23, perPage: 50 }, { kind: query.kind as Tag['kind'] })
   }
 }

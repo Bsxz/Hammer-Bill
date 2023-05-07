@@ -24,7 +24,7 @@ export const ItemsNewPage: React.FC = () => {
     const nav = useNavigate()
     const tabs: Ranges<Range> = [
         { key: 'expenses', text: '支出', element: <div></div> },
-        { key: 'incomes', text: '收入', element: <div></div> }
+        { key: 'incomes', text: '收入', element: <div></div> },
     ]
     useEffect(() => {
         setData({ kind: 'expenses' })
@@ -38,7 +38,7 @@ export const ItemsNewPage: React.FC = () => {
             { key: 'kind', type: 'required', message: '请填写收入信息' },
             { key: 'happen_at', type: 'required', message: '请填写收入信息' },
             { key: 'tag_ids', type: 'length', min: 1, message: '请选择emoji' },
-            { key: 'amount', type: 'notEqual', value: 0, message: '请输入金额' }
+            { key: 'amount', type: 'notEqual', value: 0, message: '请输入金额' },
         ])
         setError(newError)
         if (hasError(newError)) {
@@ -51,11 +51,17 @@ export const ItemsNewPage: React.FC = () => {
     return (
         <Form onSubmit={submit}>
             <StyledGradient>
-                <TopNav title="记一笔" icon={
-                    <Icon name="back" w="36" h="36" onClick={back} />
-                } />
+                <TopNav
+                    title="记一笔"
+                    icon={<Icon name="back" w="36" h="36" onClick={back} />}
+                />
                 {/* {error ? Object.values(error)[0] : null} */}
-                <RangePick select={data.kind} tabs={tabs} data={data} onChange={setData} />
+                <RangePick
+                    select={data.kind}
+                    tabs={tabs}
+                    data={data}
+                    onChange={setData}
+                />
             </StyledGradient>
             <TabsItem data={data} setData={setData} />
             <StyledKeyBoard data={data} setData={setData} />

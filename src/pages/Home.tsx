@@ -38,12 +38,12 @@ export const Home: React.FC = () => {
         return <Loading />
 
     if (data?.data.resources[0])
-        return <Navigate to="/itemspage" />
+        return <Navigate to="/items" />
     return (
         <>
             <Div>
                 <Icon name="Piggybank" fill="currentColor" w="128" h="130" />
-                <NavLink to="/itemspage">
+                <NavLink to="/items">
                     <button>开始记账</button>
                 </NavLink>
                 <AddFloutButton />

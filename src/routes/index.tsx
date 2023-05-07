@@ -56,7 +56,8 @@ export const Router = createBrowserRouter([
                 element: <Home />
             },
             {
-                path: 'itemspage',
+                path: 'items',
+                element: <ItemsPage />,
                 errorElement: <ErrorItemPage />,
                 loader: async () => {
                     return preload('/api/v1/items?page=1', async (path) => {
@@ -67,17 +68,11 @@ export const Router = createBrowserRouter([
                         else
                             throw new ErrorDataEmpty()
                     })
-                },
-                children: [
-                    {
-                        index: true,
-                        element: <ItemsPage />
-                    },
-                    {
-                        path: '/itemspage/new',
-                        element: <ItemsNewPage />
-                    }
-                ]
+                }
+            },
+            {
+                path: '/itemspage/new',
+                element: <ItemsNewPage />
             },
             {
                 path: 'tags/new',

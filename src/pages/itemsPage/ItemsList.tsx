@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import useSWRInfinite from 'swr/infinite'
 import { useAjax } from '../../api/ajax'
-
 const Ol = styled.ol`
   li {
     display: flex;
@@ -60,7 +59,7 @@ const Div = styled.div`
 `
 const getItem = (pageIndex: number, prev: Resources<Item>) => {
   if (prev) {
-    const sendCount = (prev.pager.page + 1) * prev.pager.per_page
+    const sendCount = prev.pager.page * prev.pager.per_page
     if (sendCount > prev.pager.count)
       return null
   }
@@ -88,9 +87,9 @@ export const ItemsList: React.FC = () => {
     </>
   }
   else {
-    let hasMore
-    if (data[size - 1])
-      hasMore = size * data[size - 1].pager.per_page >= data[size - 1].pager.count
+    const last = data[data.length - 1]
+    const { page, per_page, count } = last.pager
+    const hasMore = page * per_page < count
     return (<>
       <Ol>
         {data.map(({ resources }) => {
@@ -110,7 +109,7 @@ export const ItemsList: React.FC = () => {
       {error ? <Div>数据加载出错请重试</Div> : null}
       {isValidating
         ? <Div>正在加载数据</Div>
-        : <Div>{hasMore
+        : <Div>{!hasMore
           ? <span>没有更多数据了</span>
           : data[0].resources.length > 0
             ? <button onClick={onLoadMore}>加载更多</button>
