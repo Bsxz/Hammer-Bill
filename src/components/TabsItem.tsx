@@ -1,6 +1,5 @@
 import type { Partial } from '@react-spring/web'
 import React, { useEffect, useState } from 'react'
-
 import styled from 'styled-components'
 import useSWRInfinite from 'swr/infinite'
 import { Link } from 'react-router-dom'
@@ -92,7 +91,7 @@ export const TabsItem: React.FC<TabItem> = ({ data, setData }) => {
     isValidating
   } = useSWRInfinite(getTags,
     async path => (await get<Resources<Tag>>(path)).data,
-    { revalidateFirstPage: false })
+    { revalidateFirstPage: false, revalidateAll: true })
   let hasMore
   if (tags && tags[0])
     hasMore = size * tags[0].pager.per_page >= tags[0].pager.count

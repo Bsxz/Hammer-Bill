@@ -3,9 +3,10 @@ import axios from 'axios'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-axios.defaults.baseURL = isDev
-    ? '/'
-    : 'https://mangosteen2.hunger-valley.com'
+// axios.defaults.baseURL = isDev
+//     ? '/'
+//     : 'https://mangosteen2.hunger-valley.com'
+axios.defaults.baseURL = 'https://mangosteen2.hunger-valley.com'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 axios.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem('jwt')}`

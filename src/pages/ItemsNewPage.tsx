@@ -27,7 +27,7 @@ export const ItemsNewPage: React.FC = () => {
     const nav = useNavigate()
     const tabs: Ranges<Range> = [
         { key: 'expenses', text: '支出', element: <div></div> },
-        { key: 'incomes', text: '收入', element: <div></div> },
+        { key: 'income', text: '收入', element: <div></div> },
     ]
     useEffect(() => {
         setNewData(() => ({ ...data, amount: parseFloat(data.amount as string) * 100 }))
@@ -52,6 +52,7 @@ export const ItemsNewPage: React.FC = () => {
             return
         }
         post('/api/v1/items', newData)
+        nav('/items')
     }
     return (
         <Form onSubmit={submit}>

@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { create } from 'zustand'
 import { ThisMonth } from '../pages/rangesPage/ThisMonth'
 
-export type Range = 'thisMonth' | 'lastMonth' | 'thisYear' | 'custom' | 'expenses' | 'incomes'
+export type Range = 'thisMonth' | 'lastMonth' | 'thisYear' | 'custom' | 'expenses' | 'income'
 export type Ranges<T> = { key: T; text: string; element: ReactNode }[]
 
 export interface Selected<T> {

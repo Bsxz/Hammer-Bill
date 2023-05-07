@@ -1,6 +1,6 @@
 import type { AxiosError } from 'axios'
 import axios from 'axios'
-import { Outlet, createBrowserRouter } from 'react-router-dom'
+import { Outlet, createHashRouter } from 'react-router-dom'
 import { preload } from 'swr'
 import { Redirect } from '../components/Redirect'
 import { Root } from '../components/Root'
@@ -18,7 +18,7 @@ import { TagsPage } from '../pages/TagsPage'
 import { Home } from '../pages/Home'
 import { WelComeRoutes } from './welComeRoutes'
 
-export const Router = createBrowserRouter([
+export const Router = createHashRouter([
     {
         path: '/',
         element: <Outlet />,

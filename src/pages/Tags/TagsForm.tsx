@@ -9,6 +9,7 @@ import { hasError, validate } from '../../lib/validata'
 import { useTagFormStore } from '../../stores/useTagFormStore'
 import { useTags } from '../../stores/useTags'
 import { useAjax } from '../../api/ajax'
+import { preload } from 'swr'
 
 const Form = styled.form`
   flex-grow: 1;
@@ -110,8 +111,8 @@ export const TagsForm: React.FC<Props> = ({ text, btntitle, kind }) => {
       const newTags = tags
       newTags.push(data)
       setTags(newTags)
-      nav(-1)
       post('/api/v1/tags', data)
+      nav(-1)
     }
   }
   return (
