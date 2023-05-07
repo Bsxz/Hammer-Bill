@@ -30,19 +30,19 @@ export const RangePick: React.FC<Props> = ({ tabs, select, data, onChange, onCli
     const { setData } = useCreateItemStore()
     useEffect(() => {
         setData({
-                kind: select,
-                tag_ids: [],
-                happen_at: time().date,
-                amount: 0
-            }
+            kind: select,
+            tag_ids: [],
+            happen_at: time().format(),
+            amount: 0
+        }
         )
     }, [select])
     return (
         <Ol>
             {tabs?.map(k => <li key={k.key}
-                                value={select}
-                                style={k.key === select ? { borderColor: '#a8bf8f' } : { borderColor: 'transparent' }}
-                                onClick={() => onChange?.({ kind: k.key }) || onClick?.(k.key)}>
+                value={select}
+                style={k.key === select ? { borderColor: '#a8bf8f' } : { borderColor: 'transparent' }}
+                onClick={() => onChange?.({ kind: k.key }) || onClick?.(k.key)}>
                 {k.text}</li>)}
         </Ol>
     )

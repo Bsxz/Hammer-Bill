@@ -43,7 +43,7 @@ export const Home: React.FC = () => {
         <>
             <Div>
                 <Icon name="Piggybank" fill="currentColor" w="128" h="130" />
-                <NavLink to="/items">
+                <NavLink to="/itemspage/new">
                     <button>开始记账</button>
                 </NavLink>
                 <AddFloutButton />

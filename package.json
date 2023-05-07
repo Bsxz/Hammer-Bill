@@ -9,7 +9,7 @@
     "dev": "vite --host",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "gcm": "yarn build && git add . && git cm -v"
+    "deploy": "git push && vc deploy"
   },
   "dependencies": {
     "@react-spring/web": "9.7.1",

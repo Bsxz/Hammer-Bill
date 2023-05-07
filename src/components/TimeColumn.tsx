@@ -81,7 +81,7 @@ export const TimeColumn: React.FC<Props> = ({ popupStyles, onMaskVisible }) => {
   const submit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    setData({ happen_at: timevalue.current.date })
+    setData({ happen_at: time(timevalue.current.date).format() })
     onMaskVisible()
   }
 

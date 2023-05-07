@@ -120,15 +120,13 @@ export const StyledKeyBoard: React.FC<Props> = ({ data, setData }) => {
     }
     if (str === '0' && data.amount === 0)
       return
-
-    if (str === '.' && data.amount === 0 && data.amount.toString().includes(str))
+    if (str === '.' && data.amount?.toString().includes(str))
       return
-
-    const _amount = data.amount !== 0 ? data.amount + str : str
+    const _amount = data.amount !== 0 || str === '.' ? data.amount + str : str
     const toFixed = _amount.split('.')
     if ((toFixed[0]?.length + toFixed[1]?.length) > 10 || toFixed[1]?.length > 2)
       return
-    setData({ amount: Number(_amount) })
+    setData({ amount: _amount })
   }
   return (
     <>

@@ -1,4 +1,4 @@
-import type { FormEventHandler } from 'react'
+import { FormEventHandler, useState } from 'react'
 import React, { useEffect } from 'react'
 
 import { useNavigate } from 'react-router-dom'
@@ -12,6 +12,7 @@ import { TopNav } from '../components/TopNav'
 import { hasError, validate } from '../lib/validata'
 import { useCreateItemStore } from '../stores/useCreateItemStore'
 import type { Range, Ranges } from '../stores/useSelectStore'
+import { useAjax } from '../api/ajax'
 
 const Form = styled.form`
   height: calc(100vh - var(--vh-offset, 0px));
@@ -21,11 +22,16 @@ const Form = styled.form`
 `
 export const ItemsNewPage: React.FC = () => {
     const { data, setData, setError } = useCreateItemStore()
+    const { post } = useAjax()
+    const [newData, setNewData] = useState(data)
     const nav = useNavigate()
     const tabs: Ranges<Range> = [
         { key: 'expenses', text: '支出', element: <div></div> },
         { key: 'incomes', text: '收入', element: <div></div> },
     ]
+    useEffect(() => {
+        setNewData(() => ({ ...data, amount: parseFloat(data.amount as string) * 100 }))
+    }, [data])
     useEffect(() => {
         setData({ kind: 'expenses' })
     }, [])
@@ -45,8 +51,7 @@ export const ItemsNewPage: React.FC = () => {
             alert(Object.values(newError)[0])
             return
         }
-        console.log(data)
-        console.log('发送请求')
+        post('/api/v1/items', newData)
     }
     return (
         <Form onSubmit={submit}>
