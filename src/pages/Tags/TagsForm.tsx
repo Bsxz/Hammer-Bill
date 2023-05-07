@@ -8,6 +8,7 @@ import { time } from '../../lib/time'
 import { hasError, validate } from '../../lib/validata'
 import { useTagFormStore } from '../../stores/useTagFormStore'
 import { useTags } from '../../stores/useTags'
+import { useAjax } from '../../api/ajax'
 
 const Form = styled.form`
   flex-grow: 1;
@@ -79,6 +80,7 @@ interface Props {
 
 export const TagsForm: React.FC<Props> = ({ text, btntitle, kind }) => {
   const nav = useNavigate()
+  const { post } = useAjax()
   const { data, error, setError, setData } = useTagFormStore()
   const { expensesTags, incomeTags, setExpensesTags, setIncomeTags } = useTags()
   const tags = kind === 'expenses' ? expensesTags : incomeTags
@@ -108,9 +110,8 @@ export const TagsForm: React.FC<Props> = ({ text, btntitle, kind }) => {
       const newTags = tags
       newTags.push(data)
       setTags(newTags)
-      // 发送请求
       nav(-1)
-      console.log('没有错误可以发送请求')
+      post('/api/v1/tags', data)
     }
   }
   return (
