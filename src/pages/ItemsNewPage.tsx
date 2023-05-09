@@ -21,6 +21,8 @@ const Form = styled.form`
 `
 export const ItemsNewPage: React.FC = () => {
     const { data, setData, setError } = useCreateItemStore()
+    console.log(data.kind);
+
     const { post } = useAjax()
     const [newData, setNewData] = useState(data)
     const nav = useNavigate()
@@ -32,7 +34,8 @@ export const ItemsNewPage: React.FC = () => {
         setNewData(() => ({ ...data, amount: parseFloat(data.amount as string) * 100 }))
     }, [data])
     useEffect(() => {
-        setData({ kind: 'expenses' })
+        if (data.kind !== 'expenses' && data.kind !== 'income')
+            setData({ kind: 'expenses' })
     }, [])
     const back = () => {
         nav(-1)

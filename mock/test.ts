@@ -5,8 +5,8 @@ import { mockMe } from './mockMe'
 import { mockTags } from './mockTags'
 
 export default [
-  mockMe,
-  mockItem,
-  mockLogin,
-  mockTags
+  ...mockMe,
+  ...mockItem,
+  ...mockLogin,
+  ...mockTags
 ] as MockMethod[]

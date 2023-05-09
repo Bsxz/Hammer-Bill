@@ -19,7 +19,7 @@ const createResourece = (): Resource<User> => {
         resource: createMe()
     }
 }
-export const mockMe: MockMethod = {
+export const mockMe: MockMethod[] = [{
     url: '/api/v1/me',
     method: 'get',
     timeout: 10,
@@ -27,4 +27,4 @@ export const mockMe: MockMethod = {
     response: (): Resource<User> => {
         return createResourece()
     }
-}
+}]

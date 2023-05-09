@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router-dom'
 import { Input } from '../../components/Input'
 import { usePopup } from '../../hooks/usePopup'
 import { time } from '../../lib/time'
-import { hasError, validate } from '../../lib/validata'
+import { FormError, hasError, validate } from '../../lib/validata'
 import { useTagFormStore } from '../../stores/useTagFormStore'
-import { useTags } from '../../stores/useTags'
 import { useAjax } from '../../api/ajax'
+import { AxiosError } from 'axios'
 
 const Form = styled.form`
   flex-grow: 1;
@@ -90,9 +90,6 @@ export const TagsForm: React.FC<Props> = ({ text, btntitle, kind }) => {
   const nav = useNavigate()
   const { post } = useAjax()
   const { data, error, setError, setData } = useTagFormStore()
-  const { expensesTags, incomeTags, setExpensesTags, setIncomeTags } = useTags()
-  const tags = kind === 'expenses' ? expensesTags : incomeTags
-  const setTags = kind === 'expenses' ? setExpensesTags : setIncomeTags
   const [onStart, setOnstart] = useState(0)
   const { popup, toggle } = usePopup()
   useEffect(() => {
@@ -102,11 +99,20 @@ export const TagsForm: React.FC<Props> = ({ text, btntitle, kind }) => {
       setError({ name: [], kind: [], sign: [] })
     }
   }, [])
+  const onsubmitError = (error: AxiosError<{ errors: FormError<typeof data> }>) => {
+    if (error.response) {
+      const { status } = error.response
+      if (status === 422) {
+        const { errors } = error.response.data
+        setError(errors)
+      }
+    }
+    throw new Error(error.message)
+  }
   const submit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
     const newError = validate({ name: data.name, kind: data.kind, sign: data.sign, length: data.name.length },
       [
-        { key: 'name', type: 'chinese', message: '请输入中文' },
         { key: 'name', type: 'required', message: '请输入标签名' },
         { key: 'name', type: 'length', max: 4, message: '标签名过长' },
         { key: 'sign', type: 'required', message: '未选择sign图标' },
@@ -115,13 +121,12 @@ export const TagsForm: React.FC<Props> = ({ text, btntitle, kind }) => {
     )
     setError(newError)
     if (!hasError(newError)) {
-      const newTags = tags
-      newTags.push(data)
-      setTags(newTags)
-      post('/api/v1/tags', data)
-      nav(-1)
+      post('/api/v1/tags', data).then(() => {
+        nav(-1)
+      }).catch(onsubmitError)
     }
   }
+
   return (
     <>
       {popup}

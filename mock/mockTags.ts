@@ -13,6 +13,7 @@ const create = (attrs?: Partial<Tag>): Tag => {
     sign: faker.internet.emoji(),
     created_at: faker.date.past().toISOString(),
     updated_at: faker.date.past().toISOString(),
+    deleted_at: null,
     kind: 'expenses',
     ...attrs
   }
@@ -35,12 +36,36 @@ const createResources = ({
     }
   }
 }
-export const mockTags: MockMethod = {
-  url: '/api/v1/tags',
-  method: 'get',
-  timeout: 500,
-  statusCode: 200,
-  response: ({ query }: ResponseParams) => {
-    return createResources({ page: parseInt(query.page), count: 23, perPage: 50 }, { kind: query.kind as Tag['kind'] })
-  }
-}
+export const mockTags: MockMethod[] = [
+  {
+    url: '/api/v1/tags',
+    method: 'get',
+    timeout: 500,
+    statusCode: 200,
+    response: ({ query }: ResponseParams): Resources<Tag> => {
+      return createResources({ page: parseInt(query.page), count: 23, perPage: 50 }, { kind: query.kind as Tag['kind'] })
+    }
+  },
+  {
+    url: '/api/v1/tags',
+    method: 'post',
+    timeout: 500,
+    statusCode: 200,
+    response: ({ body }: Response): Resource<Tag> => {
+      return { resource: create(body as Partial<Tag>) }
+    }
+  },
+  // {
+  //   url: '/api/v1/tags',
+  //   method: 'post',
+  //   timeout: 500,
+  //   statusCode: 422,
+  //   response: ({ body }: Response): any => {
+  //     return {
+  //       errors: {
+  //         name: ['illegal']
+  //       }
+  //     }
+  //   }
+  // }
+]

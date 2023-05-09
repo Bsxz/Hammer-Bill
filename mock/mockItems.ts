@@ -23,11 +23,11 @@ const create = (attrs?: Partial<Item>): Item => {
                 sign: '😡',
                 created_at: faker.date.past().toISOString(),
                 updated_at: faker.date.past().toISOString(),
-                kind: 'expenses'
+                kind: 'expenses',
             }
         ],
+        ...attrs,
         kind: 'expenses',
-        ...attrs
     }
 }
 const createList = (n: number, attrs?: Partial<Item>): Item[] => {
@@ -44,12 +44,22 @@ const createResponse = ({ count = 10, perPage = 10, page = 1 }, attrs?: Partial<
         }
     }
 }
-export const mockItem: MockMethod = {
+export const mockItem: MockMethod[] = [{
     url: '/api/v1/items',
     method: 'get',
     timeout: 500,
     statusCode: 200,
     response: ({ query }: ResponseParams): Resources<Item> => {
-        return createResponse({ page: parseInt(query.page) || 1, count: 0, perPage: 10 })
+        return createResponse({ page: parseInt(query.page) || 1, count: 40, perPage: 10 })
     }
-}
+},
+{
+    url: '/api/v1/items',
+    method: 'post',
+    statusCode: 200,
+    response: ({ body }: Response): Resource<Item> => {
+        return {
+            resource: create(body as Partial<Item>)
+        }
+    }
+}]

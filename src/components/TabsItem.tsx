@@ -104,6 +104,7 @@ export const TabsItem: React.FC<TabItem> = ({ data, setData }) => {
   useEffect(() => {
     setSelect(-1)
   }, [tags])
+
   return (
     <Div>
       <ol style={{ gridTemplateColumns: (tags?.[0].resources.length) ? 'repeat(auto-fill, 48px)' : 'repeat(auto-fill, auto)' }}>
