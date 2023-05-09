@@ -19,6 +19,7 @@ const Ol = styled.ol`
         align-items: center;
         width: 58px;
         height: 58px;
+        font-size: 26px;
         border-radius: 50%;
         background-color: #efefef;
       }
@@ -35,6 +36,7 @@ const Ol = styled.ol`
 
     span {
       flex-grow: 1;
+      line-height: 58px;
       text-align: right;
       color: #7dbd8d;
     }
@@ -76,7 +78,7 @@ export const ItemsList: React.FC = () => {
     isValidating
   } = useSWRInfinite(getItem,
     async path => (await get<Resources<Item>>(path)).data,
-    { revalidateFirstPage: false })
+    { revalidateFirstPage: false, revalidateAll: true })
   const onLoadMore = () => {
     setSize(size + 1)
   }

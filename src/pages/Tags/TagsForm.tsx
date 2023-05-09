@@ -9,7 +9,6 @@ import { hasError, validate } from '../../lib/validata'
 import { useTagFormStore } from '../../stores/useTagFormStore'
 import { useTags } from '../../stores/useTags'
 import { useAjax } from '../../api/ajax'
-import { preload } from 'swr'
 
 const Form = styled.form`
   flex-grow: 1;
@@ -29,6 +28,10 @@ const Form = styled.form`
   div:nth-of-type(2) {
     flex-grow: 1;
     flex-shrink: 1;
+    > span {
+      line-height: 35px;
+      height: 35px;
+    }
   }
 
   > div {
@@ -40,14 +43,18 @@ const Form = styled.form`
 
     > span {
       margin-top: 10px;
+      > span {
+        font-size: 26px;
+      }
     }
 
     &:nth-last-child(2) {
       flex-grow: 1;
       flex-shrink: 1;
 
-      span {
+      > span {
         height: 22px;
+        font-size: 26px;
         flex-grow: 0;
         flex-shrink: 0;
       }
@@ -122,7 +129,7 @@ export const TagsForm: React.FC<Props> = ({ text, btntitle, kind }) => {
         <Input lable="标签名" placeholder="2到4个汉字" value={data.name}
           onChange={value => value.length <= 4 && setData({ name: value })}
           errorMessage={error.name?.[0]} />
-        <Input lable={`符号  ${data.sign}`} type="emoji" onChange={v => setData({ sign: v })}
+        <Input lable={'符号'} sign={data.sign} type="emoji" onChange={v => setData({ sign: v })}
           errorMessage={error.sign?.[0]} />
         <span onTouchStart={() => {
           setOnstart(time().seconds)

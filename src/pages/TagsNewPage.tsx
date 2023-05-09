@@ -14,22 +14,23 @@ const Div = styled.div`
 `
 
 export const TagsNewPage: React.FC = () => {
-    const [serchParams] = useSearchParams()
-    const { backSelect, onChange } = useSelectStore()
-    const kind = serchParams.get('kind') as Tag['kind']
-    const nav = useNavigate()
-    const back = () => {
-        onChange(backSelect)
-        nav(-1)
-    }
-    return (
-        <Div>
-            <StyledGradient>
-                <TopNav title="新建标签" icon={
-                    <Icon name="back" w="36" h="36" onClick={back} />
-                } />
-            </StyledGradient>
-            <TagsForm text="记账时长按标签，即可进行编辑" btntitle="创建" kind={kind} />
-        </Div>
-    )
+  const [serchParams] = useSearchParams()
+  const { backSelect, onChange } = useSelectStore()
+  const kind = serchParams.get('kind') as Tag['kind']
+  const nav = useNavigate()
+  const back = () => {
+    onChange(backSelect)
+    nav(-1)
+  }
+
+  return (
+    <Div>
+      <StyledGradient>
+        <TopNav title="新建标签" icon={
+          <Icon name="back" w="36" h="36" onClick={back} />
+        } />
+      </StyledGradient>
+      <TagsForm text="记账时长按标签，即可进行编辑" btntitle="创建" kind={kind} />
+    </Div>
+  )
 }

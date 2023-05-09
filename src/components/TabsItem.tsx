@@ -19,7 +19,6 @@ const Div = styled.div`
 
   ol {
     display: grid;
-    /* grid-template-columns: repeat(auto-fill, auto); */
     row-gap: 36px;
     column-gap: 32px;
     justify-content: center;
@@ -44,9 +43,11 @@ const Div = styled.div`
       span:nth-child(1) {
         width: 48px;
         height: 48px;
+        font-size: 26px;
         border-radius: 50%;
         line-height: 48px;
         background-color: #EFEFEF;
+        border: 1px solid transparent;
       }
       span:nth-child(2) {
         margin-top: 8px;
@@ -118,7 +119,7 @@ export const TabsItem: React.FC<TabItem> = ({ data, setData }) => {
                 setData({ tag_ids: [v.id] })
                 setSelect(v.id)
               }}>
-                <span style={{ border: v.id === select ? '1px solid var(--bgcolor1)' : '' }}>{v.sign}</span>
+                <span style={{ borderColor: v.id === select ? 'var(--bgcolor1)' : 'transparent' }}>{v.sign}</span>
                 <span>{v.name}</span>
               </li>
             )

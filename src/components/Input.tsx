@@ -10,19 +10,19 @@ export const Input: React.FC<InputProps> = (props) => {
       case 'text': {
         return <TextInput {...props} />
       }
-      case 'code' : {
+      case 'code': {
         return <CodeInput {...props} />
       }
       case 'emoji': {
         return (
-                    <EmojiInput {...props} />
+          <EmojiInput {...props} />
         )
       }
     }
   }
   return (
-        <>
-            {render(type)}
-        </>
+    <>
+      {render(type)}
+    </>
   )
 }

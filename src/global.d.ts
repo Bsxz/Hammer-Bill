@@ -66,6 +66,7 @@ declare global {
     interface InputProps {
         lable?: string
         type?: 'text' | 'code' | 'emoji'
+        sign?: string
         placeholder?: string
         value?: string
         startCount?: boolean

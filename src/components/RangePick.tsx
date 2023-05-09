@@ -22,6 +22,7 @@ const Ol = styled.ol`
     text-align: center;
     flex-grow: 1;
     padding: 11px 22px;
+    cursor: pointer;
     border-bottom: 3px solid transparent;
     -webkit-tap-highlight-color: transparent;
   }

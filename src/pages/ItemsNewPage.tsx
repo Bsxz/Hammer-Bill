@@ -1,6 +1,5 @@
-import { FormEventHandler, useState } from 'react'
-import React, { useEffect } from 'react'
-
+import type { FormEventHandler } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Icon } from '../components/Icon'
