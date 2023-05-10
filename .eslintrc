@@ -2,6 +2,9 @@
   "extends": "@antfu",
   "rules": {
     "@typescript-eslint/comma-dangle": "off",
-    "@typescript-eslint/indent": "off"
+    "@typescript-eslint/indent": "off",
+    "no-console": "off",
+    "curly": "off",
+    "max-statements-per-line": "off"
   }
 }

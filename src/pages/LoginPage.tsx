@@ -2,12 +2,14 @@ import type { FormEventHandler } from 'react'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import type { AxiosError } from 'axios'
 import { useAjax } from '../api/ajax'
 import { Header } from '../components/Header'
 import { Icon } from '../components/Icon'
 import { Input } from '../components/Input'
 import { StyledGradient } from '../components/StyledGradient'
 import { TopNav } from '../components/TopNav'
+import type { FormError } from '../lib/validata'
 import { hasError, validate } from '../lib/validata'
 import { useLoginStore } from '../stores/useLoginStore'
 
@@ -75,6 +77,14 @@ export const LoginPage: React.FC = () => {
   const { data, error, setData, setError } = useLoginStore()
   const [startCount, setStartCount] = useState(false)
   const nav = useNavigate()
+  const onsubmitError = (error: AxiosError<{ errors: FormError<typeof data> }>) => {
+    if (error.response) {
+      const { status } = error.response
+      if (status === 422)
+        setError({ code: ['密码错误'] })
+    }
+    throw new Error(error.message)
+  }
   const submit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
     const newError = validate(data, [
@@ -92,9 +102,7 @@ export const LoginPage: React.FC = () => {
     ])
     setError(newError)
     if (!hasError(newError)) {
-      const { data: { jwt } } = await post<{ jwt: string }>('https://mangosteen2.hunger-valley.com/api/v1/session', data).catch((error) => {
-        throw new Error(error)
-      })
+      const { data: { jwt } } = await post<{ jwt: string }>('https://mangosteen2.hunger-valley.com/api/v1/session', data).catch(onsubmitError)
       window.localStorage.setItem('jwt', jwt)
       nav('/home')
     }

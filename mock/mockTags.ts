@@ -2,10 +2,10 @@ import { faker } from '@faker-js/faker'
 import type { MockMethod } from 'vite-plugin-mock'
 
 let id = 0
-const createId = () => {
+function createId() {
   return id += 1
 }
-const create = (attrs?: Partial<Tag>): Tag => {
+function create(attrs?: Partial<Tag>): Tag {
   return {
     id: createId(),
     user_id: faker.datatype.number(),
@@ -18,14 +18,14 @@ const create = (attrs?: Partial<Tag>): Tag => {
     ...attrs
   }
 }
-const createList = (n: number, attrs?: Partial<Tag>): Tag[] => {
+function createList(n: number, attrs?: Partial<Tag>): Tag[] {
   return Array.from({ length: n }).map(() => create(attrs))
 }
-const createResources = ({
+function createResources({
   perPage = 10,
   count = 10,
   page = 1,
-}, attrs?: Partial<Tag>): Resources<Tag> => {
+}, attrs?: Partial<Tag>): Resources<Tag> {
   const _perPage = count - (page - 1) * perPage
   return {
     resources: _perPage > 0 ? createList(Math.min(_perPage, perPage), attrs) : [],
@@ -55,17 +55,20 @@ export const mockTags: MockMethod[] = [
       return { resource: create(body as Partial<Tag>) }
     }
   },
-  // {
-  //   url: '/api/v1/tags',
-  //   method: 'post',
-  //   timeout: 500,
-  //   statusCode: 422,
-  //   response: ({ body }: Response): any => {
-  //     return {
-  //       errors: {
-  //         name: ['illegal']
-  //       }
-  //     }
-  //   }
-  // }
+  {
+    url: '/api/v1/tags/:id',
+    method: 'get',
+    statusCode: 200,
+    response: ({ query }: ResponseParams): Resource<Tag> => {
+      return { resource: create(query as Partial<Tag>) }
+    }
+  },
+  {
+    url: '/api/v1/tags/:id',
+    method: 'patch',
+    statusCode: 200,
+    response: ({ query }: ResponseParams): Resource<Tag> => {
+      return { resource: create(query as Partial<Tag>) }
+    }
+  }
 ]

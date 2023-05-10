@@ -9,7 +9,7 @@ export const CodeInput: React.FC<InputProps> = (props) => {
     const { lable, type, placeholder, value, requst, startCount, setStartCount } = props
     useEffect(() => {
         if (!startCount)
-return
+            return
         const timer = setInterval(() => {
             setCountdown(c => c - 1)
         }, 1000)
@@ -25,7 +25,7 @@ return
             <span>{lable}</span>
             <div>
                 <input type={type} placeholder={placeholder} value={value}
-                       onChange={e => props.onChange?.(e.target.value)} />
+                    onChange={e => props.onChange?.(e.target.value)} />
                 {startCount
                     ? <CodeButton disabled={startCount}>{countdown}</CodeButton>
                     : <button type="button" onClick={requst}>发送验证码</button>}

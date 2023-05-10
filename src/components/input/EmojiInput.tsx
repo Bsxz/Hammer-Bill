@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { emojis } from '../../lib/emoji'
+
 const EmojiBox = styled.div`
   flex-grow: 1;
   flex-shrink: 1;
@@ -53,10 +54,7 @@ const EmojiBox = styled.div`
 export const EmojiInput: React.FC<InputProps> = (props) => {
   const { lable, onChange, errorMessage } = props
   const [select, setSelect] = useState('表情')
-  const [emoji, setEmoji] = useState(emojis.filter(({ name }) => name === select)[0].chars[0])
-  useEffect(() => {
-    onChange?.(emoji)
-  }, [])
+  const [emoji, setEmoji] = useState('')
   return (
     <div>
       <span>{lable}  <span>{props.sign}</span></span>

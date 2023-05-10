@@ -40,7 +40,8 @@ export const useAjax = () => {
         post: <T>(path: string, data: JSONValue) => {
             return axios.post<T>(path, data)
         },
-        patch: () => {
+        patch: <T>(path: string, data: PatchTag) => {
+            return axios.patch<T>(path, data)
         },
         delete: () => {
         }

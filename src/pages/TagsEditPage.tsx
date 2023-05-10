@@ -1,10 +1,12 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useRef } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Icon } from '../components/Icon'
 import { StyledGradient } from '../components/StyledGradient'
 import { TopNav } from '../components/TopNav'
 import { useSelectStore } from '../stores/useSelectStore'
+import { useAjax } from '../api/ajax'
+import { useTagFormStore } from '../stores/useTagFormStore'
 import { TagsForm } from './Tags/TagsForm'
 
 const Div = styled.div`
@@ -31,20 +33,34 @@ const Button = styled.div`
 `
 export const TagsEditPage: React.FC = () => {
   const { backSelect, onChange } = useSelectStore()
+  const start = useRef(true)
+  const { setData } = useTagFormStore()
+  const { get } = useAjax()
+  const { id } = useParams()
+  useEffect(() => {
+    if (start.current) {
+      start.current = false
+      return
+    }
+    get<Resource<Tag>>(`/api/v1/tags/${id}`).then((response) => {
+      const { name, kind, sign } = response.data.resource
+      setData({ name, kind, sign })
+    })
+  }, [id])
   const nav = useNavigate()
   const back = () => {
     onChange(backSelect)
     nav(-1)
   }
   return (
-        <Div>
-            <StyledGradient>
-                <TopNav title="更新标签" icon={
-                    <Icon name="back" w="36" h="36" onClick={back} />
-                } />
-            </StyledGradient>
-            <TagsForm text="记账时长按标签，即可再次编辑" btntitle="保存" kind="incomes" />
-            <Button>删除</Button>
-        </Div>
+    <Div>
+      <StyledGradient>
+        <TopNav title="更新标签" icon={
+          <Icon name="back" w="36" h="36" onClick={back} />
+        } />
+      </StyledGradient>
+      <TagsForm text="记账时长按标签，即可再次编辑" btntitle="保存" kind="incomes" />
+      <Button>删除</Button>
+    </Div>
   )
 }

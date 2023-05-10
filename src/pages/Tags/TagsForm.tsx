@@ -1,14 +1,15 @@
 import type { FormEventHandler } from 'react'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import type { AxiosError } from 'axios'
 import { Input } from '../../components/Input'
 import { usePopup } from '../../hooks/usePopup'
 import { time } from '../../lib/time'
-import { FormError, hasError, validate } from '../../lib/validata'
+import type { FormError } from '../../lib/validata'
+import { hasError, validate } from '../../lib/validata'
 import { useTagFormStore } from '../../stores/useTagFormStore'
 import { useAjax } from '../../api/ajax'
-import { AxiosError } from 'axios'
 
 const Form = styled.form`
   flex-grow: 1;
@@ -88,7 +89,8 @@ interface Props {
 
 export const TagsForm: React.FC<Props> = ({ text, btntitle, kind }) => {
   const nav = useNavigate()
-  const { post } = useAjax()
+  const { post, patch } = useAjax()
+  const { pathname } = useLocation()
   const { data, error, setError, setData } = useTagFormStore()
   const [onStart, setOnstart] = useState(0)
   const { popup, toggle } = usePopup()
@@ -121,12 +123,15 @@ export const TagsForm: React.FC<Props> = ({ text, btntitle, kind }) => {
     )
     setError(newError)
     if (!hasError(newError)) {
-      post('/api/v1/tags', data).then(() => {
-        nav(-1)
-      }).catch(onsubmitError)
+      if (pathname === '/tags/new') {
+        post('/api/v1/tags', data).then(() => {
+          nav(-1)
+        }).catch(onsubmitError)
+        return
+      }
+      patch(`api/v1${pathname}`, { name: data.name, sign: data.sign })
     }
   }
-
   return (
     <>
       {popup}

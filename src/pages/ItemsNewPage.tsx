@@ -21,8 +21,6 @@ const Form = styled.form`
 `
 export const ItemsNewPage: React.FC = () => {
     const { data, setData, setError } = useCreateItemStore()
-    console.log(data.kind);
-
     const { post } = useAjax()
     const [newData, setNewData] = useState(data)
     const nav = useNavigate()

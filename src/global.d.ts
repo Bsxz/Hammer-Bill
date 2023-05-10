@@ -5,7 +5,10 @@ import { CreateItem } from 'stores/useCreateItemStore'
 declare global {
     var isDev: boolean
     type JSONValue = string | number | boolean | null | { [k: string]: JSONValue } | JSONValue[] | CreateItem['data']
-
+    type PatchTag = {
+        name: Tag['name']
+        sign: Tag['sign']
+    }
     interface Resource<T> {
         resource: T
     }

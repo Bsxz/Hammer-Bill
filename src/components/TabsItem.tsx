@@ -1,11 +1,13 @@
 import type { Partial } from '@react-spring/web'
-import React, { useEffect, useState } from 'react'
+import type { TouchEvent } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import useSWRInfinite from 'swr/infinite'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import type { Item } from '../stores/useCreateItemStore'
 import { useAjax } from '../api/ajax'
 import { Icon } from './Icon'
+
 interface TabItem {
   data: Partial<Item>
   setData: (v: Partial<Item>) => void
@@ -76,6 +78,10 @@ const Div = styled.div`
 export const TabsItem: React.FC<TabItem> = ({ data, setData }) => {
   const { get } = useAjax()
   const [select, setSelect] = useState(-1)
+  const [isTouch, setTouch] = useState(false)
+  const timer = useRef<number>()
+  const startPosition = useRef<{ x?: number; y?: number }>({ x: undefined, y: undefined })
+  const nav = useNavigate()
   const getTags = (pageIndex: number, prev: Resources<Tag>) => {
     if (prev) {
       const sendCount = prev.pager.page * prev.pager.per_page
@@ -96,11 +102,35 @@ export const TabsItem: React.FC<TabItem> = ({ data, setData }) => {
   let hasMore
   if (tags && tags[0])
     hasMore = size * tags[0].pager.per_page >= tags[0].pager.count
-
   const onLoadMore = () => {
     setSize(size + 1)
   }
-
+  const onTouchStart = (e: TouchEvent<HTMLLIElement>, id: Tag['id']) => {
+    setTouch(true)
+    const { clientX: x, clientY: y } = e.touches[0]
+    startPosition.current = { x, y }
+    timer.current = window.setTimeout(() => {
+      nav(`/tags/${id}`)
+    }, 500)
+  }
+  const onTouchMove = (e: TouchEvent<HTMLLIElement>) => {
+    const { clientX, clientY } = e.touches[0]
+    const { x, y } = startPosition.current
+    if (x === undefined || y === undefined) { return }
+    const distance = Math.sqrt((clientX - x) ** 2 + (clientY - y) ** 2)
+    if (distance > 10) {
+      window.clearTimeout(timer.current)
+      timer.current = undefined
+    }
+  }
+  const onTouchEnd = (e: TouchEvent<HTMLLIElement>, id: Tag['id']) => {
+    if (timer.current) {
+      window.clearTimeout(timer.current)
+      timer.current = undefined
+    }
+    if (!isTouch)
+      setSelect(id)
+  }
   useEffect(() => {
     setSelect(-1)
   }, [tags])
@@ -118,8 +148,10 @@ export const TabsItem: React.FC<TabItem> = ({ data, setData }) => {
             return (
               <li key={v.id} onClick={() => {
                 setData({ tag_ids: [v.id] })
-                setSelect(v.id)
-              }}>
+              }}
+                onTouchStart={e => onTouchStart(e, v.id)}
+                onTouchMove={e => onTouchMove(e)}
+                onTouchEnd={e => onTouchEnd(e, v.id)}>
                 <span style={{ borderColor: v.id === select ? 'var(--bgcolor1)' : 'transparent' }}>{v.sign}</span>
                 <span>{v.name}</span>
               </li>
