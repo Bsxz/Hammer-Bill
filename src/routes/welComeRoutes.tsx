@@ -4,6 +4,7 @@ import { FirstPage } from '../pages/welcomepage/FirstPage'
 import { FourthPage } from '../pages/welcomepage/FourthPage'
 import { SecondPage } from '../pages/welcomepage/SecondPage'
 import { ThridPage } from '../pages/welcomepage/ThridPage'
+
 export const WelComeRoutes: RouteObject = {
   path: 'welcome',
   element: <WelComeLayout />,

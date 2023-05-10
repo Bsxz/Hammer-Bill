@@ -5,7 +5,7 @@ import { MessageBox } from '../components/MessageBox'
 interface Props {
     handler: () => void
 }
-export const useMessageBox = (options: Props) => {
+export function useMessageBox(options: Props) {
     const { handler } = options
     const [visible, setVisible] = useState(false)
     const root = Array.from(document.body.children).filter(v => v.id)[0]

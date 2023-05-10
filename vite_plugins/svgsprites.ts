@@ -11,9 +11,8 @@ interface Options {
   noOptimizeList?: string[]
 }
 
-export const svgsprites = (options: Options = {}): Plugin => {
-  const virtualModuleId = `virtual:svgsprites${
-        options.id ? `-${options.id}` : ''
+export function svgsprites(options: Options = {}): Plugin {
+  const virtualModuleId = `virtual:svgsprites${options.id ? `-${options.id}` : ''
     }`
   const resolvedVirtualModuleId = `\0${virtualModuleId}`
   const { inputFolder = 'src/assets/icons', inline = false } = options

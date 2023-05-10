@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import useSWRInfinite from 'swr/infinite'
 import { useAjax } from '../../api/ajax'
+
 const Ol = styled.ol`
   li {
     display: flex;
@@ -59,7 +60,7 @@ const Div = styled.div`
     background-color: #779649;
   }
 `
-const getItem = (pageIndex: number, prev: Resources<Item>) => {
+function getItem(pageIndex: number, prev: Resources<Item>) {
   if (prev) {
     const sendCount = prev.pager.page * prev.pager.per_page
     if (sendCount > prev.pager.count)

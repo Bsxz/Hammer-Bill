@@ -2,10 +2,10 @@ import { faker } from '@faker-js/faker'
 import type { MockMethod } from 'vite-plugin-mock'
 
 let id = 0
-const createId = () => {
+function createId() {
     return id += 1
 }
-const create = (attrs?: Partial<Item>): Item => {
+function create(attrs?: Partial<Item>): Item {
     return {
         id: createId(),
         user_id: 1,
@@ -30,10 +30,10 @@ const create = (attrs?: Partial<Item>): Item => {
         kind: 'expenses',
     }
 }
-const createList = (n: number, attrs?: Partial<Item>): Item[] => {
+function createList(n: number, attrs?: Partial<Item>): Item[] {
     return Array.from({ length: n }).map(() => create(attrs))
 }
-const createResponse = ({ count = 10, perPage = 10, page = 1 }, attrs?: Partial<Item>,): Resources<Item> => {
+function createResponse({ count = 10, perPage = 10, page = 1 }, attrs?: Partial<Item>): Resources<Item> {
     const _perPage = count - (page - 1) * perPage
     return {
         resources: _perPage > 0 ? createList(Math.min(_perPage, perPage), attrs) : [],

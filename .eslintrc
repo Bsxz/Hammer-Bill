@@ -3,6 +3,7 @@
   "rules": {
     "@typescript-eslint/comma-dangle": "off",
     "@typescript-eslint/indent": "off",
+    "@typescript-eslint/no-use-before-define": "off",
     "no-console": "off",
     "curly": "off",
     "max-statements-per-line": "off"

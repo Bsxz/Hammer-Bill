@@ -18,7 +18,7 @@ type FormError<T> = {
     [k in keyof T]?: string[]
 }
 export type { Rules, Rule, Data, FormError }
-export const validate = <T extends Data>(formData: T, rules: Rules<T>): FormError<T> => {
+export function validate<T extends Data>(formData: T, rules: Rules<T>): FormError<T> {
     const error: FormError<T> = {}
     rules.forEach((rule) => {
         const { key, type, message } = rule

@@ -12,7 +12,7 @@ const WelCome = styled.div`
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  height: 100vh;
+  height: calc(100vh - var(--vh-offset, 0px));
   background-color: #779649;
 `
 const FloatBtn = styled.span`

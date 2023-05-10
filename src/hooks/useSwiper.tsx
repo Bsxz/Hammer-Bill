@@ -1,11 +1,11 @@
 import type { RefObject } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
-export const useSwiper = (eltRef: RefObject<HTMLElement>) => {
+export function useSwiper(eltRef: RefObject<HTMLElement>) {
     const [direction, setDirection] = useState<'' | 'left' | 'right'>('')
     const point = useRef(0)
     const onTouchStart = (e: TouchEvent) => {
-        setDirection(c => (c = ''))
+        setDirection('')
         point.current = e.touches[0].clientX
     }
     const onTouchMove = (e: TouchEvent) => {
@@ -14,11 +14,11 @@ export const useSwiper = (eltRef: RefObject<HTMLElement>) => {
     const onTouchEnd = (e: TouchEvent) => {
         const distance = e.changedTouches[0].clientX - point.current
         if (Math.abs(distance) < 20)
-            setDirection(c => c = '')
+            setDirection('')
         else if (distance > 0)
-            setDirection(c => c = 'right')
+            setDirection('right')
         else
-            setDirection(c => c = 'left')
+            setDirection('left')
     }
     useEffect(() => {
         if (!eltRef)

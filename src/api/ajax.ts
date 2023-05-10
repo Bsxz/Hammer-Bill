@@ -2,6 +2,7 @@ import type { AxiosError } from 'axios'
 import axios from 'axios'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+
 const requestList = new Map()
 axios.defaults.baseURL = isDev
     ? '/'
@@ -11,7 +12,7 @@ axios.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem('jwt')}`
     return config
 })
-export const useAjax = () => {
+export function useAjax() {
     const nav = useNavigate()
     useEffect(() => {
         axios.interceptors.request.use((config) => {

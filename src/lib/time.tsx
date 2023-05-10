@@ -157,6 +157,6 @@ export class Time {
     }
 }
 
-export const time = (p?: number | string | Date) => {
+export function time(p?: number | string | Date) {
     return new Time(p)
 }

@@ -2,10 +2,10 @@ import { faker } from '@faker-js/faker'
 import type { MockMethod } from 'vite-plugin-mock'
 
 let id = 0
-const createId = () => {
+function createId() {
     return id += 1
 }
-const createMe = (): User => {
+function createMe(): User {
     return {
         id: createId(),
         name: faker.internet.userName(),
@@ -14,7 +14,7 @@ const createMe = (): User => {
         updated_at: faker.date.past().toISOString()
     }
 }
-const createResourece = (): Resource<User> => {
+function createResourece(): Resource<User> {
     return {
         resource: createMe()
     }

@@ -6,6 +6,7 @@ import { StyledGradient } from '../components/StyledGradient'
 import { TopNav } from '../components/TopNav'
 import { useSelectStore } from '../stores/useSelectStore'
 import { TagsForm } from './Tags/TagsForm'
+
 const Div = styled.div`
   display: flex;
   flex-direction: column;
