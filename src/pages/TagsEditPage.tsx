@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Icon } from '../components/Icon'
@@ -33,15 +33,10 @@ const Button = styled.div`
 `
 export const TagsEditPage: React.FC = () => {
   const { backSelect, onChange } = useSelectStore()
-  const start = useRef(true)
   const { setData } = useTagFormStore()
   const { get } = useAjax()
   const { id } = useParams()
   useEffect(() => {
-    if (start.current) {
-      start.current = false
-      return
-    }
     get<Resource<Tag>>(`/api/v1/tags/${id}`).then((response) => {
       const { name, kind, sign } = response.data.resource
       setData({ name, kind, sign })

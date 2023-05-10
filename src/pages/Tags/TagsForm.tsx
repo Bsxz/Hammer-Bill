@@ -129,7 +129,9 @@ export const TagsForm: React.FC<Props> = ({ text, btntitle, kind }) => {
         }).catch(onsubmitError)
         return
       }
-      patch(`api/v1${pathname}`, { name: data.name, sign: data.sign })
+      patch(`api/v1${pathname}`, { name: data.name, sign: data.sign }).then(() => {
+        nav(-1)
+      }).catch(onsubmitError)
     }
   }
   return (
