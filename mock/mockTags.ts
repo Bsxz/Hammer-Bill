@@ -9,7 +9,7 @@ function create(attrs?: Partial<Tag>): Tag {
   return {
     id: createId(),
     user_id: faker.datatype.number(),
-    name: '起飞',
+    name: faker.lorem.word().slice(0, 5),
     sign: faker.internet.emoji(),
     created_at: faker.date.past().toISOString(),
     updated_at: faker.date.past().toISOString(),
@@ -69,6 +69,14 @@ export const mockTags: MockMethod[] = [
     statusCode: 200,
     response: ({ query }: ResponseParams): Resource<Tag> => {
       return { resource: create(query as Partial<Tag>) }
+    }
+  },
+  {
+    url: '/api/v1/tags/:id',
+    method: 'delete',
+    statusCode: 200,
+    response: () => {
+      return '200 OK'
     }
   }
 ]

@@ -44,7 +44,8 @@ export function useAjax() {
         patch: <T>(path: string, data: PatchTag) => {
             return axios.patch<T>(path, data)
         },
-        delete: () => {
+        Adelete: <T>(path: string) => {
+            return axios.delete<T>(path)
         }
     }
     return ajax

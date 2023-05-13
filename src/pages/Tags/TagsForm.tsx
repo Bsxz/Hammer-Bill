@@ -17,7 +17,7 @@ const Form = styled.form`
   height: 320px;
   display: flex;
   flex-direction: column;
-  padding: 32px 16px;
+  padding: 32px 16px 16px;
 
   > span {
     margin-bottom: 14px;
@@ -68,7 +68,6 @@ const Form = styled.form`
       border-radius: 8px;
     }
   }
-
 `
 const Button = styled.button`
   flex-grow: 0;
@@ -87,7 +86,11 @@ interface Props {
   kind?: Tag['kind']
 }
 
-export const TagsForm: React.FC<Props> = ({ text, btntitle, kind }) => {
+export const TagsForm: React.FC<Props> = ({
+  text,
+  btntitle,
+  kind,
+}) => {
   const nav = useNavigate()
   const { post, patch } = useAjax()
   const { pathname } = useLocation()
@@ -101,7 +104,9 @@ export const TagsForm: React.FC<Props> = ({ text, btntitle, kind }) => {
       setError({ name: [], kind: [], sign: [] })
     }
   }, [])
-  const onsubmitError = (error: AxiosError<{ errors: FormError<typeof data> }>) => {
+  const onsubmitError = (
+    error: AxiosError<{ errors: FormError<typeof data> }>
+  ) => {
     if (error.response) {
       const { status } = error.response
       if (status === 422) {
@@ -113,44 +118,64 @@ export const TagsForm: React.FC<Props> = ({ text, btntitle, kind }) => {
   }
   const submit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
-    const newError = validate({ name: data.name, kind: data.kind, sign: data.sign, length: data.name.length },
+    const newError = validate(
+      {
+        name: data.name,
+        kind: data.kind,
+        sign: data.sign,
+        length: data.name.length,
+      },
       [
         { key: 'name', type: 'required', message: '请输入标签名' },
         { key: 'name', type: 'length', max: 4, message: '标签名过长' },
         { key: 'sign', type: 'required', message: '未选择sign图标' },
-        { key: 'kind', type: 'required', message: '图标类型不明' }
+        { key: 'kind', type: 'required', message: '图标类型不明' },
       ]
     )
     setError(newError)
     if (!hasError(newError)) {
       if (pathname === '/tags/new') {
-        post('/api/v1/tags', data).then(() => {
-          nav(-1)
-        }).catch(onsubmitError)
+        post('/api/v1/tags', data)
+          .then(() => {
+            nav(-1)
+          })
+          .catch(onsubmitError)
         return
       }
-      patch(`api/v1${pathname}`, { name: data.name, sign: data.sign }).then(() => {
-        nav(-1)
-      }).catch(onsubmitError)
+      patch(`api/v1${pathname}`, { name: data.name, sign: data.sign })
+        .then(() => nav(-1))
+        .catch(onsubmitError)
     }
   }
+
   return (
     <>
       {popup}
       <Form onSubmit={submit}>
-        <Input lable="标签名" placeholder="2到4个汉字" value={data.name}
+        <Input
+          lable="标签名"
+          placeholder="2到4个汉字"
+          value={data.name}
           onChange={value => value.length <= 4 && setData({ name: value })}
-          errorMessage={error.name?.[0]} />
-        <Input lable={'符号'} sign={data.sign} type="emoji" onChange={v => setData({ sign: v })}
-          errorMessage={error.sign?.[0]} />
-        <span onTouchStart={() => {
-          setOnstart(time().seconds)
-        }}
+          errorMessage={error.name?.[0]}
+        />
+        <Input
+          lable={'符号'}
+          sign={data.sign}
+          type="emoji"
+          onChange={v => setData({ sign: v })}
+          errorMessage={error.sign?.[0]}
+        />
+        <span
+          onTouchStart={() => {
+            setOnstart(time().seconds)
+          }}
           onTouchEnd={() => {
             if (time().seconds - onStart >= 3 && time().seconds - onStart <= 8)
               toggle()
-          }}
-        >{text}</span>
+          }}>
+          {text}
+        </span>
         <Button>{btntitle}</Button>
       </Form>
     </>

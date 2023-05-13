@@ -134,7 +134,6 @@ export const TabsItem: React.FC<TabItem> = ({ data, setData }) => {
   useEffect(() => {
     setSelect(-1)
   }, [tags])
-
   return (
     <Div>
       <ol style={{ gridTemplateColumns: (tags?.[0].resources.length) ? 'repeat(auto-fill, 48px)' : 'repeat(auto-fill, auto)' }}>
@@ -147,6 +146,7 @@ export const TabsItem: React.FC<TabItem> = ({ data, setData }) => {
           tags?.map(({ resources }) => resources.map((v) => {
             return (
               <li key={v.id} onClick={() => {
+                setSelect(v.id)
                 setData({ tag_ids: [v.id] })
               }}
                 onTouchStart={e => onTouchStart(e, v.id)}
