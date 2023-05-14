@@ -1,5 +1,6 @@
-import {Partial} from '@react-spring/web'
-import {FormError} from '../lib/validata'
+import { Partial } from '@react-spring/web'
+import { FormError } from '../lib/validata'
+import { number } from 'echarts'
 
 interface Local {
     hasReadWelcome: boolean
@@ -46,10 +47,7 @@ interface Bar {
     bgColor?: string
 }
 
-interface Line {
-    x: string[],
-    y: number[]
-}
+type Line = (string | number)[]
 
 interface Pie {
     name: string,
@@ -57,14 +55,14 @@ interface Pie {
 }
 
 interface ChartData {
-    line: Line,
-    pie: Pie[],
-    bar: Bar[],
+    line?: Line[],
+    pie?: Pie[],
+    bar?: Bar[],
 }
 
 interface Chart {
-    spending: ChartData
-    income: ChartData
+    data: ChartData
     barColors: string[]
+    setData: (v: Partial<ChartData>) => void
     setBarColors: (v: ChartData['barColors']) => void
 }

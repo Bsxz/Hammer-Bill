@@ -81,6 +81,6 @@ declare global {
 
     interface ChartProps<T> {
         options?: Partial<EChartsOption>
-        data: T
+        data?: T
     }
 }

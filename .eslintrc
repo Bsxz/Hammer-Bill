@@ -4,9 +4,13 @@
     "@typescript-eslint/comma-dangle": "off",
     "@typescript-eslint/indent": "off",
     "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/consistent-type-definitions": "off",
     "no-console": "off",
     "curly": "off",
     "max-statements-per-line": "off",
-    "no-alert": "off"
+    "no-alert": "off",
+    "arrow-parens": "off",
+    "antfu/if-newline": "off",
+    "multiline-ternary": "off"
   }
 }

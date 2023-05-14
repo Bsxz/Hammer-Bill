@@ -1,36 +1,63 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import useSWR from 'swr'
 import { Icon } from '../components/Icon'
 import { RangePick } from '../components/RangePick'
 import { StyledGradient } from '../components/StyledGradient'
 import { TopNav } from '../components/TopNav'
-import type { Range, Ranges } from '../stores/useSelectStore'
+import type { Range } from '../stores/useSelectStore'
 import { useSelectStore } from '../stores/useSelectStore'
-import { Custom } from './rangesPage/Custom'
-import { LastMonth } from './rangesPage/LastMonth'
-import { ThisYear } from './rangesPage/ThisYear'
-import { SpendingCharts } from './SpendingCharts'
+import { useAjax } from '../api/ajax'
+import { useChartsStore } from '../stores/useChartsStore'
+import { time } from '../lib/time'
+import { Tag } from './Tag'
+
+type Groups = Group[]
+
+type Group = {
+    happen_at: string
+    amount: number
+    tag: null
+}
+type Ranges = {
+    key: Range
+    text: string
+}
+const ranges: Ranges[] = [
+    { key: 'thisMonth', text: '本月' },
+    { key: 'lastMonth', text: '上月' }
+]
 
 export const StatisticalPage: React.FC = () => {
     const { select, onChange } = useSelectStore()
+    const { get } = useAjax()
+    const [kind, setKind] = useState('expenses')
+    const { data, setData } = useChartsStore()
     const nav = useNavigate()
-    const ranges: Ranges<Range> = [
-        { key: 'thisMonth', text: '本月', element: <SpendingCharts /> },
-        { key: 'lastMonth', text: '上月', element: <LastMonth /> },
-        { key: 'thisYear', text: '今年', element: <ThisYear /> },
-        { key: 'custom', text: '自定义时间', element: <Custom /> }
-    ]
+    const { data: line } = useSWR(`/api/v1/items/summary?happened_after=${time().firstMonth}&happened_before=${time().firstDayOfMonth}&kind=${kind}&group_by=happen_at`,
+        async (path) =>
+            ((await get<{ groups: Groups; total: number }>(path)).data.groups.map(({ happen_at, amount }) => ([happen_at, amount]))))
+    useEffect(() => {
+        const newLine = Array.from({ length: time().monthAllDay }).map((v, i) => {
+            if (line?.find(v => v[0] === time().dayFormat(i + 1))) {
+                return line.filter(v => v[0] === time().dayFormat(i + 1))[0]
+            }
+            return [time().dayFormat(i + 1), 0]
+        })
+        setData({ line: newLine })
+    }, [line])
     return (
         <>
             <StyledGradient>
-                <TopNav title="统计图表" icon={
-                    <Icon name="back" w="42" h="42" y="-4" onClick={() => nav(-1)} />
-                } />
+                <TopNav
+                    title="统计图表"
+                    icon={
+                        <Icon name="back" w="42" h="42" y="-4" onClick={() => nav(-1)} />
+                    }
+                />
                 <RangePick select={select} onClick={onChange} tabs={ranges} />
             </StyledGradient>
-            <div>
-                {ranges ? ranges.filter(v => v.key === select)[0].element : null}
-            </div>
+            <Tag data={data} setKind={setKind} />
         </>
     )
 }

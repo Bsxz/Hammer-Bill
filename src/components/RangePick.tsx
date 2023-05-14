@@ -4,14 +4,17 @@ import styled from 'styled-components'
 import { time } from '../lib/time'
 import type { Item } from '../stores/useCreateItemStore'
 import { useCreateItemStore } from '../stores/useCreateItemStore'
-import type { Range, Ranges } from '../stores/useSelectStore'
+import type { Range } from '../stores/useSelectStore'
 
+interface Ranges {
+  key: Range
+  text: string
+}
 interface Props {
-    select: Range
-    tabs: Ranges<Range>
-    data?: Partial<Item>
-    onClick?: (v: Range) => void
-    onChange?: (v: Partial<Item>) => void
+  select: Range
+  tabs: Ranges[]
+  onClick?: (v: Range) => void
+  onChange?: (v: Partial<Item>) => void
 }
 const Ol = styled.ol`
   display: flex;
@@ -27,24 +30,36 @@ const Ol = styled.ol`
     -webkit-tap-highlight-color: transparent;
   }
 `
-export const RangePick: React.FC<Props> = ({ tabs, select, data, onChange, onClick }) => {
-    const { setData } = useCreateItemStore()
-    useEffect(() => {
-        setData({
-            kind: select,
-            tag_ids: [],
-            happen_at: time().format(),
-            amount: 0
-        }
-        )
-    }, [select])
-    return (
-        <Ol>
-            {tabs?.map(k => <li key={k.key}
-                value={select}
-                style={k.key === select ? { borderColor: '#a8bf8f' } : { borderColor: 'transparent' }}
-                onClick={() => onChange?.({ kind: k.key }) || onClick?.(k.key)}>
-                {k.text}</li>)}
-        </Ol>
-    )
+export const RangePick: React.FC<Props> = ({
+  tabs,
+  select,
+  onChange,
+  onClick,
+}) => {
+  const { setData } = useCreateItemStore()
+  useEffect(() => {
+    setData({
+      kind: select,
+      tag_ids: [],
+      happen_at: time().format(),
+      amount: 0,
+    })
+  }, [select])
+  return (
+    <Ol>
+      {tabs?.map((k) => (
+        <li
+          key={k.key}
+          value={select}
+          style={
+            k.key === select
+              ? { borderColor: '#a8bf8f' }
+              : { borderColor: 'transparent' }
+          }
+          onClick={() => onChange?.({ kind: k.key }) || onClick?.(k.key)}>
+          {k.text}
+        </li>
+      ))}
+    </Ol>
+  )
 }

@@ -92,7 +92,6 @@ export class Time {
         this.Parts = { day: v }
     }
 
-    // set month(v) {
     get hours() {
         return this.Parts.hours
     }
@@ -134,6 +133,22 @@ export class Time {
         return `${this.format('yyyy-MM-ddTHH:mm:ss.fff') + sign + pod}`
     }
 
+    get monthAllDay() {
+        return new Time(new Date(this.year, this.month, 0)).day
+    }
+
+    get firstMonth() {
+        return new Time(new Date(this.year, this.month - 1, 1)).format()
+    }
+
+    get firstDayOfMonth() {
+        return new Time(new Date(this.year, this.month, 1)).format()
+    }
+
+    dayFormat(day: number) {
+        return new Time(new Date(this.year, this.month - 1, day)).format()
+    }
+
     format(pattern = 'yyyy-MM-dd') {
         return pattern
             .replace(/yyyy/g, this.year.toString())
@@ -152,8 +167,8 @@ export class Time {
 
     setTime(n: number, unit: Unit) {
         this.year = n
-        // this[table[unit]] = n
-        // return this
+        this[table[unit]] = n
+        return this
     }
 }
 

@@ -1,22 +1,24 @@
 import * as echarts from 'echarts'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import type { Line } from '../../stores/store'
 
 const StyledLine = styled.div`
   height: 180px;
 `
-export const LineChart: React.FC<ChartProps<Line>> = ({ options, data }) => {
+export const LineChart: React.FC<ChartProps<Line[]>> = ({ options, data }) => {
     const divRef = useRef<HTMLDivElement>(null)
     const isStart = useRef(true)
+    const lineChart = useRef<echarts.ECharts>()
+    const [dateList, setDateList] = useState<string[]>([])
+    const [valueList, setValueList] = useState<number[]>([])
     useEffect(() => {
         if (!divRef.current)
             return
-
-        if (isStart.current) {
+        if (isStart.current && data) {
             isStart.current = false
-            const lineChart = echarts.init(divRef.current)
-            lineChart.setOption({
+            lineChart.current = echarts.init(divRef.current)
+            lineChart.current.setOption({
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -26,7 +28,7 @@ export const LineChart: React.FC<ChartProps<Line>> = ({ options, data }) => {
                 grid: { left: 0, top: 16, right: 0, bottom: 30 },
                 xAxis: {
                     type: 'category',
-                    data: data.x
+                    data: dateList
                 },
                 yAxis: {
                     axisLabel: {
@@ -38,7 +40,7 @@ export const LineChart: React.FC<ChartProps<Line>> = ({ options, data }) => {
                 },
                 series: [
                     {
-                        data: data.y.map(v => v / 100),
+                        data: valueList.map(v => v / 100),
                         type: 'line'
                     }
                 ],
@@ -46,6 +48,22 @@ export const LineChart: React.FC<ChartProps<Line>> = ({ options, data }) => {
             })
         }
     }, [])
+    useEffect(() => {
+        if (data) {
+            setDateList(data?.map((item) => (item[0] as string)))
+            setValueList(data?.map((item) => (item[1] as number)))
+        }
+    }, [data])
+    useEffect(() => {
+        lineChart.current?.setOption({
+            xAxis: {
+                data: dateList
+            },
+            series: [
+                { data: valueList.map(v => v / 100) },
+            ]
+        })
+    }, [dateList, valueList])
     return (
         <>
             <StyledLine ref={divRef}></StyledLine>
