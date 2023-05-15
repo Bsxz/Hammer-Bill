@@ -57,9 +57,11 @@ const BarDiv = styled.div`
 `
 export const BarChart: React.FC<Props> = ({ data }) => {
   const { barColors } = useChartsStore()
-  const barAmounts = data.bar.map(
-    ({ value }) => `${((value / data.total) * 100).toFixed(0)}%`
-  )
+  let barAmounts: string[] | number[] = data.bar.map(({ value }) => Number(((value / data.total) * 100).toFixed(0)))
+  if (barAmounts.reduce((a, b) => a + b, 0) > 100) {
+    barAmounts = barAmounts.map((v) => Math.max(...barAmounts as number[]) === v ? v - 1 : v)
+  }
+
   const newBar = data.bar.map((v, i) => ({
     ...v,
     amount: barAmounts[i],
@@ -74,14 +76,14 @@ export const BarChart: React.FC<Props> = ({ data }) => {
           <div>
             <StyleDiv>
               <div>
-                {v.name}-{v.amount}
+                {v.name}-{v.amount}%
               </div>
               <div>￥{v.value / 100}</div>
             </StyleDiv>
             <BarDiv>
               <div
                 style={{
-                  width: v.amount,
+                  width: `${v.amount}%`,
                   backgroundColor: v.bgColor,
                 }}></div>
             </BarDiv>

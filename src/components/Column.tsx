@@ -32,7 +32,7 @@ export const Column: React.FC<Props> = ({ data, value, onChange }) => {
                         setStartY(e.touches[0].clientY)
                     }
                 }}
-                onTouchEnd={(e) => {
+                onTouchEnd={() => {
                     const remainder = translateY % 36
                     let y = translateY - remainder
                     if (Math.abs(remainder) > 18)

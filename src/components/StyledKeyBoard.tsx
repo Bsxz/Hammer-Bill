@@ -14,11 +14,11 @@ const KeyBoard = styled.div`
   flex-shrink: 0;
   display: grid;
   grid-template-areas:
-          "box14 box14 box14 box14"
-          "box1 box2 box3 box4"
-          "box5 box6 box7 box4"
-          "box8 box9 box10 box11"
-    "box12 box12 box13 box11";
+    'box14 box14 box14 box14'
+    'box1 box2 box3 box4'
+    'box5 box6 box7 box4'
+    'box8 box9 box10 box11'
+    'box12 box12 box13 box11';
   grid-template-columns: 1fr 1fr 1fr 113px;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
   width: 100%;
@@ -27,7 +27,8 @@ const KeyBoard = styled.div`
   padding-top: 1px;
   gap: 1px;
 
-  > div, > button {
+  > div,
+  > button {
     font-size: 20px;
     display: flex;
     width: 100%;
@@ -99,7 +100,7 @@ const KeyBoard = styled.div`
     padding: 0 10px;
 
     > span {
-      color: #53A867;
+      color: #53a867;
     }
   }
 `
@@ -119,13 +120,11 @@ export const StyledKeyBoard: React.FC<Props> = ({ data, setData }) => {
       setData({ amount: 0 })
       return
     }
-    if (str === '0' && data.amount === 0)
-      return
-    if (str === '.' && data.amount?.toString().includes(str))
-      return
-    const _amount = data.amount !== 0 || str === '.' ? data.amount + str : str
+    if (str === '0' && data.amount === 0) return
+    if (str === '.' && data.amount?.toString().includes(str)) return
+    const _amount = (data.amount !== 0 || str === '.') ? data.amount + str : str
     const toFixed = _amount.split('.')
-    if ((toFixed[0]?.length + toFixed[1]?.length) > 10 || toFixed[1]?.length > 2)
+    if (toFixed[0]?.length + toFixed[1]?.length > 10 || toFixed[1]?.length > 2)
       return
     setData({ amount: _amount })
   }
@@ -140,19 +139,45 @@ export const StyledKeyBoard: React.FC<Props> = ({ data, setData }) => {
           </Left>
           <span>{data.amount}</span>
         </div>
-        <button type="button" className="div1" onClick={() => add('1')}>1</button>
-        <button type="button" className="div2" onClick={() => add('2')}>2</button>
-        <button type="button" className="div3" onClick={() => add('3')}>3</button>
-        <button type="button" className="div4" onClick={() => add('')}>清空</button>
-        <button type="button" className="div5" onClick={() => add('4')}>4</button>
-        <button type="button" className="div6" onClick={() => add('5')}>5</button>
-        <button type="button" className="div7" onClick={() => add('6')}>6</button>
-        <button type="button" className="div8" onClick={() => add('7')}>7</button>
-        <button type="button" className="div9" onClick={() => add('8')}>8</button>
-        <button type="button" className="div10" onClick={() => add('9')}>9</button>
-        <button type="submit" className="div11">提交</button>
-        <button type="button" className="div12" onClick={() => add('0')}>0</button>
-        <button type="button" className="div13" onClick={() => add('.')}>.</button>
+        <button type="button" className="div1" onClick={() => add('1')}>
+          1
+        </button>
+        <button type="button" className="div2" onClick={() => add('2')}>
+          2
+        </button>
+        <button type="button" className="div3" onClick={() => add('3')}>
+          3
+        </button>
+        <button type="button" className="div4" onClick={() => add('')}>
+          清空
+        </button>
+        <button type="button" className="div5" onClick={() => add('4')}>
+          4
+        </button>
+        <button type="button" className="div6" onClick={() => add('5')}>
+          5
+        </button>
+        <button type="button" className="div7" onClick={() => add('6')}>
+          6
+        </button>
+        <button type="button" className="div8" onClick={() => add('7')}>
+          7
+        </button>
+        <button type="button" className="div9" onClick={() => add('8')}>
+          8
+        </button>
+        <button type="button" className="div10" onClick={() => add('9')}>
+          9
+        </button>
+        <button type="submit" className="div11">
+          提交
+        </button>
+        <button type="button" className="div12" onClick={() => add('0')}>
+          0
+        </button>
+        <button type="button" className="div13" onClick={() => add('.')}>
+          .
+        </button>
       </KeyBoard>
     </>
   )
