@@ -58,6 +58,7 @@ interface ChartData {
     line: Line[],
     pie: Pie[],
     bar: Bar[],
+    total: number
 }
 
 interface Chart {

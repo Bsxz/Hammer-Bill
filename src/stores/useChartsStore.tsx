@@ -6,6 +6,7 @@ export const useChartsStore = create<Chart>(set => ({
         line: [],
         bar: [],
         pie: [],
+        total: 0
     },
     barColors: [],
     setData: (v) => set((state) => ({ data: { ...state.data, ...v } })),

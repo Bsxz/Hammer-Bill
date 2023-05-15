@@ -9,6 +9,7 @@ const StylePie = styled.div`
 `
 export const PieChart: React.FC<ChartProps<Pie[]>> = ({ options, data }) => {
     const divRef = useRef<HTMLDivElement>(null)
+    const pieChart = useRef<echarts.ECharts>()
     const isStart = useRef(true)
     const { setBarColors } = useChartsStore()
     useEffect(() => {
@@ -16,8 +17,8 @@ export const PieChart: React.FC<ChartProps<Pie[]>> = ({ options, data }) => {
             return
         if (isStart.current) {
             isStart.current = false
-            const lineChart = echarts.init(divRef.current)
-            lineChart.setOption({
+            pieChart.current = echarts.init(divRef.current)
+            pieChart.current.setOption({
                 tooltip: {
                     trigger: 'item',
                     formatter: (v: any) => {
@@ -44,11 +45,21 @@ export const PieChart: React.FC<ChartProps<Pie[]>> = ({ options, data }) => {
                 ],
                 ...options
             })
-            const barColors = lineChart.getOption()?.color?.toString().split(',').slice(0, data?.length)
-            if (barColors)
-                setBarColors(barColors)
         }
     }, [])
+
+    useEffect(() => {
+        pieChart.current?.setOption({
+            series: [
+                {
+                    data: data?.map(v => ({ ...v, value: v.value / 100 })),
+                }
+            ],
+        })
+        const barColors = pieChart.current?.getOption()?.color?.toString().split(',').slice(0, data?.length)
+        if (barColors)
+            setBarColors(barColors)
+    }, [data])
     return (
         <>
             <StylePie ref={divRef}></StylePie>

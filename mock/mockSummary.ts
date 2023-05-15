@@ -82,7 +82,7 @@ export const mockSummary: MockMethod[] = [{
     const table = ['happen_at', 'tag_id']
     return {
       groups: groups[table.indexOf(group_by)],
-      total: groups[0].map(v => v.amount).reduce((v, current) => current + v, 0)
+      total: groups[table.indexOf(group_by)].map(v => v.amount).reduce((v, current) => current + v, 0)
     }
   }
 }]

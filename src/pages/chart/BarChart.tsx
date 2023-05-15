@@ -14,9 +14,9 @@ const StyleBar = styled.ol`
 
   li {
     display: grid;
-    grid-template-areas: 
-            'box1 box2 box2'
-            'box1 box2 box2';
+    grid-template-areas:
+      'box1 box2 box2'
+      'box1 box2 box2';
     grid-template-columns: 48px 1fr 1fr;
     grid-template-rows: repeat(2, 24px);
     column-gap: 8px;
@@ -27,7 +27,7 @@ const StyleBar = styled.ol`
       justify-content: center;
       align-items: center;
       border-radius: 50%;
-      background-color: #EFEFEF;
+      background-color: #efefef;
     }
 
     > div:nth-of-type(2) {
@@ -46,35 +46,48 @@ const StyleDiv = styled.div`
 `
 const BarDiv = styled.div`
   height: 8px;
-  background: #CCCCCC;
+  background: #cccccc;
   width: 100%;
   border-radius: 4px;
-
   > div {
     height: 8px;
+    width: 0;
     border-radius: 4px;
-    background-color: red;
   }
 `
 export const BarChart: React.FC<Props> = ({ data }) => {
   const { barColors } = useChartsStore()
-  const amount = data.bar.map(v => v.value).reduce((v, result) => v + result, 0)
-  const barAmounts = data.bar.map(({ value }) => `${((value / amount) * 100).toFixed(0)}%`)
-  const newBar = data.bar.map((v, i) => ({ ...v, amount: barAmounts[i], bgColor: barColors[i] }))
+  const barAmounts = data.bar.map(
+    ({ value }) => `${((value / data.total) * 100).toFixed(0)}%`
+  )
+  const newBar = data.bar.map((v, i) => ({
+    ...v,
+    amount: barAmounts[i],
+    bgColor: barColors[i],
+  }))
+
   return (
     <StyleBar>
-      {newBar.map(v => <li key={v.value}>
-        <div>{v.sign}</div>
-        <div>
-          <StyleDiv>
-            <div>{v.name}-{v.amount}</div>
-            <div>￥{v.value / 100}</div>
-          </StyleDiv>
-          <BarDiv>
-            <div style={{ width: v.amount, backgroundColor: v.bgColor }}></div>
-          </BarDiv>
-        </div>
-      </li>)}
+      {newBar.map((v) => (
+        <li key={v.value}>
+          <div>{v.sign}</div>
+          <div>
+            <StyleDiv>
+              <div>
+                {v.name}-{v.amount}
+              </div>
+              <div>￥{v.value / 100}</div>
+            </StyleDiv>
+            <BarDiv>
+              <div
+                style={{
+                  width: v.amount,
+                  backgroundColor: v.bgColor,
+                }}></div>
+            </BarDiv>
+          </div>
+        </li>
+      ))}
     </StyleBar>
   )
 }
