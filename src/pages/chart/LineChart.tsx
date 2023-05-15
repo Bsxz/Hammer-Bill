@@ -23,6 +23,12 @@ export const LineChart: React.FC<ChartProps<Line[]>> = ({ options, data }) => {
                     trigger: 'axis',
                     axisPointer: {
                         type: 'cross'
+                    },
+                    formatter: (v: any) => {
+                        const { value, name, color } = v[0]
+                        return `<span>${name}</span><br/>
+                        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background-color:${color}"></span>
+                        <span style="float:right">￥${value}</span>`
                     }
                 },
                 grid: { left: 0, top: 16, right: 0, bottom: 30 },

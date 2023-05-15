@@ -4,7 +4,7 @@ import type { ChartData } from '../../stores/store'
 import { useChartsStore } from '../../stores/useChartsStore'
 
 interface Props {
-    data: ChartData
+  data: ChartData
 }
 
 const StyleBar = styled.ol`
@@ -57,24 +57,24 @@ const BarDiv = styled.div`
   }
 `
 export const BarChart: React.FC<Props> = ({ data }) => {
-    const { barColors } = useChartsStore()
-    const amount = data.bar.map(v => v.value).reduce((v, result) => v + result, 0)
-    const barAmounts = data.bar.map(({ value }) => `${((value / amount) * 100).toFixed(0)}%`)
-    const newBar = data.bar.map((v, i) => ({ ...v, amount: barAmounts[i], bgColor: barColors[i] }))
-    return (
-        <StyleBar>
-            {newBar.map(v => <li key={v.value}>
-                <div>{v.sign}</div>
-                <div>
-                    <StyleDiv>
-                        <div>{v.key}-{v.amount}</div>
-                        <div>￥{v.value / 100}</div>
-                    </StyleDiv>
-                    <BarDiv>
-                        <div style={{ width: v.amount, backgroundColor: v.bgColor }}></div>
-                    </BarDiv>
-                </div>
-            </li>)}
-        </StyleBar>
-    )
+  const { barColors } = useChartsStore()
+  const amount = data.bar.map(v => v.value).reduce((v, result) => v + result, 0)
+  const barAmounts = data.bar.map(({ value }) => `${((value / amount) * 100).toFixed(0)}%`)
+  const newBar = data.bar.map((v, i) => ({ ...v, amount: barAmounts[i], bgColor: barColors[i] }))
+  return (
+    <StyleBar>
+      {newBar.map(v => <li key={v.value}>
+        <div>{v.sign}</div>
+        <div>
+          <StyleDiv>
+            <div>{v.name}-{v.amount}</div>
+            <div>￥{v.value / 100}</div>
+          </StyleDiv>
+          <BarDiv>
+            <div style={{ width: v.amount, backgroundColor: v.bgColor }}></div>
+          </BarDiv>
+        </div>
+      </li>)}
+    </StyleBar>
+  )
 }

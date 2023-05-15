@@ -145,6 +145,10 @@ export class Time {
         return new Time(new Date(this.year, this.month, 1)).format()
     }
 
+    get vorvorigenMonat() {
+        return new Time(new Date(this.year, this.month - 2, 1)).format()
+    }
+
     dayFormat(day: number) {
         return new Time(new Date(this.year, this.month - 1, day)).format()
     }

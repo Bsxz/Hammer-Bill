@@ -40,7 +40,7 @@ interface TagForm {
 }
 
 interface Bar {
-    key: string
+    name: string
     sign: Tag['sign']
     value: number
     amount?: string
@@ -55,9 +55,9 @@ interface Pie {
 }
 
 interface ChartData {
-    line?: Line[],
-    pie?: Pie[],
-    bar?: Bar[],
+    line: Line[],
+    pie: Pie[],
+    bar: Bar[],
 }
 
 interface Chart {

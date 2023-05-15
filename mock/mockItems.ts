@@ -9,7 +9,7 @@ function create(attrs?: Partial<Item>): Item {
     return {
         id: createId(),
         user_id: 1,
-        amount: faker.datatype.number({ min: 99, max: 1000_00 }),
+        amount: faker.number.int({ min: 99, max: 1000_00 }),
         note: '1',
         tag_ids: [1, 2],
         happen_at: faker.date.past().toISOString(),
@@ -17,8 +17,8 @@ function create(attrs?: Partial<Item>): Item {
         updated_at: faker.date.past().toISOString(),
         tags: [
             {
-                id: faker.datatype.number(),
-                user_id: faker.datatype.number(),
+                id: faker.number.int(),
+                user_id: faker.number.int(),
                 name: faker.internet.userName(),
                 sign: '😡',
                 created_at: faker.date.past().toISOString(),

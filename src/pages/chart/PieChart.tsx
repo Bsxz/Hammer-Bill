@@ -32,7 +32,7 @@ export const PieChart: React.FC<ChartProps<Pie[]>> = ({ options, data }) => {
                         name: '支出',
                         type: 'pie',
                         radius: '50%',
-                        data: data.map(v => ({ ...v, value: v.value / 100 })),
+                        data: data?.map(v => ({ ...v, value: v.value / 100 })),
                         emphasis: {
                             itemStyle: {
                                 shadowBlur: 10,
@@ -44,7 +44,7 @@ export const PieChart: React.FC<ChartProps<Pie[]>> = ({ options, data }) => {
                 ],
                 ...options
             })
-            const barColors = lineChart.getOption()?.color?.toString().split(',').slice(0, data.length)
+            const barColors = lineChart.getOption()?.color?.toString().split(',').slice(0, data?.length)
             if (barColors)
                 setBarColors(barColors)
         }

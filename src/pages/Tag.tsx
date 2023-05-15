@@ -1,16 +1,16 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
-import type { ChartData } from '../stores/store'
 import type { Range } from '../stores/useSelectStore'
+import { useChartsStore } from '../stores/useChartsStore'
 import { ChartsAll } from './chart/ChartsAll'
 
 type Props = {
-    data: ChartData
     setKind: (v: Range) => void
 }
 const SelectBox = styled.div`
+  display: flex;
+  align-items: center;
   padding: 16px 8px;
-
   select {
     width: 133px;
     padding: 10px 16px;
@@ -19,21 +19,26 @@ const SelectBox = styled.div`
   }
 `
 export const Tag: React.FC<Props> = (props) => {
-    const { data, setKind } = props
+    const { setKind } = props
+    const { data } = useChartsStore()
     const isStart = useRef(false)
+    if (!(data.line && data.bar && data.pie)) {
+        return null
+    }
     return (
         <>
-            <SelectBox>
+            <SelectBox >
                 <span>类型</span>
-                <select
-                    onChange={({ target }) => {
-                        if (target.value === '支出') setKind('expenses')
-
-                        if (target.value === '收入') setKind('income')
-                    }}>
-                    <option>支出</option>
-                    <option>收入</option>
-                </select>
+                <div>
+                    <select
+                        onChange={({ target }) => {
+                            if (target.value === '支出') setKind('expenses')
+                            if (target.value === '收入') setKind('income')
+                        }}>
+                        <option>支出</option>
+                        <option>收入</option>
+                    </select>
+                </div>
             </SelectBox>
             <ChartsAll data={data} isStart={isStart.current} />
         </>

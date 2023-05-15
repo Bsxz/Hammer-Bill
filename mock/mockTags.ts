@@ -8,7 +8,7 @@ function createId() {
 function create(attrs?: Partial<Tag>): Tag {
   return {
     id: createId(),
-    user_id: faker.datatype.number(),
+    user_id: faker.number.int(),
     name: faker.lorem.word().slice(0, 5),
     sign: faker.internet.emoji(),
     created_at: faker.date.past().toISOString(),
