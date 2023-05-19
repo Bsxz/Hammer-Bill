@@ -34,7 +34,7 @@ declare global {
         created_at: string,
         updated_at: string,
         deleted_at?: string | null,
-        kind: 'expenses' | 'incomes'
+        kind: 'expenses' | 'income'
     }
 
     interface Item {
@@ -46,7 +46,7 @@ declare global {
         happen_at: string
         created_at: string
         updated_at: string
-        kind: 'expenses' | 'incomes'
+        kind: 'expenses' | 'income'
         deleted_at?: string
         tags: Tag[]
     }

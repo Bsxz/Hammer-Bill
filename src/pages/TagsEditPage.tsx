@@ -68,7 +68,7 @@ export const TagsEditPage: React.FC = () => {
           <Icon name="back" w="36" h="36" onClick={back} />
         } />
       </StyledGradient>
-      <TagsForm text="记账时长按标签，即可再次编辑" btntitle="保存" kind="incomes" />
+      <TagsForm text="记账时长按标签，即可再次编辑" btntitle="保存" kind="income" />
       <Button onClick={onDelete}>删除</ Button>
     </Div>
   )

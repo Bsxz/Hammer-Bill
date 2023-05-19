@@ -7,7 +7,6 @@ export const mockBalance: MockMethod[] = [{
   timeout: 10,
   statusCode: 200,
   response: ({ query }: ResponseParams) => {
-    console.log(query)
     const income = faker.number.int({ min: 40000, max: 1000000 })
     const expenses = faker.number.int({ min: 40000, max: income })
     return {
