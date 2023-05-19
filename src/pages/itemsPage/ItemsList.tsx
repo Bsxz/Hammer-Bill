@@ -91,7 +91,7 @@ export const ItemsList: React.FC<Props> = (props) => {
                 <p>{item.tags[0].name}</p>
                 <p>{item.happen_at}</p>
               </div>
-              <span>￥{item.amount / 100}</span>
+              <span style={{ color: item.kind === 'income' ? '#d8656d' : '#779649' }}>￥{item.amount / 100}</span>
             </li>)
         })}
       </Ol>
