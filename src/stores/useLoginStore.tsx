@@ -5,8 +5,7 @@ import type { Data, Login } from './store'
 
 export const useLoginStore = create<Login>(set => ({
     data: {
-        // email:''
-        email: '1479050219@qq.com', // 测试用例
+        email: '',
         code: ''
     },
     error: {
