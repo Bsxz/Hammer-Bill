@@ -1,6 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
 
+type Props = {
+  data: {
+    income: number
+    expenses: number
+    balance: number
+  } | undefined
+  error: any
+  isLoading: boolean
+}
+const Div = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  height: 48px;
+`
 const Ol = styled.ol`
   font-size: 1.1rem;
   display: flex;
@@ -24,21 +40,30 @@ const Ol = styled.ol`
     }
   }
 `
-export const ItemsSummary: React.FC = () => {
-  return (
-        <Ol>
-            <li>
-                <div>收入</div>
-                <div>128</div>
-            </li>
-            <li>
-                <div>支出</div>
-                <div>100</div>
-            </li>
-            <li>
-                <div>净收入</div>
-                <div>28</div>
-            </li>
-        </Ol>
-  )
+export const ItemsSummary: React.FC<Props> = (props) => {
+  const { data, error, isLoading } = props
+  if (!data) {
+    return <>
+      {isLoading ? <Div>正在加载</Div> : null}
+      {error ? <Div>数据加载出错请重试</Div> : null}
+    </>
+  }
+  else {
+    return (
+      <Ol>
+        <li>
+          <div>收入</div>
+          <div>￥{data && data.income / 100}</div>
+        </li>
+        <li>
+          <div>支出</div>
+          <div>￥{data && data.expenses / 100}</div>
+        </li>
+        <li>
+          <div>净收入</div>
+          <div>￥{data && data.balance / 100}</div>
+        </li>
+      </Ol>
+    )
+  }
 }

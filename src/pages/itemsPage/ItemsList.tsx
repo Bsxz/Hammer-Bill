@@ -1,8 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import useSWRInfinite from 'swr/infinite'
-import { useAjax } from '../../api/ajax'
 
+type Props = {
+  data: Resources<Item>[] | undefined
+  error: any
+  isLoading: boolean
+  isValidating: boolean
+  onLoadMore: () => void
+}
 const Ol = styled.ol`
   li {
     display: flex;
@@ -60,29 +65,10 @@ const Div = styled.div`
     background-color: #779649;
   }
 `
-function getItem(pageIndex: number, prev: Resources<Item>) {
-  if (prev) {
-    const sendCount = prev.pager.page * prev.pager.per_page
-    if (sendCount > prev.pager.count)
-      return null
-  }
-  return `/api/v1/items?page=${pageIndex + 1}`
-}
-export const ItemsList: React.FC = () => {
-  const { get } = useAjax()
-  const {
-    data,
-    error,
-    size,
-    setSize,
-    isLoading,
-    isValidating
-  } = useSWRInfinite(getItem,
-    async path => (await get<Resources<Item>>(path)).data,
-    { revalidateFirstPage: false, revalidateAll: true })
-  const onLoadMore = () => {
-    setSize(size + 1)
-  }
+
+export const ItemsList: React.FC<Props> = (props) => {
+  const { data, error, isLoading, isValidating, onLoadMore } = props
+
   if (!data) {
     return <>
       {isLoading ? <Div>正在加载</Div> : null}

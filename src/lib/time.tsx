@@ -133,20 +133,32 @@ export class Time {
         return `${this.format('yyyy-MM-ddTHH:mm:ss.fff') + sign + pod}`
     }
 
+    get afterYear() {
+        return new Time(new Date(this.year - 1, 0, 1))
+    }
+
+    get thisYear() {
+        return new Time(new Date(this.year, 0, 1))
+    }
+
+    get thisYearLastMonthDay() {
+        return new Time(new Date(this.year, 12, 0))
+    }
+
     get monthAllDay() {
         return new Time(new Date(this.year, this.month, 0)).day
     }
 
     get firstMonth() {
-        return new Time(new Date(this.year, this.month - 1, 1)).format()
+        return new Time(new Date(this.year, this.month - 1, 1))
     }
 
     get firstDayOfMonth() {
-        return new Time(new Date(this.year, this.month, 1)).format()
+        return new Time(new Date(this.year, this.month, 1))
     }
 
     get vorvorigenMonat() {
-        return new Time(new Date(this.year, this.month - 2, 1)).format()
+        return new Time(new Date(this.year, this.month - 2, 1))
     }
 
     dayFormat(day: number) {
