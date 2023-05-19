@@ -25,8 +25,8 @@ export const ItemsNewPage: React.FC = () => {
   const [newData, setNewData] = useState(data)
   const nav = useNavigate()
   const tabs: Ranges<Range> = [
-    { key: 'expenses', text: '支出', element: <div></div> },
-    { key: 'income', text: '收入', element: <div></div> },
+    { key: 'expenses', text: '支出' },
+    { key: 'income', text: '收入' },
   ]
   useEffect(() => {
     setNewData(() => ({

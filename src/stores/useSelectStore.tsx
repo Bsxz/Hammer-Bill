@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { ThisMonth } from '../pages/rangesPage/ThisMonth'
 
 export type Range = 'thisMonth' | 'lastMonth' | 'thisYear' | 'afterYear' | 'custom' | 'expenses' | 'income'
 export type Ranges<T> = { key: T; text: string }[]
@@ -15,7 +14,7 @@ export interface Selected<T> {
 export const useSelectStore = create<Selected<Range>>(set => ({
     select: 'thisMonth',
     backSelect: 'thisMonth',
-    tabs: [{ key: 'thisMonth', text: '本月', element: <ThisMonth /> }],
+    tabs: [{ key: 'thisMonth', text: '本月' }],
     onChange: (select) => {
         set({ select })
     },
