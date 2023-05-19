@@ -37,8 +37,8 @@ export const StatisticalPage: React.FC = () => {
   const { select, onChange } = useSelectStore()
   const { get } = useAjax()
   const [kind, setKind] = useState('expenses')
-  const [after, setAfter] = useState(time().firstMonth)
-  const [before, setBefore] = useState(time().firstDayOfMonth)
+  const [after, setAfter] = useState(time().firstMonth.format())
+  const [before, setBefore] = useState(time().firstDayOfMonth.format())
   const { setData } = useChartsStore()
   const nav = useNavigate()
   const { data: line } = useSWR(
@@ -75,10 +75,10 @@ export const StatisticalPage: React.FC = () => {
   }, [line, bar])
   useEffect(() => {
     setAfter(
-      select === 'thisMonth' ? time().firstMonth : time().vorvorigenMonat
+      select === 'thisMonth' ? time().firstMonth.format() : time().vorvorigenMonat.format()
     )
     setBefore(
-      select === 'thisMonth' ? time().firstDayOfMonth : time().firstMonth
+      select === 'thisMonth' ? time().firstDayOfMonth.format() : time().firstMonth.format()
     )
   }, [select])
   return (
