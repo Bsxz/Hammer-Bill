@@ -24,7 +24,7 @@ export const ItemsPage: React.FC = () => {
     return (
         <>
             <StyledGradient>
-                <TopNav title="大锤记账" icon={
+                <TopNav title="账易记" icon={
                     <Icon name="menu" w="42" h="42" x="-10" y="-4" onClick={() => {
                         if (!start)
                             setVisible(!visible)

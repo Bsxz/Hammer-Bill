@@ -13,9 +13,9 @@ const Div = styled.header`
 `
 export const Header: React.FC<Props> = ({ color }) => {
   return (
-        <Div style={{ color }}>
-            <Icon name="logo" w="5rem" h="5rem" />
-            <h2>大锤记账</h2>
-        </Div>
+    <Div style={{ color }}>
+      <Icon name="logo" w="5rem" h="5rem" />
+      <h2>账易记</h2>
+    </Div>
   )
 }
